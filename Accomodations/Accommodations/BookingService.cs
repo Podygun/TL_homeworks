@@ -23,9 +23,16 @@ public class BookingService : IBookingService
 
     public Booking Book( int userId, string categoryName, DateTime startDate, DateTime endDate, Currency currency )
     {
-        if ( endDate < startDate )
+        // Добавлена проверка на оформление брони на дни до сегодняшнего
+        if ( startDate < DateTime.Now.Date )
         {
-            throw new ArgumentException( "End date cannot be earlier than start date" );
+            throw new ArgumentException( "Start date cannot be earlier than now date" );
+        }
+
+        // Изменена проверка разницы дней заезда и выезда на <=
+        if ( endDate <= startDate )
+        {
+            throw new ArgumentException( "End date cannot be earlier or equal than start date" );
         }
 
         RoomCategory? selectedCategory = _categories.FirstOrDefault( c => c.Name == categoryName );
@@ -74,9 +81,10 @@ public class BookingService : IBookingService
             throw new ArgumentException( $"Booking with id: '{bookingId}' does not exist" );
         }
 
+        // Изменено описание ошибки на более точное
         if ( booking.StartDate <= DateTime.Now )
         {
-            throw new ArgumentException( "Start date cannot be earlier than now date" );
+            throw new ArgumentException( "Сannot cancel reservation the day before arrival." );
         }
 
         Console.WriteLine( $"Refund of {booking.Cost} {booking.Currency}" );
@@ -101,7 +109,8 @@ public class BookingService : IBookingService
 
         query = query.Where( b => b.StartDate >= startDate );
 
-        query = query.Where( b => b.EndDate < endDate );
+        // Исправлено сравнение на <=
+        query = query.Where( b => b.EndDate <= endDate );
 
         if ( !string.IsNullOrEmpty( categoryName ) )
         {
@@ -113,12 +122,14 @@ public class BookingService : IBookingService
 
     public decimal CalculateCancellationPenaltyAmount( Booking booking )
     {
-        if ( booking.StartDate <= DateTime.Now )
-        {
-            throw new ArgumentException( "Start date cannot be earlier than now date" );
-        }
+        // Удалил не имеюющую смысла проверки (Есть в методе CancelBooking)
+        //if ( booking.StartDate <= DateTime.Now )
+        //{
+        //    throw new ArgumentException( "Start date cannot be earlier than now date" );
+        //}
 
-        int daysBeforeArrival = ( DateTime.Now - booking.StartDate ).Days;
+        // Исправлен подсчет дней до прибытия
+        int daysBeforeArrival = ( booking.StartDate - DateTime.Now.Date ).Days;
 
         return 5000.0m / daysBeforeArrival;
     }
@@ -140,7 +151,9 @@ public class BookingService : IBookingService
     private static decimal CalculateBookingCost( decimal baseRate, int days, int userId, decimal currencyRate )
     {
         decimal cost = baseRate * days;
-        decimal totalCost = cost - cost * CalculateDiscount( userId ) * currencyRate;
+
+        // Исправлена формула
+        decimal totalCost = ( cost - cost * CalculateDiscount( userId ) ) / currencyRate;
         return totalCost;
     }
 }
