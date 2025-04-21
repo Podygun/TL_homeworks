@@ -1,4 +1,7 @@
-﻿namespace OrderManager;
+﻿using System;
+using static System.Collections.Specialized.BitVector32;
+
+namespace OrderManager;
 
 public class Program
 {
@@ -14,12 +17,12 @@ public class Program
 
             string action = ReadString();
 
-            if ( action == "N" )
+            if ( String.Equals( action, "N" ) )
             {
                 break;
             }
 
-            if ( action == "Y" )
+            if ( String.Equals( action, "Y" ) )
             {
                 PlaceOrder();
             }
@@ -45,15 +48,15 @@ public class Program
 
         string confirm = String.Empty;
 
-        while ( confirm != "Y" && confirm != "N" )
+        while ( String.Equals( confirm, "Y" ) && String.Equals( confirm, "N" ) )
         {
             confirm = ReadString();
-            if ( confirm == "Y" )
+            if ( String.Equals( confirm, "Y" ) )
             {
                 Print( $"{userName}! Ваш заказ {productName} в количестве {productCount} оформлен! " +
                     $"Ожидайте доставку по адресу {userAddress} к {DateTime.Today.AddDays( 3 ):D}" );
             }
-            else if ( confirm == "N" )
+            else if ( String.Equals( confirm, "N" ) )
             {
                 Print( "Отмена оформления, возврат назад" );
             }
