@@ -1,8 +1,8 @@
 ﻿namespace OrderManager;
 
-internal class Program
+public class Program
 {
-    static void Main( string[] args )
+    public static void Main( string[] args )
     {
         Print( "Программа Order Manager" );
         Print( "by Подыганов Владислав aka Podych" );
