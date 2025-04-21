@@ -3,6 +3,7 @@
 public class DictionaryManager
 {
     private readonly string _filePath;
+    private const string _separator = ":";
 
     public DictionaryManager( string filePath )
     {
@@ -25,7 +26,7 @@ public class DictionaryManager
 
         foreach ( var line in lines )
         {
-            var parts = line.Split( ':' );
+            var parts = line.Split( _separator );
             if ( parts.Length != 2 ) continue;  // Пропуск невалидной строки
 
             if ( parts[ 0 ].Equals( word, StringComparison.OrdinalIgnoreCase ) )    // Игнорирование верхнего/нижнего регистра при сравнении
