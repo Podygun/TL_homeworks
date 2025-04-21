@@ -13,4 +13,12 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EditorConfigFiles Remove="C:\Users\Pody\Desktop\TravelLine\TL_homeworks\Accomodations\Accommodations\.editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="C:\Users\Pody\Desktop\TravelLine\TL_homeworks\Accomodations\Accommodations\.editorconfig" />
+    </ItemGroup>
+
 </Project>
