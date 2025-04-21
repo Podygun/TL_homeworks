@@ -1,4 +1,3 @@
-using System.Globalization;
 using Accommodations.Commands;
 using Accommodations.Dto;
 
@@ -6,6 +5,8 @@ namespace Accommodations;
 
 public static class AccommodationsProcessor
 {
+    // ��������� ��������� ��� ������������� ���-�� ���� ��� �����
+    private const int BOOK_MAX_DAYS = 30;
     private static BookingService _bookingService = new();
     private static Dictionary<int, ICommand> _executedCommands = new();
     private static int s_commandIndex = 0;
