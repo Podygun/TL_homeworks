@@ -1,4 +1,4 @@
-﻿namespace AdvancedDictionary;
+namespace AdvancedDictionary;
 
 public class DictionaryManager
 {
@@ -21,12 +21,12 @@ public class DictionaryManager
     /// <returns>Список переводов слов</returns>
     public List<string> Get( string word )
     {
-        var translations = new List<string>();
-        var lines = File.ReadAllLines( _filePath );
+        List<string> translations = new List<string>();
+        string[] lines = File.ReadAllLines( _filePath );
 
-        foreach ( var line in lines )
+        foreach ( string line in lines )
         {
-            var parts = line.Split( _separator );
+            string[] parts = line.Split( _separator );
             if ( parts.Length != 2 ) continue;  // Пропуск невалидной строки
 
             if ( parts[ 0 ].Equals( word, StringComparison.OrdinalIgnoreCase ) )    // Игнорирование верхнего/нижнего регистра при сравнении
