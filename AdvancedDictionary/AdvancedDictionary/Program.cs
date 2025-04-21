@@ -3,7 +3,7 @@ namespace AdvancedDictionary;
 
 internal class Program
 {
-    static void Main( string[] args )
+    public static void Main( string[] args )
     {
         DictionaryManager manager = new( "dictionary.txt" );
         ConsoleHelper.PrintSuccess( "Консольный словарь (англ ↔ рус)" );
@@ -52,7 +52,7 @@ internal class Program
             """ );
     }
 
-    static void AddWord( DictionaryManager manager )
+    public static void AddWord( DictionaryManager manager )
     {
         Console.Write( "\nВведите слово на английском: " );
         string? eng = ConsoleHelper.ReadString();
@@ -65,7 +65,7 @@ internal class Program
         ConsoleHelper.PrintSuccess( "Слово успешно добавлено!" );
     }
 
-    static void TranslateWord( DictionaryManager manager )
+    public static void TranslateWord( DictionaryManager manager )
     {
         Console.Write( "\nВведите текст для перевода: " );
         string? word = ConsoleHelper.ReadString();

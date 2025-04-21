@@ -1,6 +1,6 @@
 ﻿namespace AdvancedDictionary;
 
-static class ConsoleHelper
+public static class ConsoleHelper
 {
     public static string ReadString()
     {
