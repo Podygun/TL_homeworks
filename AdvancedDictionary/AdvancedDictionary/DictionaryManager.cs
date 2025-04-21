@@ -1,0 +1,51 @@
+﻿namespace AdvancedDictionary;
+
+public class DictionaryManager
+{
+    private readonly string filePath;
+
+    public DictionaryManager( string filePath )
+    {
+        this.filePath = filePath;
+        if ( !File.Exists( this.filePath ) )
+        {
+            File.Create( this.filePath ).Close();
+        }
+    }
+
+    /// <summary>
+    /// Получение всех переводов слова списком
+    /// </summary>
+    /// <param name="word">Слово для перевода</param>
+    /// <returns>Список переводов слов</returns>
+    public List<string> Get( string word )
+    {
+        var translations = new List<string>();
+        var lines = File.ReadAllLines( filePath );
+
+        foreach ( var line in lines )
+        {
+            var parts = line.Split( ':' );
+            if ( parts.Length != 2 ) continue;  // Пропуск невалидной строки
+
+            if ( parts[ 0 ].Equals( word, StringComparison.OrdinalIgnoreCase ) )    // Игнорирование верхнего/нижнего регистра при сравнении
+            {
+                translations.Add( parts[ 1 ] );
+            }
+            else if ( parts[ 1 ].Equals( word, StringComparison.OrdinalIgnoreCase ) )
+            {
+                translations.Add( parts[ 0 ] );
+            }
+        }
+        return translations;
+    }
+
+    /// <summary>
+    /// Добавить слово и перевод
+    /// </summary>
+    /// <param name="eng">Слово на английском языке</param>
+    /// <param name="ru">Слово на русском языке</param>
+    public void Add( string eng, string ru ) =>
+        File.AppendAllText( filePath, $"{eng.ToLower()}:{ru.ToLower()}\n" );
+
+}

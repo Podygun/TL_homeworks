@@ -1,0 +1,5 @@
+cat:кот
+cat:котейка
+tiger:тигр
+tigerrrr:тигр
+giraffe:жираф

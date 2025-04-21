@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\TL\\AdvancedDictionary\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CF605C31-E288-445B-BF15-B24864CEE2BB}|AdvancedDictionary\\AdvancedDictionary.csproj|d:\\projects\\tl\\advanceddictionary\\advanceddictionary\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF605C31-E288-445B-BF15-B24864CEE2BB}|AdvancedDictionary\\AdvancedDictionary.csproj|solutionrelative:advanceddictionary\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF605C31-E288-445B-BF15-B24864CEE2BB}|AdvancedDictionary\\AdvancedDictionary.csproj|d:\\projects\\tl\\advanceddictionary\\advanceddictionary\\dictionarymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF605C31-E288-445B-BF15-B24864CEE2BB}|AdvancedDictionary\\AdvancedDictionary.csproj|solutionrelative:advanceddictionary\\dictionarymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF605C31-E288-445B-BF15-B24864CEE2BB}|AdvancedDictionary\\AdvancedDictionary.csproj|d:\\projects\\tl\\advanceddictionary\\advanceddictionary\\consolehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF605C31-E288-445B-BF15-B24864CEE2BB}|AdvancedDictionary\\AdvancedDictionary.csproj|solutionrelative:advanceddictionary\\consolehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 201,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ConsoleHelper.cs",
+              "DocumentMoniker": "D:\\Projects\\TL\\AdvancedDictionary\\AdvancedDictionary\\ConsoleHelper.cs",
+              "RelativeDocumentMoniker": "AdvancedDictionary\\ConsoleHelper.cs",
+              "ToolTip": "D:\\Projects\\TL\\AdvancedDictionary\\AdvancedDictionary\\ConsoleHelper.cs",
+              "RelativeToolTip": "AdvancedDictionary\\ConsoleHelper.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAAEQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T09:16:42.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DictionaryManager.cs",
+              "DocumentMoniker": "D:\\Projects\\TL\\AdvancedDictionary\\AdvancedDictionary\\DictionaryManager.cs",
+              "RelativeDocumentMoniker": "AdvancedDictionary\\DictionaryManager.cs",
+              "ToolTip": "D:\\Projects\\TL\\AdvancedDictionary\\AdvancedDictionary\\DictionaryManager.cs",
+              "RelativeToolTip": "AdvancedDictionary\\DictionaryManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T20:01:39.057Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Projects\\TL\\AdvancedDictionary\\AdvancedDictionary\\Program.cs",
+              "RelativeDocumentMoniker": "AdvancedDictionary\\Program.cs",
+              "ToolTip": "D:\\Projects\\TL\\AdvancedDictionary\\AdvancedDictionary\\Program.cs",
+              "RelativeToolTip": "AdvancedDictionary\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T20:00:06.38Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
