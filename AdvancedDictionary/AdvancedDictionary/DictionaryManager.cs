@@ -1,4 +1,4 @@
-namespace AdvancedDictionary;
+﻿namespace AdvancedDictionary;
 
 public class DictionaryManager
 {
@@ -46,7 +46,9 @@ public class DictionaryManager
     /// </summary>
     /// <param name="eng">Слово на английском языке</param>
     /// <param name="ru">Слово на русском языке</param>
-    public void Add( string eng, string ru ) =>
+    public void Add( string eng, string ru )
+    {
         File.AppendAllText( _filePath, $"{eng.ToLower()}:{ru.ToLower()}\n" );
+    }
 
 }
