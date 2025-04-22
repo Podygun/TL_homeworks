@@ -1,4 +1,4 @@
-using Fighters.Data;
+﻿using Fighters.Data;
 using Fighters.Extensions;
 using Fighters.Models.Armors;
 using Fighters.Models.Fighters;
@@ -9,8 +9,8 @@ namespace Fighters;
 
 public class GameManager
 {
-    private IFighter? _fighter1;
-    private IFighter? _fighter2;
+    private List<IFighter>? _fighters;
+    private const int _MAX_FIGHTERS = 10;
 
     public void Run()
     {
@@ -19,39 +19,46 @@ public class GameManager
             PrintMenu();
             int choice = InputInt( "Выберите действие: ", 1, 4 );
 
-            // test data
-            //_fighter1 = new Knight( "first", GameItems.Races[ 0 ], GameItems.Weapons[ 0 ], GameItems.Armors[ 0 ] );
-            //_fighter2 = new Knight( "secon", GameItems.Races[ 1 ], GameItems.Weapons[ 1 ], GameItems.Armors[ 1 ] );
-
             switch ( choice )
             {
                 case 1:
-                    _fighter1 = CreateFighter();
+                    _fighters = CreateFighters();
                     break;
                 case 2:
-                    _fighter2 = CreateFighter();
-                    break;
-                case 3:
-                    if ( _fighter1 != null && _fighter2 != null )
+                    if ( _fighters != null || _fighters?.Count < 2 )
                     {
-                        Fight( _fighter1, _fighter2 );
+                        Fight( _fighters );
                     }
                     else
                     {
-                        Console.WriteLine( "Сначала создайте обоих бойцов!" );
+                        Console.WriteLine( "Сначала создайте нескольких бойцов!" );
                     }
                     break;
-                case 4:
+                case 3:
                     PrintEncyclopedia();
                     break;
-                case 5:
+                case 4:
                     return;
             }
         }
-
     }
 
-    public void Fight( IFighter fighter1, IFighter fighter2 )
+    private List<IFighter> CreateFighters()
+    {
+        int amountFighters = InputInt( "Введите кол-во игроков", 2, _MAX_FIGHTERS );
+
+        List<IFighter> list = new();
+
+        for ( int i = 0; i < amountFighters; i++ )
+        {
+            IFighter fighter = CreateFighter();
+            list.Add( fighter );
+        }
+
+        return list;
+    }
+
+    public void Fight( List<IFighter> fighters )
     {
         Console.WriteLine( "\n=== НАЧАЛО БИТВЫ ===" );
         Console.WriteLine( $"{fighter1.Name} (HP: {fighter1.GetCurrentHealth()}) vs {fighter2.Name} (HP: {fighter2.GetCurrentHealth()})\n" );
@@ -261,5 +268,12 @@ public class GameManager
         }
     }
 
+    private void ResetFightersState( List<IFighter> fighters )
+    {
+        foreach ( var fighter in fighters )
+        {
+            fighter.ResetState();
+        }
+    }
 
 }
