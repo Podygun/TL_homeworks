@@ -10,7 +10,7 @@ namespace Fighters;
 public class GameManager
 {
     private List<IFighter>? _fighters;
-    private const int _MAX_FIGHTERS = 10;
+    private const int _MAX_FIGHTERS_AMOUNT = 10;
 
     public void Run()
     {
@@ -38,6 +38,10 @@ public class GameManager
                     PrintEncyclopedia();
                     break;
                 case 4:
+                    _fighters = CreateRandomFighters();
+                    Fight( _fighters );
+                    return;
+                case 5:
                     return;
             }
         }
@@ -45,7 +49,7 @@ public class GameManager
 
     private List<IFighter> CreateFighters()
     {
-        int amountFighters = InputInt( "Введите кол-во игроков", 2, _MAX_FIGHTERS );
+        int amountFighters = InputInt( "Введите кол-во игроков", 2, _MAX_FIGHTERS_AMOUNT );
 
         List<IFighter> list = new();
 
@@ -61,53 +65,142 @@ public class GameManager
     public void Fight( List<IFighter> fighters )
     {
         Console.WriteLine( "\n=== НАЧАЛО БИТВЫ ===" );
-        Console.WriteLine( $"{fighter1.Name} (HP: {fighter1.GetCurrentHealth()}) vs {fighter2.Name} (HP: {fighter2.GetCurrentHealth()})\n" );
+
+        // Выводим список бойцов для выбора инициативы
+        Console.WriteLine( "Выберите бойца, который ходит первым:" );
+        for ( int i = 0; i < fighters.Count; i++ )
+        {
+            Console.WriteLine( $"{i + 1}. {fighters[ i ].Name} (HP: {fighters[ i ].GetCurrentHealth()})" );
+        }
+
+        // Выбор инициативы
+        int currentAttackerIndex = InputInt( "> ", 1, fighters.Count ) - 1;
 
         int round = 1;
+        bool isBattleEnded = false;
 
-        while ( fighter1.IsAlive() && fighter2.IsAlive() )
+        while ( !isBattleEnded )
         {
-            Console.WriteLine( $"--- Раунд {round} ---" );
-
-            int damage1 = fighter1.CalculateDamage();
-            int damage2 = fighter2.CalculateDamage();
-
-            if ( damage1 <= fighter2.CalculateArmor() )
+            // Находим следующего живого бойца
+            int attempts = 0;
+            while ( !fighters[ currentAttackerIndex ].IsAlive() && attempts < fighters.Count )
             {
-                Console.WriteLine( $"  {fighter1.Name} не может пробить {fighter2.Name}" );
-                damage1 = 0;
+                currentAttackerIndex = ( currentAttackerIndex + 1 ) % fighters.Count;
+                attempts++;
             }
 
-            if ( damage2 <= fighter1.CalculateArmor() )
+            // Если все бойцы мертвы
+            if ( attempts >= fighters.Count )
             {
-                Console.WriteLine( $"  {fighter2.Name} не может пробить {fighter1.Name}" );
-                damage2 = 0;
+                Console.WriteLine( "Все бойцы мертвы! Ничья!" );
+                break;
             }
 
-            Console.WriteLine( $"  {fighter1.Name} наносит {damage1} урона" );
-            fighter2.TakeDamage( damage1 );
-            Console.WriteLine( $"  {fighter2.Name} | осталось HP: {fighter2.GetCurrentHealth()}" );
+            IFighter attacker = fighters[ currentAttackerIndex ];
+            Console.WriteLine( $"\n--- Раунд {round} ---\n" );
+            Console.WriteLine( $"Ходит: {attacker.Name}" );
 
-            if ( !fighter2.IsAlive() ) break;
+            bool idMadeAttack = false;
 
-            // Атака второго бойца
-            Console.WriteLine( $"\n  {fighter2.Name} наносит {damage2} урона" );
-            fighter1.TakeDamage( damage2 );
-            Console.WriteLine( $"  {fighter1.Name} | осталось HP: {fighter1.GetCurrentHealth()}" );
+            // Атака всех остальных живых бойцов
+            for ( int i = 0; i < fighters.Count; i++ )
+            {
+                if ( i == currentAttackerIndex || !fighters[ i ].IsAlive() ) continue;
 
-            round++;
-            Console.WriteLine();
+                IFighter defender = fighters[ i ];
+
+                int damage = attacker.CalculateDamage();
+                int armor = defender.CalculateArmor();
+
+                if ( damage <= armor )
+                {
+                    Console.WriteLine( $"  {attacker.Name} не может пробить {defender.Name}" );
+                    damage = 0;
+                }
+
+                Console.WriteLine( $"Он атакует {defender.Name} и наносит {damage} урона" );
+                defender.TakeDamage( damage );
+                Console.WriteLine( $"\t( У {defender.Name} осталось {defender.GetCurrentHealth()} HP)" );
+
+                idMadeAttack = true;
+
+                if ( !defender.IsAlive() )
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine( $"{defender.Name} погибает!" );
+                    Console.ResetColor();
+
+                    // Проверяем, не остался ли только один живой боец
+                    if ( fighters.Count( f => f.IsAlive() ) == 1 )
+                    {
+                        isBattleEnded = true;
+                        break;
+                    }
+                }
+            }
+
+            // Переход хода к следующему бойцу
+            currentAttackerIndex = ( currentAttackerIndex + 1 ) % fighters.Count;
+
+            // Увеличиваем счетчик раундов только если была совершена хотя бы одна атака
+            if ( idMadeAttack )
+            {
+                round++;
+            }
         }
 
         // Определение победителя
-        IFighter winner = fighter1.IsAlive() ? fighter1 : fighter2;
-        IFighter loser = fighter1.IsAlive() ? fighter2 : fighter1;
+        IFighter winner = fighters.FirstOrDefault( f => f.IsAlive() );
+        if ( winner != null )
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine( "\n=== БИТВА ЗАВЕРШЕНА ===" );
+            Console.WriteLine( $"{winner.Name} побеждает с {winner.GetCurrentHealth()} HP!" );
+            Console.ResetColor();
+        }
 
-        Console.WriteLine( "\n=== БИТВА ЗАВЕРШЕНА ===" );
-        Console.WriteLine( $"{loser.Name} погибает" );
-        Console.WriteLine( $"{winner.Name} побеждает с {winner.GetCurrentHealth()} HP!" );
+        ResetFightersState( fighters );
+    }
 
-        ResetFightersState(fighters);
+    public List<IFighter> CreateRandomFighters()
+    {
+        Console.WriteLine( "\n=== СОЗДАНИЕ СЛУЧАЙНЫХ БОЙЦОВ ===" );
+
+        // Запрашиваем количество бойцов
+        int fighterCount = InputInt( "Введите количество бойцов (2-10): ", 2, _MAX_FIGHTERS_AMOUNT );
+
+        // Списки возможных вариантов
+        var possibleNames = new List<string> { "Артем", "Гарри", "Леголас", "Гэндальф", "Константин", "Арагорн", "Бен", "Вектор", "Влад", "Миша" };
+        var possibleClasses = new List<Func<string, IRace, WeaponBase, IArmor, IFighter>>
+    {
+        (name, race, weapon, armor) => new Knight(name, race, weapon, armor),
+        (name, race, weapon, armor) => new Mage(name, race, weapon, armor),
+        (name, race, weapon, armor) => new Berserker(name, race, weapon, armor)
+    };
+
+        Random random = new();
+        List<IFighter> fighters = new();
+
+        for ( int i = 0; i < fighterCount; i++ )
+        {
+            string name = possibleNames[ random.Next( possibleNames.Count ) ];
+            IRace race = GameItems.Races[ random.Next( GameItems.Races.Count ) ];
+            WeaponBase weapon = GameItems.Weapons[ random.Next( GameItems.Weapons.Count ) ];
+            IArmor armor = GameItems.Armors[ random.Next( GameItems.Armors.Count ) ];
+            var fighterClass = possibleClasses[ random.Next( possibleClasses.Count ) ];
+
+            IFighter fighter = fighterClass( name, race, weapon, armor );
+            fighters.Add( fighter );
+
+            possibleNames.Remove( name );
+
+            Console.WriteLine( $"Создан боец: {fighter.GetType().Name} {name} " +
+                             $"(Раса: {race.GetType().Name}, " +
+                             $"Оружие: {weapon.GetType().Name}, " +
+                             $"Броня: {armor.GetType().Name})" );
+        }
+
+        return fighters;
     }
 
     private IFighter CreateFighter()
@@ -180,17 +273,18 @@ public class GameManager
         return GameItems.Armors[ choice - 1 ];
     }
 
-    private void PrintMenu()
+    private static void PrintMenu()
     {
         Console.WriteLine( "\n=== Меню (вводите соответствующие цифры)===" );
         Console.WriteLine( "1. Добавить бойцов" );
         Console.WriteLine( "2. Начать битву" );
         Console.WriteLine( "3. Энциклопедия" );
-        Console.WriteLine( "4. Выход" );
+        Console.WriteLine( "4. Создать случайных бойцов" );
+        Console.WriteLine( "5. Выход" );
         Console.WriteLine( "============" );
     }
 
-    private void PrintEncyclopedia()
+    private static void PrintEncyclopedia()
     {
         Console.WriteLine( "╔════════════════════════════════════╗" );
         Console.WriteLine( "║         ЭНЦИКЛОПЕДИЯ ИГРЫ          ║" );
@@ -203,6 +297,7 @@ public class GameManager
             Console.WriteLine( $"  Здоровье: {race.Health}" );
             Console.WriteLine( $"  Урон:     {race.Damage}" );
             Console.WriteLine( $"  Броня:    {race.Armor}" );
+            Console.WriteLine();
         }
 
         Console.WriteLine( "\n\tОРУЖИЕ" );
@@ -212,34 +307,36 @@ public class GameManager
             Console.WriteLine( $"  Базовый урон:    {weapon.Damage}" );
             Console.WriteLine( $"  Крит. шанс:      {weapon.CriticalChance:P0}" );
             Console.WriteLine( $"  Множитель крита: {weapon.CriticalMultiplier}x" );
+            Console.WriteLine();
         }
 
         Console.WriteLine( "\n\tБРОНЯ" );
         foreach ( var armor in GameItems.Armors )
         {
             Console.WriteLine( $"{armor.GetType().Name}" );
-            Console.WriteLine( $"  Защита: {armor.Armor}\n" );
+            Console.WriteLine( $"  Защита: {armor.Armor}" );
+            Console.WriteLine();
         }
 
-        Console.WriteLine( "\n\tКЛАССЫ" );
-        //foreach ( var item in GameItems.FighterClasses )
-        //{
-        //    Console.WriteLine( $"┌ {item.}" );
-        //    Console.WriteLine( $"├ Описание: {instance.GetDescription()}" );
-        //    Console.WriteLine( $"└ Особенности:" );
+        Console.WriteLine( "\n\tКЛАССЫ БОЙЦОВ" );
+        Console.WriteLine( "=================================" );
 
-        //    if ( type == typeof( OrcBerserker ) )
-        //        Console.WriteLine( "   - Снижение урона на 20%" );
-        //    else if ( type == typeof( ElfArcher ) )
-        //        Console.WriteLine( "   - Повышенный шанс крита" );
-        //    else
-        //        Console.WriteLine( "   - Стандартные характеристики" );
+        // Создаем временные объекты для демон
+        IRace demoRace = new Human();
+        WeaponBase demoWeapon = new Fists();
+        IArmor demoArmor = new LeatherArmor();
 
-        //    Console.WriteLine();
-        //}
+        foreach ( var fighterClass in GameItems.FighterClasses )
+        {
+            IFighter demoFighter = fighterClass.Value( "Тестовый", demoRace, demoWeapon, demoArmor );
+
+            Console.WriteLine( $"\n{fighterClass.Key.ToUpper()}" );
+            Console.WriteLine( $"Тип: {demoFighter.GetType().Name}" );
+            Console.WriteLine( $"Описание: {demoFighter.GetDescription()}" );
+        }
     }
 
-    private string InputString( string message )
+    private static string InputString( string message )
     {
         string input;
         do
@@ -255,7 +352,7 @@ public class GameManager
         return input;
     }
 
-    private int InputInt( string message, int min, int max )
+    private static int InputInt( string message, int min, int max )
     {
         while ( true )
         {
@@ -268,12 +365,11 @@ public class GameManager
         }
     }
 
-    private void ResetFightersState( List<IFighter> fighters )
+    private static void ResetFightersState( List<IFighter> fighters )
     {
         foreach ( var fighter in fighters )
         {
             fighter.ResetState();
         }
     }
-
 }
