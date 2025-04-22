@@ -176,11 +176,10 @@ public class GameManager
     private void PrintMenu()
     {
         Console.WriteLine( "\n=== Меню (вводите соответствующие цифры)===" );
-        Console.WriteLine( "1. Добавить бойца 1" );
-        Console.WriteLine( "2. Добавить бойца 2" );
-        Console.WriteLine( "3. Начать битву" );
-        Console.WriteLine( "4. Энциклопедия" );
-        Console.WriteLine( "5. Выход" );
+        Console.WriteLine( "1. Добавить бойцов" );
+        Console.WriteLine( "2. Начать битву" );
+        Console.WriteLine( "3. Энциклопедия" );
+        Console.WriteLine( "4. Выход" );
         Console.WriteLine( "============" );
     }
 
