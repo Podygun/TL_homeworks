@@ -1,20 +1,16 @@
-﻿using Fighters.Models.Armors;
-using Fighters.Models.Weapons;
+﻿namespace Fighters.Models.Fighters;
 
-namespace Fighters.Models.Fighters
+public interface IFighter
 {
-    public interface IFighter
-    {
-        string Name { get; }
+    string Name { get; }
 
-        public int GetCurrentHealth();
-        public int GetMaxHealth();
-        public int CalculateDamage();
-        public int CalculateArmor();
+    public string GetDescription();
 
-        public void SetArmor(IArmor armor);
-        public void SetWeapon(IWeapon weapon);
+    public int GetCurrentHealth();
+    public int GetMaxHealth();
+    public int CalculateDamage();
+    public int CalculateArmor();
+    public void ResetState();
 
-        public void TakeDamage(int damage);
-    }
+    public void TakeDamage(int damage);
 }

@@ -4,18 +4,18 @@ using Fighters.Models.Weapons;
 
 namespace Fighters.Models.Fighters;
 
-public class Knight : IFighter
+public class Berserker : IFighter
 {
     private readonly IRace _race;
     private readonly IArmor _armor;
-    private readonly WeaponBase _weapon;
+    private readonly IWeapon _weapon;
 
     private int _initialHealth;
     private int _currentHealth;
 
     public string Name { get; private set; }
 
-    public Knight( string name, IRace race, WeaponBase weapon, IArmor armor )
+    public Berserker( string name, IRace race, IWeapon weapon, IArmor armor )
     {
         Name = name;
         _race = race;
@@ -25,24 +25,23 @@ public class Knight : IFighter
         _currentHealth = _initialHealth;
     }
 
+    public string GetDescription() =>
+        "Берсерк: Бешеный воин, игнорирующий часть урона. " +
+        $"Способность: снижает входящий урон на 20%. ";
+
     public int GetCurrentHealth() => _currentHealth;
 
     public int GetMaxHealth() => _race.Health;
 
-    public int CalculateDamage() => _weapon.CalculateDamage() + _race.Damage;
+    public int CalculateDamage() => _weapon.Damage + _race.Damage;
 
     public int CalculateArmor() => _armor.Armor + _race.Armor;
 
-    public string GetDescription() =>
-        "Рыцарь: Базовый воин с небольшой стойкостью к урону";
-
     public void TakeDamage( int damage )
     {
-        double damageReduction = damage * 0.1;
-        double totalDamage = Math.Max( damage - damageReduction - CalculateArmor(), 0 );
-
-        int value = ( int )Math.Max( _currentHealth - totalDamage, 0 );
-        _currentHealth = value;
+        int berserkerReduction = ( int )( damage * 0.2 );
+        int totalDamage = Math.Max( damage - berserkerReduction - CalculateArmor(), 0 );
+        _currentHealth = Math.Max( _currentHealth - totalDamage, 0 );
     }
 
     public void ResetState()
