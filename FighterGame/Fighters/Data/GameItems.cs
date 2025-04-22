@@ -34,8 +34,7 @@ public static class GameItems
     public static readonly Dictionary<string, Func<string, IRace, WeaponBase, IArmor, IFighter>> FighterClasses = new()
     {
         [ "Рыцарь" ] = ( name, race, weapon, armor ) => new Knight( name, race, weapon, armor ),
-        //[ "Маг" ] = ( name, race, weapon, armor ) => new Mage( name, race, weapon, armor ),
-        //[ "Разбойник" ] = ( name, race, weapon, armor ) => new Rascal( name, race, weapon, armor ),
-        // ... остальные классы
+        [ "Берсерк" ] = ( name, race, weapon, armor ) => new Berserker( name, race, weapon, armor ),
+        [ "Маг" ] = ( name, race, weapon, armor ) => new Mage( name, race, weapon, armor )
     };
 }
