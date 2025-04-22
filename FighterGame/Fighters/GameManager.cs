@@ -19,6 +19,7 @@ public class GameManager
             PrintMenu();
             int choice = InputInt( "Выберите действие: ", 1, 4 );
 
+            // test data
             //_fighter1 = new Knight( "first", GameItems.Races[ 0 ], GameItems.Weapons[ 0 ], GameItems.Armors[ 0 ] );
             //_fighter2 = new Knight( "secon", GameItems.Races[ 1 ], GameItems.Weapons[ 1 ], GameItems.Armors[ 1 ] );
 
@@ -115,7 +116,7 @@ public class GameManager
     private IFighter ChooseFighterClass( string name, IRace race, WeaponBase weapon, IArmor armor )
     {
         Console.WriteLine( "\nВыберите класс:" );
-        var classes = GameItems.FighterClasses.Keys.ToList();
+        List<string> classes = GameItems.FighterClasses.Keys.ToList();
 
         for ( int i = 0; i < classes.Count; i++ )
         {
@@ -131,7 +132,7 @@ public class GameManager
     private IRace ChooseRace()
     {
         Console.WriteLine( "\nВыберите расу:" );
-        var races = GameItems.Races;
+        List<IRace> races = GameItems.Races;
         for ( int i = 0; i < races.Count; i++ )
         {
             IRace race = races[ i ];
@@ -146,7 +147,7 @@ public class GameManager
     private WeaponBase ChooseWeapon()
     {
         Console.WriteLine( "\nВыберите оружие:" );
-        var weapons = GameItems.Weapons;
+        List<WeaponBase> weapons = GameItems.Weapons;
 
         for ( int i = 0; i < weapons.Count; i++ )
         {
@@ -161,7 +162,7 @@ public class GameManager
     private IArmor ChooseArmor()
     {
         Console.WriteLine( "\nВыберите броню:" );
-        var armors = GameItems.Armors;
+        List<IArmor> armors = GameItems.Armors;
 
         for ( int i = 0; i < armors.Count; i++ )
         {
@@ -231,9 +232,6 @@ public class GameManager
 
         //    Console.WriteLine();
         //}
-
-
-
     }
 
     private string InputString( string message )

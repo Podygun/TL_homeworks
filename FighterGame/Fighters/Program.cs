@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main( string[] args )
     {
-        var gameManager = new GameManager();
+        GameManager gameManager = new();
         gameManager.Run();
     }
 }
