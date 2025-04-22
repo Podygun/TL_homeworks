@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Pody\Desktop\TravelLine\TL_homeworks\FighterGame\Fighters\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Pody\Desktop\TravelLine\TL_homeworks\FighterGame\Fighters\.editorconfig" />
+  </ItemGroup>
+
 </Project>
