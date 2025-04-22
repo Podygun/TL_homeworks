@@ -1,4 +1,4 @@
-﻿using Fighters.Data;
+using Fighters.Data;
 using Fighters.Extensions;
 using Fighters.Models.Armors;
 using Fighters.Models.Fighters;
@@ -100,8 +100,7 @@ public class GameManager
         Console.WriteLine( $"{loser.Name} погибает" );
         Console.WriteLine( $"{winner.Name} побеждает с {winner.GetCurrentHealth()} HP!" );
 
-        fighter1.ResetState();
-        fighter2.ResetState();
+        ResetFightersState(fighters);
     }
 
     private IFighter CreateFighter()
