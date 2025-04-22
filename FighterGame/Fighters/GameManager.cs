@@ -1,7 +1,9 @@
-﻿using Fighters.Extensions;
+﻿using Fighters.Data;
+using Fighters.Extensions;
 using Fighters.Models.Armors;
 using Fighters.Models.Fighters;
 using Fighters.Models.Races;
+using Fighters.Models.Weapons;
 
 namespace Fighters;
 
@@ -20,7 +22,7 @@ public class GameManager
             //_fighter1 = new Knight( "first", GameItems.Races[ 0 ], GameItems.Weapons[ 0 ], GameItems.Armors[ 0 ] );
             //_fighter2 = new Knight( "secon", GameItems.Races[ 1 ], GameItems.Weapons[ 1 ], GameItems.Armors[ 1 ] );
 
-            switch ( choice )m
+            switch ( choice )
             {
                 case 1:
                     _fighter1 = CreateFighter();
