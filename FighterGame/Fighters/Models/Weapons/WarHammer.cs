@@ -2,7 +2,7 @@
 
 public class Warhammer : WeaponBase
 {
-    public override int Damage => 10;
+    public override int Damage => 20;
 
     public override double CriticalMultiplier => 2.2d;
 

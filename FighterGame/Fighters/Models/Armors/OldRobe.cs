@@ -2,5 +2,5 @@
 
 class OldRobe : IArmor
 {
-    public int Armor => 2;
+    public int Armor => 3;
 }

@@ -2,7 +2,7 @@
 
 public class Fists : WeaponBase
 {
-    public override int Damage => 1;
+    public override int Damage => 10;
 
     public override double CriticalMultiplier => 10d;
 

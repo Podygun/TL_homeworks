@@ -26,7 +26,7 @@ public class Berserker : IFighter
     }
 
     public string GetDescription() =>
-        "Берсерк: Бешеный воин, игнорирующий часть урона. " +
+        "Бешеный воин, игнорирующий часть урона. " +
         $"Способность: снижает входящий урон на 20%. ";
 
     public int GetCurrentHealth() => _currentHealth;

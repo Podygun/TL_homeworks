@@ -34,7 +34,7 @@ public class Knight : IFighter
     public int CalculateArmor() => _armor.Armor + _race.Armor;
 
     public string GetDescription() =>
-        "Рыцарь: Базовый воин с небольшой стойкостью к урону";
+        "Базовый воин с небольшой стойкостью к урону";
 
     public void TakeDamage( int damage )
     {

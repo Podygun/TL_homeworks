@@ -2,5 +2,5 @@
 
 class IronArmor : IArmor
 {
-    public int Armor => 15;
+    public int Armor => 10;
 }

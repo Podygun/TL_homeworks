@@ -2,7 +2,7 @@
 
 class BattleAxe : WeaponBase
 {
-    public override int Damage => 20;
+    public override int Damage => 25;
 
     public override double CriticalMultiplier => 2.0d;
 

@@ -1,7 +1,6 @@
 ﻿using Fighters.Models.Armors;
 using Fighters.Models.Races;
 using Fighters.Models.Weapons;
-using System.Xml.Linq;
 
 namespace Fighters.Models.Fighters;
 
@@ -27,7 +26,7 @@ class Mage : IFighter
     }
 
     public string GetDescription() =>
-        "Маг: Большой урон, малое здоровье . " +
+        "Большой урон, малое здоровье . " +
         $"Способность: нет ";
 
     public int GetCurrentHealth() => _currentHealth;

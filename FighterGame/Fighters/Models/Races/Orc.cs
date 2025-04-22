@@ -2,7 +2,7 @@
 
 public class Orc : IRace
 {
-    public int Damage => 6;
+    public int Damage => 12;
 
     public int Health => 120;
 
