@@ -1,4 +1,4 @@
-﻿using Fighters.Data;
+using Fighters.Data;
 using Fighters.Extensions;
 using Fighters.Models.Armors;
 using Fighters.Models.Fighters;
@@ -10,7 +10,7 @@ namespace Fighters;
 public class GameManager
 {
     private List<IFighter>? _fighters;
-    private const int _MAX_FIGHTERS_AMOUNT = 10;
+    private const int MaxFightersAmount = 10;
 
     public void Run()
     {
