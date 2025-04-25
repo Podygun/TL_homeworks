@@ -1,8 +1,10 @@
+*
+/*
+!AdvancedDictionary/AdvancedDictionary/
+!.gitignore
 
-.vs/
-
+AdvancedDictionary/.vs/
 AdvancedDictionary/AdvancedDictionary/obj/Debug/
-
 AdvancedDictionary/AdvancedDictionary/obj/Release/
-
 AdvancedDictionary/AdvancedDictionary/obj/
+
