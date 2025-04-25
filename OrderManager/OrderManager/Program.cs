@@ -1,6 +1,6 @@
 ﻿namespace OrderManager;
 
-public class Program
+public sealed class Program
 {
     public static void Main( string[] args )
     {
@@ -26,7 +26,7 @@ public class Program
         }
     }
 
-    static void PlaceOrder()
+    public static void PlaceOrder()
     {
         Print( "Введите название товара: ", false );
         string productName = ReadString();
@@ -64,7 +64,7 @@ public class Program
         }
     }
 
-    static void Print( string str, bool isNewLine = true )
+    public static void Print( string str, bool isNewLine = true )
     {
         if ( isNewLine )
         {
@@ -76,7 +76,7 @@ public class Program
         }
     }
 
-    static string ReadString()
+    public static string ReadString()
     {
         string? inputString = Console.ReadLine();
         while ( String.IsNullOrWhiteSpace( inputString ) )
@@ -87,7 +87,7 @@ public class Program
         return inputString;
     }
 
-    static int ReadInt( bool isUnsigned = false )
+    public static int ReadInt( bool isUnsigned = false )
     {
         bool isInt = false;
         int result = 0;
