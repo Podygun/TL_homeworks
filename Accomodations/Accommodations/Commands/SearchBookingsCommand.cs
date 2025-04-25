@@ -1,4 +1,4 @@
-using Accommodations.Models;
+п»їusing Accommodations.Models;
 
 namespace Accommodations.Commands;
 
@@ -28,7 +28,7 @@ public class SearchBookingsCommand(
 
     public void Undo()
     {
-        // Изменен вывод сообщения
+        // РР·РјРµРЅРµРЅ РІС‹РІРѕРґ СЃРѕРѕР±С‰РµРЅРёСЏ
         Console.WriteLine( $"Undo operation is not supported for Search." );
     }
 }

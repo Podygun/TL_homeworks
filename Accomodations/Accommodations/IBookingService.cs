@@ -1,4 +1,4 @@
-using Accommodations.Models;
+﻿using Accommodations.Models;
 
 namespace Accommodations;
 

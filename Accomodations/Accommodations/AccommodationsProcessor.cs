@@ -1,11 +1,11 @@
-using Accommodations.Commands;
+п»їusing Accommodations.Commands;
 using Accommodations.Dto;
 
 namespace Accommodations;
 
 public static class AccommodationsProcessor
 {
-    // Добавлена константа для максимального кол-ва дней для брони
+    // Р”РѕР±Р°РІР»РµРЅР° РєРѕРЅСЃС‚Р°РЅС‚Р° РґР»СЏ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РєРѕР»-РІР° РґРЅРµР№ РґР»СЏ Р±СЂРѕРЅРё
     private const int BOOK_MAX_DAYS = 30;
     private static BookingService _bookingService = new();
     private static Dictionary<int, ICommand> _executedCommands = new();
@@ -77,18 +77,18 @@ public static class AccommodationsProcessor
             return;
         }
 
-        // Добавлена валидация id пользователя
+        // Р”РѕР±Р°РІР»РµРЅР° РІР°Р»РёРґР°С†РёСЏ id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         if ( !int.TryParse( parts[ 1 ], out int userId ) )
         {
             Console.WriteLine( "Invalid user id." );
             return;
         }
 
-        // Добавлена проверка на валидность введенных пользователем дат
+        // Р”РѕР±Р°РІР»РµРЅР° РїСЂРѕРІРµСЂРєР° РЅР° РІР°Р»РёРґРЅРѕСЃС‚СЊ РІРІРµРґРµРЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РґР°С‚
         var StartDateTimeParsed = ParseDateTime( parts[ 3 ], "Invalid start date for booking." );
         var EndDateTimeParsed = ParseDateTime( parts[ 4 ], "Invalid end date for booking." );
 
-        // Добавлена проверка оформления брони на слишком долгое время
+        // Р”РѕР±Р°РІР»РµРЅР° РїСЂРѕРІРµСЂРєР° РѕС„РѕСЂРјР»РµРЅРёСЏ Р±СЂРѕРЅРё РЅР° СЃР»РёС€РєРѕРј РґРѕР»РіРѕРµ РІСЂРµРјСЏ
         TimeSpan difference = EndDateTimeParsed - StartDateTimeParsed;
         int daysDifference = difference.Days;
 
@@ -98,7 +98,7 @@ public static class AccommodationsProcessor
             return;
         }
 
-        // Изменен парсинг валюты, сделан вывод валидной валюты для использования
+        // РР·РјРµРЅРµРЅ РїР°СЂСЃРёРЅРі РІР°Р»СЋС‚С‹, СЃРґРµР»Р°РЅ РІС‹РІРѕРґ РІР°Р»РёРґРЅРѕР№ РІР°Р»СЋС‚С‹ РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
         if ( !Enum.TryParse( parts[ 5 ], true, out CurrencyDto currency ) )
         {
             string validCurrency = string.Join( ", ", Enum.GetNames( typeof( CurrencyDto ) ) );
@@ -129,7 +129,7 @@ public static class AccommodationsProcessor
             return;
         }
 
-        // Изменен парсинг Guid через TryParse
+        // РР·РјРµРЅРµРЅ РїР°СЂСЃРёРЅРі Guid С‡РµСЂРµР· TryParse
         if ( !Guid.TryParse( parts[ 1 ], out Guid bookingId ) )
         {
             Console.WriteLine( "Invalid id for booking." );
@@ -144,7 +144,7 @@ public static class AccommodationsProcessor
 
     private static void HandleUndo( string[] parts )
     {
-        // Добавлена проверка индекса команды при отмене
+        // Р”РѕР±Р°РІР»РµРЅР° РїСЂРѕРІРµСЂРєР° РёРЅРґРµРєСЃР° РєРѕРјР°РЅРґС‹ РїСЂРё РѕС‚РјРµРЅРµ
         if ( s_commandIndex < 1 )
         {
             Console.WriteLine( "There's no nothing to undo" );
@@ -164,7 +164,7 @@ public static class AccommodationsProcessor
             return;
         }
 
-        // Изменен парсинг Guid через TryParse
+        // РР·РјРµРЅРµРЅ РїР°СЂСЃРёРЅРі Guid С‡РµСЂРµР· TryParse
         if ( !Guid.TryParse( parts[ 1 ], out Guid id ) )
         {
             Console.WriteLine( "Invalid id for booking." );
@@ -173,7 +173,7 @@ public static class AccommodationsProcessor
         FindBookingByIdCommand findCommand = new( _bookingService, id );
         findCommand.Execute();
 
-        // Добавлено добавление операции в выполненные команды
+        // Р”РѕР±Р°РІР»РµРЅРѕ РґРѕР±Р°РІР»РµРЅРёРµ РѕРїРµСЂР°С†РёРё РІ РІС‹РїРѕР»РЅРµРЅРЅС‹Рµ РєРѕРјР°РЅРґС‹
         _executedCommands.Add( ++s_commandIndex, findCommand );
     }
 
@@ -185,7 +185,7 @@ public static class AccommodationsProcessor
             return;
         }
 
-        // Добавлена проверка на валидность введенных пользователем дат
+        // Р”РѕР±Р°РІР»РµРЅР° РїСЂРѕРІРµСЂРєР° РЅР° РІР°Р»РёРґРЅРѕСЃС‚СЊ РІРІРµРґРµРЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РґР°С‚
         var startDate = ParseDateTime( parts[ 1 ], "Invalid start date for searching." );
         var endDate = ParseDateTime( parts[ 2 ], "Invalid start date for searching." );
 
@@ -193,7 +193,7 @@ public static class AccommodationsProcessor
         SearchBookingsCommand searchCommand = new( _bookingService, startDate, endDate, categoryName );
         searchCommand.Execute();
 
-        // Добавлено добавление операции в выполненные команды
+        // Р”РѕР±Р°РІР»РµРЅРѕ РґРѕР±Р°РІР»РµРЅРёРµ РѕРїРµСЂР°С†РёРё РІ РІС‹РїРѕР»РЅРµРЅРЅС‹Рµ РєРѕРјР°РЅРґС‹
         _executedCommands.Add( ++s_commandIndex, searchCommand );
     }
 

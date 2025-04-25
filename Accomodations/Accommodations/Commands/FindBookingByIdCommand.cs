@@ -1,4 +1,4 @@
-using Accommodations.Models;
+п»їusing Accommodations.Models;
 
 namespace Accommodations.Commands;
 
@@ -6,7 +6,7 @@ public class FindBookingByIdCommand( IBookingService bookingService, Guid bookin
 {
     public void Execute()
     {
-        // Исправлен вывод названия категории
+        // РСЃРїСЂР°РІР»РµРЅ РІС‹РІРѕРґ РЅР°Р·РІР°РЅРёСЏ РєР°С‚РµРіРѕСЂРёРё
         Booking? booking = bookingService.FindBookingById( bookingId );
         Console.WriteLine( booking != null
             ? $"Booking found: {booking.RoomCategory.Name} for User {booking.UserId}"
@@ -15,7 +15,7 @@ public class FindBookingByIdCommand( IBookingService bookingService, Guid bookin
 
     public void Undo()
     {
-        // Изменен вывод сообщения
+        // РР·РјРµРЅРµРЅ РІС‹РІРѕРґ СЃРѕРѕР±С‰РµРЅРёСЏ
         Console.WriteLine( "Undo operation is not supported for Find." );
     }
 }

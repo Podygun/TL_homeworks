@@ -1,4 +1,4 @@
-namespace Accommodations.Commands;
+﻿namespace Accommodations.Commands;
 
 public interface ICommand
 {

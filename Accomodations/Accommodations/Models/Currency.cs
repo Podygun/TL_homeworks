@@ -1,4 +1,4 @@
-namespace Accommodations.Models;
+﻿namespace Accommodations.Models;
 
 public enum Currency
 {

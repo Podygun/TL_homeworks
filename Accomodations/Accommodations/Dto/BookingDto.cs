@@ -1,4 +1,4 @@
-namespace Accommodations.Dto;
+﻿namespace Accommodations.Dto;
 
 public class BookingDto
 {
