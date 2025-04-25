@@ -1,12 +1,9 @@
+*
+/*
 
-OrderManager/
-
-AdvancedDictionary/.vs/
-
-AdvancedDictionary/AdvancedDictionary/obj/
+!Accomodations/Accommodations/
+!.gitignore
 
 Accomodations/.vs/
-
 Accomodations/Accommodations/obj/
-
 Accomodations/Accommodations/bin/
