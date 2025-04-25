@@ -1,4 +1,4 @@
-﻿using Accommodations.Commands;
+using Accommodations.Commands;
 using Accommodations.Dto;
 
 namespace Accommodations;
@@ -6,7 +6,7 @@ namespace Accommodations;
 public static class AccommodationsProcessor
 {
     // Добавлена константа для максимального кол-ва дней для брони
-    private const int BOOK_MAX_DAYS = 30;
+    private const int BookMaxDays = 30;
     private static BookingService _bookingService = new();
     private static Dictionary<int, ICommand> _executedCommands = new();
     private static int s_commandIndex = 0;
