@@ -85,16 +85,16 @@ public static class AccommodationsProcessor
         }
 
         // Добавлена проверка на валидность введенных пользователем дат
-        var StartDateTimeParsed = ParseDateTime( parts[ 3 ], "Invalid start date for booking." );
-        var EndDateTimeParsed = ParseDateTime( parts[ 4 ], "Invalid end date for booking." );
+        DateTime StartDateTimeParsed = ParseDateTime( parts[ 3 ], "Invalid start date for booking." );
+        DateTime EndDateTimeParsed = ParseDateTime( parts[ 4 ], "Invalid end date for booking." );
 
         // Добавлена проверка оформления брони на слишком долгое время
         TimeSpan difference = EndDateTimeParsed - StartDateTimeParsed;
         int daysDifference = difference.Days;
 
-        if ( daysDifference > BOOK_MAX_DAYS )
+        if ( daysDifference > BookMaxDays )
         {
-            Console.WriteLine( $"Error: Booking duration limit reached. Your selected period exceeds our maximum of {BOOK_MAX_DAYS} days." );
+            Console.WriteLine( $"Error: Booking duration limit reached. Your selected period exceeds our maximum of {BookMaxDays} days." );
             return;
         }
 
@@ -186,8 +186,8 @@ public static class AccommodationsProcessor
         }
 
         // Добавлена проверка на валидность введенных пользователем дат
-        var startDate = ParseDateTime( parts[ 1 ], "Invalid start date for searching." );
-        var endDate = ParseDateTime( parts[ 2 ], "Invalid start date for searching." );
+        DateTime startDate = ParseDateTime( parts[ 1 ], "Invalid start date for searching." );
+        DateTime endDate = ParseDateTime( parts[ 2 ], "Invalid start date for searching." );
 
         string categoryName = parts[ 3 ];
         SearchBookingsCommand searchCommand = new( _bookingService, startDate, endDate, categoryName );
