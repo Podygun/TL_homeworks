@@ -1,0 +1,9 @@
+*
+/*
+!FighterGame/Fighters/
+!.gitignore
+
+FighterGame/.vs/
+FighterGame/Fighters/bin
+FighterGame/Fighters/obj
+FighterGame/Fighters/.vs
