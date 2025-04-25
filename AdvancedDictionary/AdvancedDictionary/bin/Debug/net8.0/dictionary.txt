@@ -1,7 +1,0 @@
-cat:кот
-tiger:тигр
-book:книга
-notebook:ноутбук
-cat:котик
-pipe:труба
-he can:он может
