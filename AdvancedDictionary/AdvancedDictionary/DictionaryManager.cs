@@ -7,10 +7,10 @@ public class DictionaryManager
 
     public DictionaryManager( string filePath )
     {
-        this._filePath = filePath;
-        if ( !File.Exists( this._filePath ) )
+        _filePath = filePath;
+        if ( !File.Exists( _filePath ) )
         {
-            File.Create( this._filePath ).Close();
+            File.Create( _filePath ).Close();
         }
     }
 
@@ -50,5 +50,4 @@ public class DictionaryManager
     {
         File.AppendAllText( _filePath, $"{eng.ToLower()}:{ru.ToLower()}\n" );
     }
-
 }

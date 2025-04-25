@@ -8,7 +8,7 @@ public static class ConsoleHelper
         while ( String.IsNullOrEmpty( inputString ) )
         {
             Console.Write( "Пустая строка запрещена, повторите ввод: " );
-            inputString = Console.ReadLine();
+            inputString = Console.ReadLine()?.Trim();
         }
         return inputString;
     }

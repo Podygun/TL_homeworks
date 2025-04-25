@@ -1,7 +1,6 @@
-﻿
-namespace AdvancedDictionary;
+﻿namespace AdvancedDictionary;
 
-internal class Program
+internal sealed class Program
 {
     public static void Main( string[] args )
     {
@@ -15,7 +14,7 @@ internal class Program
             Console.WriteLine( "2) Добавление слов (+)" );
             Console.WriteLine( "3) Выход           (Esc)" );
             Console.WriteLine( "4) О программе     (F1)" );
-            var key = Console.ReadKey( true ).Key;
+            ConsoleKey key = Console.ReadKey( true ).Key;
 
             if ( key == ConsoleKey.Enter || key == ConsoleKey.D1 )
             {
@@ -70,7 +69,7 @@ internal class Program
         Console.Write( "\nВведите текст для перевода: " );
         string? word = ConsoleHelper.ReadString();
 
-        var translations = manager.Get( word );
+        List<string> translations = manager.Get( word );
 
         if ( translations.Count == 0 )
         {
@@ -79,7 +78,7 @@ internal class Program
         else
         {
             ConsoleHelper.PrintSuccess( $"\nНайденные переводы слова {word}:" );
-            foreach ( var translation in translations )
+            foreach ( string translation in translations )
             {
                 Console.WriteLine( $"  {translation}" );
             }
