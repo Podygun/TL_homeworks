@@ -4,7 +4,7 @@ using Fighters.Models.Weapons;
 
 namespace Fighters.Models.Fighters;
 
-class Mage : IFighter
+public class Mage : IFighter
 {
     private readonly IRace _race;
     private readonly IArmor _armor;

@@ -1,6 +1,6 @@
 ﻿namespace Fighters.Models.Weapons;
 
-class BattleAxe : WeaponBase
+public class BattleAxe : WeaponBase
 {
     public override int Damage => 25;
 
