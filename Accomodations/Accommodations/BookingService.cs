@@ -123,10 +123,6 @@ public class BookingService : IBookingService
     public decimal CalculateCancellationPenaltyAmount( Booking booking )
     {
         // Удалил не имеюющую смысла проверки (Есть в методе CancelBooking)
-        //if ( booking.StartDate <= DateTime.Now )
-        //{
-        //    throw new ArgumentException( "Start date cannot be earlier than now date" );
-        //}
 
         // Исправлен подсчет дней до прибытия
         int daysBeforeArrival = ( booking.StartDate - DateTime.Now.Date ).Days;
