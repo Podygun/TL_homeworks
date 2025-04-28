@@ -238,10 +238,10 @@ public class GameManager
     private IRace ChooseRace()
     {
         Console.WriteLine( "\nВыберите расу:" );
-        List<IRace> races = GameItems.Races;
-        for ( int i = 0; i < races.Count; i++ )
+
+        for ( int i = 0; i < GameItems.Races.Count; i++ )
         {
-            IRace race = races[ i ];
+            IRace race = GameItems.Races[ i ];
             Console.WriteLine( $"{i + 1}. {race.GetType().Name.Replace( "Race", "" )} " +
                              $"(Урон: {race.Damage}, Здоровье: {race.Health}, Броня: {race.Armor})" );
         }
@@ -253,11 +253,10 @@ public class GameManager
     private WeaponBase ChooseWeapon()
     {
         Console.WriteLine( "\nВыберите оружие:" );
-        List<WeaponBase> weapons = GameItems.Weapons;
 
-        for ( int i = 0; i < weapons.Count; i++ )
+        for ( int i = 0; i < GameItems.Weapons.Count; i++ )
         {
-            WeaponBase weapon = weapons[ i ];
+            WeaponBase weapon = GameItems.Weapons[ i ];
             Console.WriteLine( $"{i + 1}. {weapon.GetType().Name} (Урон: {weapon.Damage})" );
         }
 
@@ -268,11 +267,10 @@ public class GameManager
     private IArmor ChooseArmor()
     {
         Console.WriteLine( "\nВыберите броню:" );
-        List<IArmor> armors = GameItems.Armors;
 
-        for ( int i = 0; i < armors.Count; i++ )
+        for ( int i = 0; i < GameItems.Armors.Count; i++ )
         {
-            IArmor armor = armors[ i ];
+            IArmor armor = GameItems.Armors[ i ];
             Console.WriteLine( $"{i + 1}. {armor.GetType().Name} (Защита: {armor.Armor})" );
         }
 
