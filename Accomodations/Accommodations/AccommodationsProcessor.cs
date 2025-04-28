@@ -23,7 +23,7 @@ public static class AccommodationsProcessor
         Console.WriteLine( "'exit' - to exit the application" );
 
         string input;
-        while ( ( input = Console.ReadLine() ) != "exit" )
+        while ( ( input = Console.ReadLine() ).Equals( "exit" ) )
         {
             try
             {
