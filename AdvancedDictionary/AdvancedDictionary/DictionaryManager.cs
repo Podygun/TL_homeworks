@@ -2,15 +2,15 @@
 
 public class DictionaryManager
 {
-    private readonly string FilePath;
+    private readonly string _filePath;
     private const string Separator = ":";
 
     public DictionaryManager( string filePath )
     {
-        FilePath = filePath;
-        if ( !File.Exists( FilePath ) )
+        _filePath = filePath;
+        if ( !File.Exists( _filePath ) )
         {
-            File.Create( FilePath ).Close();
+            File.Create( _filePath ).Close();
         }
     }
 
@@ -22,7 +22,7 @@ public class DictionaryManager
     public List<string> Get( string word )
     {
         List<string> translations = new List<string>();
-        string[] lines = File.ReadAllLines( FilePath );
+        string[] lines = File.ReadAllLines( _filePath );
 
         foreach ( string line in lines )
         {
@@ -48,6 +48,6 @@ public class DictionaryManager
     /// <param name="ru">Слово на русском языке</param>
     public void Add( string eng, string ru )
     {
-        File.AppendAllText( FilePath, $"{eng.ToLower()}:{ru.ToLower()}\n" );
+        File.AppendAllText( _filePath, $"{eng.ToLower()}:{ru.ToLower()}\n" );
     }
 }
