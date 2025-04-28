@@ -1,10 +1,19 @@
-﻿namespace CarFactory
+﻿using CarFactory.Services;
+
+namespace CarFactory;
+
+internal sealed class Program
 {
-    internal class Program
+    public static void Main( string[] args )
     {
-        static void Main( string[] args )
+        try
         {
-            Console.WriteLine( "Hello, World!" );
+            CarProgramEngine engine = new();
+            engine.Run();
+        }
+        catch ( Exception ex )
+        {
+            Console.WriteLine( $"Ошибка: {ex.Message}" );
         }
     }
 }
