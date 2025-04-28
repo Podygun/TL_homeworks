@@ -1,4 +1,4 @@
-using Fighters.Data;
+﻿using Fighters.Data;
 using Fighters.Extensions;
 using Fighters.Models.Armors;
 using Fighters.Models.Fighters;
@@ -170,11 +170,13 @@ public class GameManager
         Console.WriteLine( "\n=== СОЗДАНИЕ СЛУЧАЙНЫХ БОЙЦОВ ===" );
 
         // Запрашиваем количество бойцов
-        int fighterCount = InputInt( "Введите количество бойцов (2-10): ", 2, _MAX_FIGHTERS_AMOUNT );
+        int fighterCount = InputInt( "Введите количество бойцов (2-10): ", 2, MaxFightersAmount );
 
         // Списки возможных вариантов
-        var possibleNames = new List<string> { "Артем", "Гарри", "Леголас", "Гэндальф", "Константин", "Арагорн", "Бен", "Вектор", "Влад", "Миша" };
-        var possibleClasses = new List<Func<string, IRace, WeaponBase, IArmor, IFighter>>
+        List<string> possibleNames =
+            new List<string> { "Артем", "Гарри", "Леголас", "Гэндальф", "Константин", "Арагорн", "Бен", "Вектор", "Влад", "Миша" };
+        List<Func<string, IRace, WeaponBase, IArmor, IFighter>> possibleClasses =
+            new List<Func<string, IRace, WeaponBase, IArmor, IFighter>>
     {
         (name, race, weapon, armor) => new Knight(name, race, weapon, armor),
         (name, race, weapon, armor) => new Mage(name, race, weapon, armor),
@@ -190,7 +192,9 @@ public class GameManager
             IRace race = GameItems.Races[ random.Next( GameItems.Races.Count ) ];
             WeaponBase weapon = GameItems.Weapons[ random.Next( GameItems.Weapons.Count ) ];
             IArmor armor = GameItems.Armors[ random.Next( GameItems.Armors.Count ) ];
-            var fighterClass = possibleClasses[ random.Next( possibleClasses.Count ) ];
+
+            Func<string, IRace, WeaponBase, IArmor, IFighter> fighterClass =
+                possibleClasses[ random.Next( possibleClasses.Count ) ];
 
             IFighter fighter = fighterClass( name, race, weapon, armor );
             fighters.Add( fighter );
@@ -294,7 +298,7 @@ public class GameManager
         Console.WriteLine( "╚════════════════════════════════════╝\n" );
 
         Console.WriteLine( "\n\tРАСЫ" );
-        foreach ( var race in GameItems.Races )
+        foreach ( IRace race in GameItems.Races )
         {
             Console.WriteLine( $"{race.GetType().Name}" );
             Console.WriteLine( $"  Здоровье: {race.Health}" );
@@ -304,7 +308,7 @@ public class GameManager
         }
 
         Console.WriteLine( "\n\tОРУЖИЕ" );
-        foreach ( var weapon in GameItems.Weapons )
+        foreach ( WeaponBase weapon in GameItems.Weapons )
         {
             Console.WriteLine( $"{weapon.GetType().Name}" );
             Console.WriteLine( $"  Базовый урон:    {weapon.Damage}" );
@@ -314,7 +318,7 @@ public class GameManager
         }
 
         Console.WriteLine( "\n\tБРОНЯ" );
-        foreach ( var armor in GameItems.Armors )
+        foreach ( IArmor armor in GameItems.Armors )
         {
             Console.WriteLine( $"{armor.GetType().Name}" );
             Console.WriteLine( $"  Защита: {armor.Armor}" );
@@ -329,7 +333,7 @@ public class GameManager
         WeaponBase demoWeapon = new Fists();
         IArmor demoArmor = new LeatherArmor();
 
-        foreach ( var fighterClass in GameItems.FighterClasses )
+        foreach ( KeyValuePair<string, Func<string, IRace, WeaponBase, IArmor, IFighter>> fighterClass in GameItems.FighterClasses )
         {
             IFighter demoFighter = fighterClass.Value( "Тестовый", demoRace, demoWeapon, demoArmor );
 
@@ -370,7 +374,7 @@ public class GameManager
 
     private static void ResetFightersState( List<IFighter> fighters )
     {
-        foreach ( var fighter in fighters )
+        foreach ( IFighter fighter in fighters )
         {
             fighter.ResetState();
         }
