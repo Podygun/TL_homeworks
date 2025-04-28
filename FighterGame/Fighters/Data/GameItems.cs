@@ -7,7 +7,7 @@ namespace Fighters.Data;
 
 public static class GameItems
 {
-    public static readonly List<IRace> Races = new()
+    public static readonly IReadOnlyList<IRace> Races = new List<IRace>
     {
         new Human(),
         new Dwarf(),
@@ -15,7 +15,7 @@ public static class GameItems
         new Orc(),
     };
 
-    public static readonly List<WeaponBase> Weapons = new()
+    public static readonly IReadOnlyList<WeaponBase> Weapons = new List<WeaponBase>()
     {
         new Fists(),
         new Bow(),
@@ -23,7 +23,7 @@ public static class GameItems
         new Warhammer()
     };
 
-    public static readonly List<IArmor> Armors = new()
+    public static readonly IReadOnlyList<IArmor> Armors = new List<IArmor>()
     {
         new NoArmor(),
         new OldRobe(),
