@@ -40,16 +40,19 @@ public class GameManager
                 case 4:
                     _fighters = CreateRandomFighters();
                     Fight( _fighters );
-                    return;
+                    break;
                 case 5:
                     return;
+                default:
+                    Console.WriteLine( "Неизвестная команда" );
+                    break;
             }
         }
     }
 
     private List<IFighter> CreateFighters()
     {
-        int amountFighters = InputInt( "Введите кол-во игроков", 2, _MAX_FIGHTERS_AMOUNT );
+        int amountFighters = InputInt( "Введите кол-во игроков", 2, MaxFightersAmount );
 
         List<IFighter> list = new();
 
