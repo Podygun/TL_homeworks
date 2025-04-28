@@ -175,13 +175,14 @@ public class GameManager
         // Списки возможных вариантов
         List<string> possibleNames =
             new List<string> { "Артем", "Гарри", "Леголас", "Гэндальф", "Константин", "Арагорн", "Бен", "Вектор", "Влад", "Миша" };
+
         List<Func<string, IRace, WeaponBase, IArmor, IFighter>> possibleClasses =
             new List<Func<string, IRace, WeaponBase, IArmor, IFighter>>
-    {
-        (name, race, weapon, armor) => new Knight(name, race, weapon, armor),
-        (name, race, weapon, armor) => new Mage(name, race, weapon, armor),
-        (name, race, weapon, armor) => new Berserker(name, race, weapon, armor)
-    };
+        {
+            (name, race, weapon, armor) => new Knight(name, race, weapon, armor),
+            (name, race, weapon, armor) => new Mage(name, race, weapon, armor),
+            (name, race, weapon, armor) => new Berserker(name, race, weapon, armor)
+        };
 
         Random random = new();
         List<IFighter> fighters = new();
