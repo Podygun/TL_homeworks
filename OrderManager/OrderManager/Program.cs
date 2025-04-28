@@ -14,12 +14,12 @@ public sealed class Program
 
             string action = ReadString();
 
-            if ( String.Equals( action, "N" ) )
+            if ( action.Equals( "N" ) )
             {
                 break;
             }
 
-            if ( String.Equals( action, "Y" ) )
+            if ( action.Equals( "Y" ) )
             {
                 PlaceOrder();
             }
@@ -45,15 +45,15 @@ public sealed class Program
 
         string confirm = String.Empty;
 
-        while ( String.Equals( confirm, "Y" ) && String.Equals( confirm, "N" ) )
+        while ( confirm.Equals( "Y" ) && confirm.Equals( "N" ) )
         {
             confirm = ReadString();
-            if ( String.Equals( confirm, "Y" ) )
+            if ( confirm.Equals( "Y" ) )
             {
                 Print( $"{userName}! Ваш заказ {productName} в количестве {productCount} оформлен! " +
                     $"Ожидайте доставку по адресу {userAddress} к {DateTime.Today.AddDays( 3 ):D}" );
             }
-            else if ( String.Equals( confirm, "N" ) )
+            else if ( confirm.Equals( "N" ) )
             {
                 Print( "Отмена оформления, возврат назад" );
             }
