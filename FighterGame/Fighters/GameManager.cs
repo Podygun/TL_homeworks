@@ -52,7 +52,7 @@ public class GameManager
 
     private List<IFighter> CreateFighters()
     {
-        int amountFighters = InputInt( "Введите кол-во игроков", 2, MaxFightersAmount );
+        int amountFighters = InputInt( "Введите кол-во игроков ", 2, MaxFightersAmount );
 
         List<IFighter> list = new();
 
