@@ -1,0 +1,11 @@
+*
+/*
+!OrderManager/OrderManager
+!.gitignore
+
+
+OrderManager/.vs/
+
+OrderManager/OrderManager/bin/
+
+OrderManager/OrderManager/obj/
