@@ -8,30 +8,19 @@ public class Berserker : FighterBase
 {
     private readonly IRace _race;
     private readonly IArmor _armor;
-    private readonly IWeapon _weapon;
+    private readonly WeaponBase _weapon;
 
-    private int _initialHealth;
-    private int _currentHealth;
-
-    public override string Name { get; protected set; }
-
-    public Berserker( string name, IRace race, IWeapon weapon, IArmor armor )
+    public Berserker( string name, IRace race, WeaponBase weapon, IArmor armor )
+        : base( name, race.Health )
     {
-        Name = name;
         _race = race;
         _weapon = weapon;
         _armor = armor;
-        _initialHealth = GetMaxHealth();
-        _currentHealth = _initialHealth;
     }
 
     public override string GetDescription() =>
         "Бешеный воин, игнорирующий часть урона. " +
         $"Способность: снижает входящий урон на 20%. ";
-
-    public override int GetCurrentHealth() => _currentHealth;
-
-    public override int GetMaxHealth() => _race.Health;
 
     public override int CalculateDamage() => _weapon.Damage + _race.Damage;
 
@@ -39,13 +28,8 @@ public class Berserker : FighterBase
 
     public override void TakeDamage( int damage )
     {
-        int berserkerReduction = ( int )( damage * 0.2 );
-        int totalDamage = Math.Max( damage - berserkerReduction - CalculateArmor(), 0 );
-        _currentHealth = Math.Max( _currentHealth - totalDamage, 0 );
-    }
-
-    public override void ResetState()
-    {
-        _currentHealth = _initialHealth;
+        double damageReduction = damage * 0.2;
+        int totalDamage = ( int )( damage - damageReduction - CalculateArmor() );
+        base.TakeDamage( totalDamage );
     }
 }
