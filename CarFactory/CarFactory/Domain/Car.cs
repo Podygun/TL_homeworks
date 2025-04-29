@@ -1,29 +1,30 @@
-﻿using Spectre.Console;
+﻿using CarFactory.Domain.BodyTypes;
+using CarFactory.Domain.Engines;
+using CarFactory.Domain.Transmissions;
+using Spectre.Console;
 
 namespace CarFactory.Domain;
 
-public sealed class Car : ICar
+internal sealed class Car : ICar
 {
     public string Model { get; }
-    public string BodyType { get; }
-    public string Engine { get; }
-    public string Transmission { get; }
+    public IBodyType BodyType { get; }
+    public ICarEngine CarEngine { get; }
+    public ITransmission Transmission { get; }
     public string Color { get; }
     public string WheelPosition { get; }
-    public int MaxSpeed { get; }
-    public int GearCount { get; }
+    public int MaxSpeed => CalculateMaxSpeed();
+    public int GearCount => Transmission.GetGearsAmount();
 
-    public Car( string model, string bodyType, string engine, string transmission, string color, string wheelPosition, int gearCount )
+    public Car( string model, IBodyType bodyType, ICarEngine engine,
+              ITransmission transmission, string color, string wheelPosition )
     {
         Model = model;
         BodyType = bodyType;
-        Engine = engine;
+        CarEngine = engine;
         Transmission = transmission;
         Color = color;
-        WheelPosition = wheelPosition;
-        GearCount = gearCount;
-
-        MaxSpeed = CalculateMaxSpeed( Engine, GearCount );
+        WheelPosition = wheelPosition ?? "Left"; // По умолчанию леворульный
     }
 
     private static int CalculateMaxSpeed( string engine, int gearCount )

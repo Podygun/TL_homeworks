@@ -1,15 +1,18 @@
-﻿namespace CarFactory.Domain;
+﻿using CarFactory.Domain.BodyTypes;
+using CarFactory.Domain.Engines;
+using CarFactory.Domain.Transmissions;
 
-public interface ICar
+namespace CarFactory.Domain;
+
+internal interface ICar
 {
     public string Model { get; }
-    public string BodyType { get; }
-    public string Engine { get; }
-    public string Transmission { get; }
+    public IBodyType BodyType { get; }
+    public ICarEngine CarEngine { get; }
+    public ITransmission Transmission { get; }
     public string Color { get; }
     public string WheelPosition { get; }
     public int MaxSpeed { get; }
-    public int GearCount { get; }
 
     public void DisplayConfiguration();
 }

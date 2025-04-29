@@ -1,4 +1,4 @@
-﻿namespace CarFactory.Domain.Transmission;
+﻿namespace CarFactory.Domain.Transmissions;
 
 class VariatorTransmission : TransmissionBase
 {
