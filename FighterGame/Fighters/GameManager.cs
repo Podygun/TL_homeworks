@@ -1,5 +1,4 @@
 ﻿using Fighters.Data;
-using Fighters.Extensions;
 using Fighters.Models.Armors;
 using Fighters.Models.Fighters;
 using Fighters.Models.Races;
@@ -9,7 +8,7 @@ namespace Fighters;
 
 public class GameManager
 {
-    private List<IFighter>? _fighters;
+    private List<FighterBase>? _fighters;
     private const int MaxFightersAmount = 10;
 
     public void Run()
@@ -17,7 +16,7 @@ public class GameManager
         while ( true )
         {
             PrintMenu();
-            int choice = InputInt( "Выберите действие: ", 1, 4 );
+            int choice = InputInt( "Выберите действие: ", 1, 5 );
 
             switch ( choice )
             {
@@ -50,22 +49,22 @@ public class GameManager
         }
     }
 
-    private List<IFighter> CreateFighters()
+    private List<FighterBase> CreateFighters()
     {
         int amountFighters = InputInt( "Введите кол-во игроков ", 2, MaxFightersAmount );
 
-        List<IFighter> list = new();
+        List<FighterBase> list = new();
 
         for ( int i = 0; i < amountFighters; i++ )
         {
-            IFighter fighter = CreateFighter();
+            FighterBase fighter = CreateFighter();
             list.Add( fighter );
         }
 
         return list;
     }
 
-    public void Fight( List<IFighter> fighters )
+    public void Fight( List<FighterBase> fighters )
     {
         Console.WriteLine( "\n=== НАЧАЛО БИТВЫ ===" );
 
@@ -99,7 +98,7 @@ public class GameManager
                 break;
             }
 
-            IFighter attacker = fighters[ currentAttackerIndex ];
+            FighterBase attacker = fighters[ currentAttackerIndex ];
             Console.WriteLine( $"\n--- Раунд {round} ---\n" );
             Console.WriteLine( $"Ходит: {attacker.Name}" );
 
@@ -110,7 +109,7 @@ public class GameManager
             {
                 if ( i == currentAttackerIndex || !fighters[ i ].IsAlive() ) continue;
 
-                IFighter defender = fighters[ i ];
+                FighterBase defender = fighters[ i ];
 
                 int damage = attacker.CalculateDamage();
                 int armor = defender.CalculateArmor();
@@ -153,7 +152,7 @@ public class GameManager
         }
 
         // Определение победителя
-        IFighter winner = fighters.FirstOrDefault( f => f.IsAlive() );
+        FighterBase winner = fighters.FirstOrDefault( f => f.IsAlive() );
         if ( winner != null )
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -165,7 +164,7 @@ public class GameManager
         ResetFightersState( fighters );
     }
 
-    public List<IFighter> CreateRandomFighters()
+    public List<FighterBase> CreateRandomFighters()
     {
         Console.WriteLine( "\n=== СОЗДАНИЕ СЛУЧАЙНЫХ БОЙЦОВ ===" );
 
@@ -176,8 +175,8 @@ public class GameManager
         List<string> possibleNames =
             new List<string> { "Артем", "Гарри", "Леголас", "Гэндальф", "Константин", "Арагорн", "Бен", "Вектор", "Влад", "Миша" };
 
-        List<Func<string, IRace, WeaponBase, IArmor, IFighter>> possibleClasses =
-            new List<Func<string, IRace, WeaponBase, IArmor, IFighter>>
+        List<Func<string, IRace, WeaponBase, IArmor, FighterBase>> possibleClasses =
+            new List<Func<string, IRace, WeaponBase, IArmor, FighterBase>>
         {
             (name, race, weapon, armor) => new Knight(name, race, weapon, armor),
             (name, race, weapon, armor) => new Mage(name, race, weapon, armor),
@@ -185,7 +184,7 @@ public class GameManager
         };
 
         Random random = new();
-        List<IFighter> fighters = new();
+        List<FighterBase> fighters = new();
 
         for ( int i = 0; i < fighterCount; i++ )
         {
@@ -194,10 +193,10 @@ public class GameManager
             WeaponBase weapon = GameItems.Weapons[ random.Next( GameItems.Weapons.Count ) ];
             IArmor armor = GameItems.Armors[ random.Next( GameItems.Armors.Count ) ];
 
-            Func<string, IRace, WeaponBase, IArmor, IFighter> fighterClass =
+            Func<string, IRace, WeaponBase, IArmor, FighterBase> fighterClass =
                 possibleClasses[ random.Next( possibleClasses.Count ) ];
 
-            IFighter fighter = fighterClass( name, race, weapon, armor );
+            FighterBase fighter = fighterClass( name, race, weapon, armor );
             fighters.Add( fighter );
 
             possibleNames.Remove( name );
@@ -211,7 +210,7 @@ public class GameManager
         return fighters;
     }
 
-    private IFighter CreateFighter()
+    private FighterBase CreateFighter()
     {
         string name = InputString( "Введите имя бойца: " );
         IRace race = ChooseRace();
@@ -220,7 +219,7 @@ public class GameManager
         return ChooseFighterClass( name, race, weapon, armor );
     }
 
-    private IFighter ChooseFighterClass( string name, IRace race, WeaponBase weapon, IArmor armor )
+    private FighterBase ChooseFighterClass( string name, IRace race, WeaponBase weapon, IArmor armor )
     {
         Console.WriteLine( "\nВыберите класс:" );
         List<string> classes = GameItems.FighterClasses.Keys.ToList();
@@ -332,9 +331,9 @@ public class GameManager
         WeaponBase demoWeapon = new Fists();
         IArmor demoArmor = new LeatherArmor();
 
-        foreach ( KeyValuePair<string, Func<string, IRace, WeaponBase, IArmor, IFighter>> fighterClass in GameItems.FighterClasses )
+        foreach ( KeyValuePair<string, Func<string, IRace, WeaponBase, IArmor, FighterBase>> fighterClass in GameItems.FighterClasses )
         {
-            IFighter demoFighter = fighterClass.Value( "Тестовый", demoRace, demoWeapon, demoArmor );
+            FighterBase demoFighter = fighterClass.Value( "Тестовый", demoRace, demoWeapon, demoArmor );
 
             Console.WriteLine( $"\n{fighterClass.Key.ToUpper()}" );
             Console.WriteLine( $"Тип: {demoFighter.GetType().Name}" );
@@ -371,9 +370,9 @@ public class GameManager
         }
     }
 
-    private static void ResetFightersState( List<IFighter> fighters )
+    private static void ResetFightersState( List<FighterBase> fighters )
     {
-        foreach ( IFighter fighter in fighters )
+        foreach ( FighterBase fighter in fighters )
         {
             fighter.ResetState();
         }
