@@ -1,11 +1,17 @@
-*
-/*
-!OrderManager/OrderManager
-!.gitignore
+# Игнорирование системных папок сборки и IDE
+**/[Bb]in/
+**/[Oo]bj/
+**/.vs/
 
-
-OrderManager/.vs/
-
-OrderManager/OrderManager/bin/
-
-OrderManager/OrderManager/obj/
+# Дополнительные файлы Visual Studio
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.cache
+*.ilk
+*.pdb
+*.log
+*.dll
+*.exe
+*.lib
