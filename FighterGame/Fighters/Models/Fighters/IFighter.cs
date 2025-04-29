@@ -2,8 +2,6 @@
 
 public interface IFighter
 {
-    string Name { get; }
-
     public string GetDescription();
 
     public int GetCurrentHealth();
@@ -12,5 +10,6 @@ public interface IFighter
     public int CalculateArmor();
     public void ResetState();
 
-    public void TakeDamage(int damage);
+    public void TakeDamage( int damage );
+    public bool IsAlive();
 }

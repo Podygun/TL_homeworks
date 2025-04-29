@@ -4,7 +4,7 @@ using Fighters.Models.Weapons;
 
 namespace Fighters.Models.Fighters;
 
-public class Knight : IFighter
+public class Knight : FighterBase
 {
     private readonly IRace _race;
     private readonly IArmor _armor;
@@ -13,7 +13,7 @@ public class Knight : IFighter
     private int _initialHealth;
     private int _currentHealth;
 
-    public string Name { get; private set; }
+    public override string Name { get; protected set; }
 
     public Knight( string name, IRace race, WeaponBase weapon, IArmor armor )
     {
@@ -25,18 +25,18 @@ public class Knight : IFighter
         _currentHealth = _initialHealth;
     }
 
-    public int GetCurrentHealth() => _currentHealth;
+    public override int GetCurrentHealth() => _currentHealth;
 
-    public int GetMaxHealth() => _race.Health;
+    public override int GetMaxHealth() => _race.Health;
 
-    public int CalculateDamage() => _weapon.CalculateDamage() + _race.Damage;
+    public override int CalculateDamage() => _weapon.CalculateDamage() + _race.Damage;
 
-    public int CalculateArmor() => _armor.Armor + _race.Armor;
+    public override int CalculateArmor() => _armor.Armor + _race.Armor;
 
-    public string GetDescription() =>
+    public override string GetDescription() =>
         "Базовый воин с небольшой стойкостью к урону";
 
-    public void TakeDamage( int damage )
+    public override void TakeDamage( int damage )
     {
         double damageReduction = damage * 0.1;
         double totalDamage = Math.Max( damage - damageReduction - CalculateArmor(), 0 );
@@ -45,7 +45,7 @@ public class Knight : IFighter
         _currentHealth = value;
     }
 
-    public void ResetState()
+    public override void ResetState()
     {
         _currentHealth = _initialHealth;
     }

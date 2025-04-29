@@ -4,7 +4,7 @@ using Fighters.Models.Weapons;
 
 namespace Fighters.Models.Fighters;
 
-public class Berserker : IFighter
+public class Berserker : FighterBase
 {
     private readonly IRace _race;
     private readonly IArmor _armor;
@@ -13,7 +13,7 @@ public class Berserker : IFighter
     private int _initialHealth;
     private int _currentHealth;
 
-    public string Name { get; private set; }
+    public override string Name { get; protected set; }
 
     public Berserker( string name, IRace race, IWeapon weapon, IArmor armor )
     {
@@ -25,26 +25,26 @@ public class Berserker : IFighter
         _currentHealth = _initialHealth;
     }
 
-    public string GetDescription() =>
+    public override string GetDescription() =>
         "Бешеный воин, игнорирующий часть урона. " +
         $"Способность: снижает входящий урон на 20%. ";
 
-    public int GetCurrentHealth() => _currentHealth;
+    public override int GetCurrentHealth() => _currentHealth;
 
-    public int GetMaxHealth() => _race.Health;
+    public override int GetMaxHealth() => _race.Health;
 
-    public int CalculateDamage() => _weapon.Damage + _race.Damage;
+    public override int CalculateDamage() => _weapon.Damage + _race.Damage;
 
-    public int CalculateArmor() => _armor.Armor + _race.Armor;
+    public override int CalculateArmor() => _armor.Armor + _race.Armor;
 
-    public void TakeDamage( int damage )
+    public override void TakeDamage( int damage )
     {
         int berserkerReduction = ( int )( damage * 0.2 );
         int totalDamage = Math.Max( damage - berserkerReduction - CalculateArmor(), 0 );
         _currentHealth = Math.Max( _currentHealth - totalDamage, 0 );
     }
 
-    public void ResetState()
+    public override void ResetState()
     {
         _currentHealth = _initialHealth;
     }
