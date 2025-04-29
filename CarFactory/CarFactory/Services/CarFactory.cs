@@ -8,6 +8,5 @@ internal static class CarFactory
         string transmission, string color, string wheelPosition, int gearCount )
     {
         return new Car( model, bodyType, engine, transmission, color, wheelPosition, gearCount );
-
     }
 }

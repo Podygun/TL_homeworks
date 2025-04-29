@@ -69,7 +69,7 @@ internal sealed class CarProgramEngine
             if ( engine.ToLower().Contains( "электр" ) )
             {
                 transmission = "АКПП";
-                
+
             }
 
             string transmission = GetSelection( "Select transmission:", CarData.TransmissionTypes );

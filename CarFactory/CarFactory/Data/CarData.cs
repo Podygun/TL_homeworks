@@ -10,6 +10,4 @@ public static class CarData
     public static readonly string[] TransmissionTypes = [ "АКПП", "МКПП", "CVT" ];
     public static readonly string[] WheelDrive = [ "Передний", "Задний", "Полный" ];
     public static readonly string[] BodyTypes = [ "Седан", "Универсал", "Хэтчбэк", "Купе" ];
-
-    public static readonly Dictionary<string, string> Modelss = new() { { "Toyota"} }
 }
