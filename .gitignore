@@ -1,9 +1,17 @@
-*
-/*
+# Игнорирование системных папок сборки и IDE
+**/[Bb]in/
+**/[Oo]bj/
+**/.vs/
 
-!Accomodations/Accommodations/
-!.gitignore
-
-Accomodations/.vs/
-Accomodations/Accommodations/obj/
-Accomodations/Accommodations/bin/
+# Дополнительные файлы Visual Studio
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.cache
+*.ilk
+*.pdb
+*.log
+*.dll
+*.exe
+*.lib
