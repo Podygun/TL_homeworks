@@ -1,4 +1,4 @@
-﻿namespace Fighters.Models.Fighters;
+namespace Fighters.Models.Fighters;
 
 public abstract class FighterBase : IFighter
 {
@@ -19,7 +19,7 @@ public abstract class FighterBase : IFighter
 
     public virtual int GetCurrentHealth() => _currentHealth;
     public virtual int GetMaxHealth() => _maxHealth;
-    virtual public bool IsAlive() => _currentHealth > 0;
+    public virtual bool IsAlive() => _currentHealth > 0;
 
     public virtual void ResetState()
     {
