@@ -2,7 +2,7 @@
 
 internal interface ICarEngine
 {
-    public string GetName();
+    string GetName();
 
-    public int GetHorsePower();
+    int GetHorsePower();
 }

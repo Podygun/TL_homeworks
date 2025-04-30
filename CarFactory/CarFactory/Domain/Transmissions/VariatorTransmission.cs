@@ -1,6 +1,6 @@
 ﻿namespace CarFactory.Domain.Transmissions;
 
-class VariatorTransmission : TransmissionBase
+internal sealed class VariatorTransmission : BaseTransmission
 {
     public VariatorTransmission() : base( "Вариатор", 1 ) { }
 }

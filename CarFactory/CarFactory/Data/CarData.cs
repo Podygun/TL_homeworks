@@ -1,13 +1,25 @@
-﻿namespace CarFactory.Data;
+﻿using CarFactory.Domain.BodyTypes;
+using CarFactory.Domain.Engines;
+using CarFactory.Domain.Transmissions;
+
+namespace CarFactory.Data;
 
 public static class CarData
 {
-    // Изменения данных значений могут привести к непредсказуемой работе программы
+    internal static readonly IReadOnlyList<ITransmission> Transmissions =
+        [ new AutomaticTransmission(), new ManualTransmission(), new VariatorTransmission() ];
+
+    internal static readonly IReadOnlyList<IBodyType> BodyTypes =
+        [ new HatchbackBodyType(), new CoupeBodyType(), new SedanBodyType() ];
+
+    internal static readonly IReadOnlyList<ICarEngine> CarEngines =
+        [ new DieselCarEngine(), new PetrolCarEngine(), new ElectricCarEngine() ];
 
     public static readonly string[] Models = [ "Toyota", "BMW", "Audi" ];
+
     public static readonly string[] Colors = [ "Красный", "Синий", "Черный", "Белый" ];
-    public static readonly string[] EngineTypes = [ "Бензиновый 2.0L", "Дизель 2.5L", "Гибридный 1.8L", "Электрический" ];
-    public static readonly string[] TransmissionTypes = [ "АКПП", "МКПП", "CVT" ];
+
     public static readonly string[] WheelDrive = [ "Передний", "Задний", "Полный" ];
-    public static readonly string[] BodyTypes = [ "Седан", "Универсал", "Хэтчбэк", "Купе" ];
+
+    public static readonly string[] WheePosition = [ "Левый", "Правый" ];
 }

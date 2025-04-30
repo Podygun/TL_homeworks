@@ -1,6 +1,6 @@
 ﻿namespace CarFactory.Domain.Transmissions;
 
-class AutomaticTransmission : TransmissionBase
+internal sealed class AutomaticTransmission : BaseTransmission
 {
     public AutomaticTransmission() : base( "АКПП", 8 ) { }
 }

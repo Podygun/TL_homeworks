@@ -6,13 +6,15 @@ namespace CarFactory.Domain;
 
 internal interface ICar
 {
-    public string Model { get; }
-    public IBodyType BodyType { get; }
-    public ICarEngine CarEngine { get; }
-    public ITransmission Transmission { get; }
-    public string Color { get; }
-    public string WheelPosition { get; }
-    public int MaxSpeed { get; }
+    string Model { get; }
+    string Color { get; }
+    string WheelPosition { get; }
+    string WheelDrive { get; }
+    int MaxSpeed { get; }
 
-    public void DisplayConfiguration();
+    IBodyType BodyType { get; }
+    ICarEngine CarEngine { get; }
+    ITransmission Transmission { get; }
+
+    void DisplayConfiguration();
 }

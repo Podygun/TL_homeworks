@@ -1,5 +1,8 @@
 ﻿using CarFactory.Data;
 using CarFactory.Domain;
+using CarFactory.Domain.BodyTypes;
+using CarFactory.Domain.Engines;
+using CarFactory.Domain.Transmissions;
 using Spectre.Console;
 
 namespace CarFactory.Services;
@@ -10,33 +13,35 @@ internal sealed class CarProgramEngine
 
     public void Run()
     {
-        AnsiConsole.Write(
-            new FigletText( "Car Factory" )
-                .LeftJustified()
-                .Color( Color.Red ) );
+        AnsiConsole
+            .Write( new FigletText( "Car Factory" )
+            .LeftJustified()
+            .Color( Color.Red ) );
 
         while ( true )
         {
-            var choice = AnsiConsole.Prompt(
+            string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title( "Select action:" )
+                    .Title( "Выберите действие:" )
                     .PageSize( 10 )
-                    .AddChoices( new[]
-                    {
-                        "Create new car",
-                        "View created cars",
-                        "Exit"
-                    } ) );
+                    .AddChoices(
+                    [
+                        "Создать машину",
+                        "Посмотреть все созданные машины",
+                        "Выход"
+                    ] ) );
 
             switch ( choice )
             {
-                case "Create new car":
-                    CreateCarFlow();
+                case "Создать машину":
+                    CreateCar();
                     break;
-                case "View created cars":
+
+                case "Посмотреть все созданные машины":
                     ShowCreatedCars();
                     break;
-                case "Exit":
+
+                case "Выход":
                     return;
             }
         }
@@ -46,64 +51,81 @@ internal sealed class CarProgramEngine
     {
         if ( _createdCars.Count == 0 )
         {
-            AnsiConsole.MarkupLine( "[yellow]No cars created yet![/]" );
+            AnsiConsole.MarkupLine( "[yellow]Машин пока нет.[/]" );
             return;
         }
 
-        foreach ( var car in _createdCars )
+        foreach ( ICar car in _createdCars )
         {
             car.DisplayConfiguration();
             AnsiConsole.WriteLine();
         }
     }
 
-    private void CreateCarFlow()
+    private void CreateCar()
     {
         try
         {
-            string model = GetSelection( "Select model:", CarData.Models );
-            string bodyType = GetSelection( "Select body type:", CarData.BodyTypes );
-            string engine = GetSelection( "Select engine:", CarData.EngineTypes );
-            string transmission = String.Empty;
+            string model = GetSelection( "Выберите модель:", CarData.Models );
+            string color = GetSelection( "Выберите цвет:", CarData.Colors );
+            string wheelDrive = GetSelection( "Выберите привод:", CarData.WheelDrive );
+            string wheelPosition = GetSelection( "Выберите сторону руля:", CarData.WheePosition );
 
-            if ( engine.ToLower().Contains( "электр" ) )
-            {
-                transmission = "АКПП";
+            ITransmission transmission = SelectTransmission();
+            ICarEngine engine = SelectEngine();
+            IBodyType bodyType = SelectBodyType();
 
-            }
-
-            string transmission = GetSelection( "Select transmission:", CarData.TransmissionTypes );
-            string color = GetSelection( "Select color:", CarData.Colors );
-            string wheelPosition = GetSelection( "Select wheel position:", CarData.WheelDrive );
-            int gearCount = GetSelection( "Select gear counts:", CarData.GearCounts );
-
-            ICar car = CarFactory.CreateCar( model, bodyType, engine, transmission, color, wheelPosition, gearCount );
+            ICar car = CarFactory.CreateCar( model, bodyType, engine, transmission, color, wheelPosition, wheelDrive );
             _createdCars.Add( car );
 
-            AnsiConsole.MarkupLine( "[green]Car created successfully![/]" );
+            AnsiConsole.MarkupLine( "[green]Машина успешно создана![/]" );
             car.DisplayConfiguration();
         }
         catch ( Exception ex )
         {
-            AnsiConsole.MarkupLine( $"[red]Error: {ex.Message}[/]" );
+            AnsiConsole.MarkupLine( $"[red]Ошибка: {ex.Message}[/]" );
         }
+    }
+
+    private static IBodyType SelectBodyType()
+    {
+        SelectionPrompt<IBodyType> selection = new SelectionPrompt<IBodyType>()
+            .Title( "[green]Выберите кузов:[/]" )
+            .PageSize( 5 )
+            .UseConverter( t => $"{t.GetName()}" )
+            .AddChoices( CarData.BodyTypes );
+
+        return AnsiConsole.Prompt( selection );
+    }
+
+    private static ICarEngine SelectEngine()
+    {
+        SelectionPrompt<ICarEngine> selection = new SelectionPrompt<ICarEngine>()
+            .Title( "[green]Выберите двигатель:[/]" )
+            .PageSize( 5 )
+            .UseConverter( t => $"{t.GetName()} ({t.GetHorsePower()} л.с.)" )
+            .AddChoices( CarData.CarEngines );
+
+        return AnsiConsole.Prompt( selection );
+    }
+
+    private static ITransmission SelectTransmission()
+    {
+        SelectionPrompt<ITransmission> selection = new SelectionPrompt<ITransmission>()
+            .Title( "[green]Выберите тип трансмиссии:[/]" )
+            .PageSize( 5 )
+            .UseConverter( t => $"{t.GetName()} (Кол-во передач: {t.GetGearsAmount()})" )
+            .AddChoices( CarData.Transmissions );
+
+        return AnsiConsole.Prompt( selection );
     }
 
     private static string GetSelection( string title, string[] options )
     {
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title( title )
+                .Title( $"[green]{title}[/]" )
                 .PageSize( 10 )
                 .AddChoices( options ) );
-    }
-
-    private static int GetSelection( string title, int[] options )
-    {
-        string[] stringOptions = options.Select( x => x.ToString() ).ToArray();
-
-        string selected = GetSelection( title, stringOptions );
-
-        return int.Parse( selected );
     }
 }

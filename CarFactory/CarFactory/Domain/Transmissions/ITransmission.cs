@@ -2,7 +2,7 @@
 
 internal interface ITransmission
 {
-    public string GetName();
+    string GetName();
 
-    public int GetGearsAmount();
+    int GetGearsAmount();
 }
