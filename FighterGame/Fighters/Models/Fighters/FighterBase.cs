@@ -1,8 +1,8 @@
-namespace Fighters.Models.Fighters;
+﻿namespace Fighters.Models.Fighters;
 
 public abstract class FighterBase : IFighter
 {
-    public virtual string Name { get; protected set; }
+    public virtual string Name { get; init; }
     protected int _currentHealth;
     protected readonly int _maxHealth;
 
