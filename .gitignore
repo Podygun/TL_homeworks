@@ -1,10 +1,17 @@
-*
-/*
-!FighterGame/Fighters/
-!.gitignore
+# Игнорирование системных папок сборки и IDE
+**/[Bb]in/
+**/[Oo]bj/
+**/.vs/
 
-FighterGame/.vs/
-FighterGame/Fighters/bin
-FighterGame/Fighters/obj
-FighterGame/Fighters/.vs
-FighterGame/Fighters.sln
+# Дополнительные файлы Visual Studio
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.cache
+*.ilk
+*.pdb
+*.log
+*.dll
+*.exe
+*.lib
