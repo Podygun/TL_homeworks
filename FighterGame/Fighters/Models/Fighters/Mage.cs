@@ -28,6 +28,7 @@ public class Mage : FighterBase
 
     public override void TakeDamage( int damage )
     {
-        base.TakeDamage( damage );
+        int totalDamage = damage - CalculateArmor();
+        base.TakeDamage( totalDamage );
     }
 }

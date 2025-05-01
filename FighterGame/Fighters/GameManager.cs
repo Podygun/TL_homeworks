@@ -341,7 +341,7 @@ public class GameManager
         }
     }
 
-    private static string InputString( string message )
+    public static string InputString( string message )
     {
         string input;
         do
@@ -357,7 +357,7 @@ public class GameManager
         return input;
     }
 
-    private static int InputInt( string message, int min, int max )
+    public static int InputInt( string message, int min, int max )
     {
         while ( true )
         {
