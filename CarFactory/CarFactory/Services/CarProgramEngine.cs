@@ -69,7 +69,7 @@ internal sealed class CarProgramEngine
             string model = GetSelection( "Выберите модель:", CarData.Models );
             string color = GetSelection( "Выберите цвет:", CarData.Colors );
             string wheelDrive = GetSelection( "Выберите привод:", CarData.WheelDrive );
-            string wheelPosition = GetSelection( "Выберите сторону руля:", CarData.WheePosition );
+            string wheelPosition = GetSelection( "Выберите сторону руля:", CarData.WheelPosition );
 
             ITransmission transmission = SelectTransmission();
             ICarEngine engine = SelectEngine();
@@ -120,7 +120,7 @@ internal sealed class CarProgramEngine
         return AnsiConsole.Prompt( selection );
     }
 
-    private static string GetSelection( string title, string[] options )
+    private static string GetSelection( string title, IReadOnlyList<string> options )
     {
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()

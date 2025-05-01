@@ -15,11 +15,15 @@ public static class CarData
     internal static readonly IReadOnlyList<ICarEngine> CarEngines =
         [ new DieselCarEngine(), new PetrolCarEngine(), new ElectricCarEngine() ];
 
-    public static readonly string[] Models = [ "Toyota", "BMW", "Audi" ];
+    public static readonly IReadOnlyList<string> Models =
+        new List<string> { "Toyota", "BMW", "Audi" }.AsReadOnly();
 
-    public static readonly string[] Colors = [ "Красный", "Синий", "Черный", "Белый" ];
+    public static readonly IReadOnlyList<string> Colors =
+        new List<string> { "Красный", "Синий", "Черный", "Белый" }.AsReadOnly();
 
-    public static readonly string[] WheelDrive = [ "Передний", "Задний", "Полный" ];
+    public static readonly IReadOnlyList<string> WheelDrive =
+        new List<string> { "Передний", "Задний", "Полный" }.AsReadOnly();
 
-    public static readonly string[] WheePosition = [ "Левый", "Правый" ];
+    public static readonly IReadOnlyList<string> WheelPosition =
+        new List<string> { "Левый", "Правый" }.AsReadOnly();
 }
