@@ -8,6 +8,6 @@ public sealed class RoomType
     public string Currency { get; set; } = null!;
     public int MinPersonCount { get; set; }
     public int MaxPersonCount { get; set; }
-    IEnumerable<RoomService> { get; set; }
-    IEnumerable<RoomAmentity> { get; set; }
+    public IEnumerable<RoomService> RoomServices { get; set; }
+    public IEnumerable<RoomAmentity> RoomAmentities { get; set; }
 }
