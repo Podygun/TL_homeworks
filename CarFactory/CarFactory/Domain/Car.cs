@@ -44,6 +44,8 @@ internal sealed class Car : ICar
 
     public void DisplayConfiguration()
     {
+        AnsiConsole.WriteLine();
+
         Table table = new Table()
             .Title( $"[bold yellow]Конфигурация {Model}[/]" )
             .Border( TableBorder.Rounded )
