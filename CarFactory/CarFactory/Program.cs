@@ -6,14 +6,7 @@ internal sealed class Program
 {
     public static void Main( string[] args )
     {
-        try
-        {
-            CarProgramEngine engine = new();
-            engine.Run();
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"Ошибка: {ex.Message}" );
-        }
+        CarProgramEngine engine = new();
+        engine.Run();
     }
 }
