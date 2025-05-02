@@ -1,4 +1,4 @@
-﻿using CarFactory.Domain.BodyTypes;
+using CarFactory.Domain.BodyTypes;
 using CarFactory.Domain.Engines;
 using CarFactory.Domain.Transmissions;
 using Spectre.Console;
@@ -18,6 +18,8 @@ internal sealed class Car : ICar
     public ICarEngine CarEngine { get; }
     public ITransmission Transmission { get; }
 
+    private const int MinGearsAmountForCalculateMaxSpeed = 5;
+
     public Car( string model, IBodyType bodyType, ICarEngine engine,
         ITransmission transmission, string color, string wheelPosition, string wheelDrive )
     {
@@ -32,7 +34,8 @@ internal sealed class Car : ICar
 
     private int CalculateMaxSpeed()
     {
-        int gearsRatioAspect = GearCount <= 5 ? 5 : GearCount;
+        int gearsRatioAspect = GearCount <= MinGearsAmountForCalculateMaxSpeed ?
+            MinGearsAmountForCalculateMaxSpeed : GearCount;
 
         int maxSpeed = CarEngine.HorsePower / 2 + gearsRatioAspect * 10;
 
