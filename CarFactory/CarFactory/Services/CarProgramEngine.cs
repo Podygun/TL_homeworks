@@ -1,4 +1,4 @@
-﻿using CarFactory.Data;
+using CarFactory.Data;
 using CarFactory.Domain;
 using CarFactory.Domain.BodyTypes;
 using CarFactory.Domain.Engines;
@@ -10,14 +10,30 @@ namespace CarFactory.Services;
 internal sealed class CarProgramEngine
 {
     private readonly List<ICar> _createdCars = [];
+    private bool IsExit = false;
 
     public void Run()
+    {
+        while ( !IsExit )
+        {
+            try
+            {
+                EngineLoop();
+            }
+            catch ( Exception ex )
+            {
+                AnsiConsole.MarkupLine( $"[red]Ошибка {ex.Message}![/]" );
+            }
+        }
+
+    }
+
+    private void EngineLoop()
     {
         AnsiConsole
             .Write( new FigletText( "Car Factory" )
             .LeftJustified()
             .Color( Color.Red ) );
-
         while ( true )
         {
             string choice = AnsiConsole.Prompt(
