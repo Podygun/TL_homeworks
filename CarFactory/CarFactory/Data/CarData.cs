@@ -16,14 +16,14 @@ public static class CarData
         [ new DieselCarEngine(), new PetrolCarEngine(), new ElectricCarEngine() ];
 
     public static readonly IReadOnlyList<string> Models =
-        new List<string> { "Toyota", "BMW", "Audi" }.AsReadOnly();
+        new List<string> { "Toyota", "BMW", "Audi" };
 
     public static readonly IReadOnlyList<string> Colors =
-        new List<string> { "Красный", "Синий", "Черный", "Белый" }.AsReadOnly();
+        new List<string> { "Красный", "Синий", "Черный", "Белый" };
 
     public static readonly IReadOnlyList<string> WheelDrive =
-        new List<string> { "Передний", "Задний", "Полный" }.AsReadOnly();
+        new List<string> { "Передний", "Задний", "Полный" };
 
     public static readonly IReadOnlyList<string> WheelPosition =
-        new List<string> { "Левый", "Правый" }.AsReadOnly();
+        new List<string> { "Левый", "Правый" };
 }
