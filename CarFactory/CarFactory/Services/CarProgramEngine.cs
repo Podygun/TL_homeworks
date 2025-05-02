@@ -1,4 +1,4 @@
-using CarFactory.Data;
+﻿using CarFactory.Data;
 using CarFactory.Domain;
 using CarFactory.Domain.BodyTypes;
 using CarFactory.Domain.Engines;
@@ -44,6 +44,7 @@ internal sealed class CarProgramEngine
                     [
                         "Создать машину",
                         "Посмотреть все созданные машины",
+                        "Очистить консоль",
                         "Выход"
                     ] ) );
 
@@ -58,9 +59,15 @@ internal sealed class CarProgramEngine
                     break;
 
                 case "Выход":
+                    IsExit = true;
                     return;
+
+                case "Очистить консоль":
+                    AnsiConsole.Clear();
+                    break;
             }
         }
+
     }
 
     private void ShowCreatedCars()
@@ -70,8 +77,6 @@ internal sealed class CarProgramEngine
             AnsiConsole.MarkupLine( "[yellow]Машин пока нет.[/]" );
             return;
         }
-
-        Console.Clear();
 
         foreach ( ICar car in _createdCars )
         {
