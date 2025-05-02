@@ -34,7 +34,7 @@ internal sealed class Car : ICar
     {
         int gearsRatioAspect = GearCount <= 5 ? 5 : GearCount;
 
-        int maxSpeed = CarEngine.GetHorsePower() / 2 + gearsRatioAspect * 10;
+        int maxSpeed = CarEngine.HorsePower / 2 + gearsRatioAspect * 10;
 
         return maxSpeed;
     }
@@ -48,9 +48,9 @@ internal sealed class Car : ICar
             .AddColumn( new TableColumn( "[bold]Свойства[/]" ).Centered() );
 
         table.AddRow( "[blue]Модель[/]", Model );
-        table.AddRow( "[blue]Кузов[/]", $"{BodyType.GetName()} " );
+        table.AddRow( "[blue]Кузов[/]", $"{BodyType.Name} " );
         table.AddRow( "[blue]Цвет[/]", $"{Color}" );
-        table.AddRow( "[blue]Двигатель[/]", $"{CarEngine.GetName()} ([green]{CarEngine.GetHorsePower()} л.с.[/])" );
+        table.AddRow( "[blue]Двигатель[/]", $"{CarEngine.Name} ([green]{CarEngine.HorsePower} л.с.[/])" );
         table.AddRow( "[blue]Трансмиссия[/]", $"{Transmission.GetName()} ([green]Передач: {Transmission.GetGearsAmount()}[/])" );
         table.AddRow( "[blue]Привод[/]", $"{WheelDrive}" );
         table.AddRow( "[blue]Руль[/]", $"{WheelPosition}" );

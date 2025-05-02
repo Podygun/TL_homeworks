@@ -2,5 +2,5 @@
 
 internal interface IBodyType
 {
-    string GetName();
+    string Name { get; set; }
 }

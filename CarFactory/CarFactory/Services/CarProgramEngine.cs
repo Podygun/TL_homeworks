@@ -55,6 +55,8 @@ internal sealed class CarProgramEngine
             return;
         }
 
+        Console.Clear();
+
         foreach ( ICar car in _createdCars )
         {
             car.DisplayConfiguration();
@@ -92,7 +94,7 @@ internal sealed class CarProgramEngine
         SelectionPrompt<IBodyType> selection = new SelectionPrompt<IBodyType>()
             .Title( "[green]Выберите кузов:[/]" )
             .PageSize( 5 )
-            .UseConverter( t => $"{t.GetName()}" )
+            .UseConverter( t => $"{t.Name}" )
             .AddChoices( CarData.BodyTypes );
 
         return AnsiConsole.Prompt( selection );
@@ -103,7 +105,7 @@ internal sealed class CarProgramEngine
         SelectionPrompt<ICarEngine> selection = new SelectionPrompt<ICarEngine>()
             .Title( "[green]Выберите двигатель:[/]" )
             .PageSize( 5 )
-            .UseConverter( t => $"{t.GetName()} ({t.GetHorsePower()} л.с.)" )
+            .UseConverter( t => $"{t.Name} ({t.HorsePower} л.с.)" )
             .AddChoices( CarData.CarEngines );
 
         return AnsiConsole.Prompt( selection );
