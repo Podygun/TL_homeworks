@@ -1,32 +1,31 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Infrastructure.Data;
 
 namespace Infrastructure.Repositories;
 
 public sealed class RoomServiceRepository : IRoomServiceRepository
 {
-    private static List<RoomService> _roomServices = [];
-
     public void Add( RoomService roomService )
     {
-        _roomServices.Add( roomService );
+        WebApiDataStorage.RoomServices.Add( roomService );
     }
 
     public void DeleteById( Guid id )
     {
         RoomService roomService = GetById( id );
 
-        _roomServices.Remove( roomService );
+        WebApiDataStorage.RoomServices.Remove( roomService );
     }
 
     public List<RoomService> GetAll()
     {
-        return _roomServices;
+        return WebApiDataStorage.RoomServices;
     }
 
     public RoomService GetById( Guid id )
     {
-        RoomService? roomService = _roomServices.FirstOrDefault( p => p.Id == id );
+        RoomService? roomService = WebApiDataStorage.RoomServices.FirstOrDefault( p => p.Id == id );
 
         if ( roomService is null )
         {

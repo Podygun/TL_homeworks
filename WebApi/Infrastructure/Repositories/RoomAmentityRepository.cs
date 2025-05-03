@@ -1,32 +1,31 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Infrastructure.Data;
 
 namespace Infrastructure.Repositories;
 
 public sealed class RoomAmentityRepository : IRoomAmentityRepository
 {
-    private static List<RoomAmentity> _roomAmentities = [];
-
     public void Add( RoomAmentity roomAmentity )
     {
-        _roomAmentities.Add( roomAmentity );
+        WebApiDataStorage.RoomAmentities.Add( roomAmentity );
     }
 
     public void DeleteById( Guid id )
     {
         RoomAmentity roomAmentity = GetById( id );
 
-        _roomAmentities.Remove( roomAmentity );
+        WebApiDataStorage.RoomAmentities.Remove( roomAmentity );
     }
 
     public List<RoomAmentity> GetAll()
     {
-        return _roomAmentities;
+        return WebApiDataStorage.RoomAmentities;
     }
 
     public RoomAmentity GetById( Guid id )
     {
-        RoomAmentity? roomAmentity = _roomAmentities.FirstOrDefault( p => p.Id == id );
+        RoomAmentity? roomAmentity = WebApiDataStorage.RoomAmentities.FirstOrDefault( p => p.Id == id );
 
         if ( roomAmentity is null )
         {
