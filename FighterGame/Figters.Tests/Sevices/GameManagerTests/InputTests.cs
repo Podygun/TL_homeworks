@@ -4,6 +4,7 @@ namespace Figters.Tests.Sevices.GameManagerTests;
 
 public sealed class InputTests : IDisposable
 {
+
     private StringWriter _stringWriter;
     private StringReader _stringReader;
 
@@ -29,7 +30,7 @@ public sealed class InputTests : IDisposable
         Console.SetIn( _stringReader );
 
         // Act
-        string result = GameManager.InputString( "Введите строку: " );
+        string result = MockGameManager.InputString( "Введите строку: " );
 
         // Assert
         Assert.Equal( input, result );
@@ -45,7 +46,7 @@ public sealed class InputTests : IDisposable
         Console.SetIn( _stringReader );
 
         // Act
-        string result = GameManager.InputString( "Введите строку: " );
+        string result = MockGameManager.InputString( "Введите строку: " );
 
         // Assert
         Assert.Equal( "Test Input", result );
@@ -62,7 +63,7 @@ public sealed class InputTests : IDisposable
         Console.SetIn( _stringReader );
 
         // Act
-        int result = GameManager.InputInt( "Введите число от 1 до 10: ", 1, 10 );
+        int result = MockGameManager.InputInt( "Введите число от 1 до 10: ", 1, 10 );
 
         // Assert
         Assert.Equal( 5, result );
@@ -78,7 +79,7 @@ public sealed class InputTests : IDisposable
         Console.SetIn( _stringReader );
 
         // Act
-        int result = GameManager.InputInt( "Введите число от 1 до 10: ", 1, 10 );
+        int result = MockGameManager.InputInt( "Введите число от 1 до 10: ", 1, 10 );
 
         // Assert
         Assert.Equal( 7, result );
@@ -95,7 +96,7 @@ public sealed class InputTests : IDisposable
         Console.SetIn( _stringReader );
 
         // Act
-        int result = GameManager.InputInt( "Введите число от 1 до 10: ", 1, 10 );
+        int result = MockGameManager.InputInt( "Введите число от 1 до 10: ", 1, 10 );
 
         // Assert
         Assert.Equal( 5, result );
