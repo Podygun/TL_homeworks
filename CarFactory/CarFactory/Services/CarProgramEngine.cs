@@ -72,7 +72,7 @@ internal sealed class CarProgramEngine
 
     private void ShowCreatedCars()
     {
-        if ( _createdCars.Count == 0 )
+        if ( !_createdCars.Any() )
         {
             AnsiConsole.MarkupLine( "[yellow]Машин пока нет.[/]" );
             return;
