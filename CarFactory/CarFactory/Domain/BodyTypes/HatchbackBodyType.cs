@@ -2,5 +2,5 @@
 
 internal sealed class HatchbackBodyType : BaseBodyType
 {
-    public HatchbackBodyType() : base( "Хэтчбэк" ) { }
+    public HatchbackBodyType() : base( Localizator.HatchbackBodyType ) { }
 }

@@ -46,20 +46,21 @@ internal sealed class Car : ICar
     {
         AnsiConsole.WriteLine();
 
-        Table table = new Table()
-            .Title( $"[bold yellow]Конфигурация {Model}[/]" )
-            .Border( TableBorder.Rounded )
-            .AddColumn( new TableColumn( "[bold]Описание[/]" ).Centered() )
-            .AddColumn( new TableColumn( "[bold]Свойства[/]" ).Centered() );
+        Table table = new Table();
 
-        table.AddRow( "[blue]Модель[/]", Model );
-        table.AddRow( "[blue]Кузов[/]", $"{BodyType.Name} " );
-        table.AddRow( "[blue]Цвет[/]", $"{Color}" );
-        table.AddRow( "[blue]Двигатель[/]", $"{CarEngine.Name} ([green]{CarEngine.HorsePower} л.с.[/])" );
-        table.AddRow( "[blue]Трансмиссия[/]", $"{Transmission.GetName()} ([green]Передач: {Transmission.GetGearsAmount()}[/])" );
-        table.AddRow( "[blue]Привод[/]", $"{WheelDrive}" );
-        table.AddRow( "[blue]Руль[/]", $"{WheelPosition}" );
-        table.AddRow( "[blue]Макс. скорость[/]", $"[bold]{MaxSpeed} км/ч[/]" );
+        table.Title( $"[bold yellow]{Localizator.ConfigurationTitle} {Model}[/]" );
+        table.Border( TableBorder.Rounded );
+        table.AddColumn( new TableColumn( $"[bold]{Localizator.DescriptionColumn}[/]" ).Centered() );
+        table.AddColumn( new TableColumn( $"[bold]{Localizator.PropertiesColumn}[/]" ).Centered() );
+
+        table.AddRow( $"[blue]{Localizator.ModelLabel}[/]", Model ?? "Не указано" );
+        table.AddRow( $"[blue]{Localizator.BodyLabel}[/]", BodyType?.Name ?? "Не указано" );
+        table.AddRow( $"[blue]{Localizator.ColorLabel}[/]", Color ?? "Не указано" );
+        table.AddRow( $"[blue]{Localizator.EngineLabel}[/]", $"{CarEngine?.Name ?? "Не указано"} ([green]{CarEngine?.HorsePower ?? 0} {Localizator.HorsePowerTitle}[/])" );
+        table.AddRow( $"[blue]{Localizator.TransmissionLabel}[/]", $"{Transmission?.GetName() ?? "Не указано"} ([green]{Localizator.GearsLabel}: {Transmission?.GetGearsAmount() ?? 0}[/])" );
+        table.AddRow( $"[blue]{Localizator.WheelDriveLabel}[/]", WheelDrive ?? "Не указано" );
+        table.AddRow( $"[blue]{Localizator.WheelPositionLabel}[/]", WheelPosition ?? "Не указано" );
+        table.AddRow( $"[blue]{Localizator.MaxSpeedLabel}[/]", $"[bold]{MaxSpeed} {Localizator.SpeedValue}[/]" );
 
         AnsiConsole.Write( table );
     }

@@ -2,5 +2,5 @@
 
 internal sealed class AutomaticTransmission : BaseTransmission
 {
-    public AutomaticTransmission() : base( "АКПП", 8 ) { }
+    public AutomaticTransmission() : base( Localizator.AutomaticTransmission, 8 ) { }
 }

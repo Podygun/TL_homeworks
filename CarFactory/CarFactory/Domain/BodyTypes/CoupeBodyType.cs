@@ -2,5 +2,5 @@
 
 internal sealed class CoupeBodyType : BaseBodyType
 {
-    public CoupeBodyType() : base( "Купе" ) { }
+    public CoupeBodyType() : base( Localizator.CoupeBodyType ) { }
 }

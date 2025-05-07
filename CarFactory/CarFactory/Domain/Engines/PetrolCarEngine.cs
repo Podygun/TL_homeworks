@@ -2,5 +2,5 @@
 
 internal sealed class PetrolCarEngine : BaseCarEngine
 {
-    public PetrolCarEngine() : base( "V8 Бензиновый двигатель", 450 ) { }
+    public PetrolCarEngine() : base( Localizator.PetrolEngine, 450 ) { }
 }

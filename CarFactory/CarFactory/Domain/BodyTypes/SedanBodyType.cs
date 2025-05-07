@@ -2,5 +2,5 @@
 
 internal sealed class SedanBodyType : BaseBodyType
 {
-    public SedanBodyType() : base( "Седан" ) { }
+    public SedanBodyType() : base( Localizator.SedanBodyType ) { }
 }

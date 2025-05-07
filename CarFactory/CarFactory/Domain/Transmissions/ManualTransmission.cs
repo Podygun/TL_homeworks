@@ -2,5 +2,5 @@
 
 internal sealed class ManualTransmission : BaseTransmission
 {
-    public ManualTransmission() : base( "МКПП", 6 ) { }
+    public ManualTransmission() : base( Localizator.ManualTransmission, 6 ) { }
 }

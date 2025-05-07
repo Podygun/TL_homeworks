@@ -1,4 +1,4 @@
-﻿using CarFactory.Data;
+using CarFactory.Data;
 using CarFactory.Domain;
 using CarFactory.Domain.BodyTypes;
 using CarFactory.Domain.Engines;
@@ -22,7 +22,7 @@ internal sealed class CarProgramEngine
             }
             catch ( Exception ex )
             {
-                AnsiConsole.MarkupLine( $"[red]Ошибка {ex.Message}![/]" );
+                AnsiConsole.MarkupLine( $"[red]{Localizator.ErrorPrefix} {ex.Message}![/]" );
             }
         }
 
@@ -38,33 +38,35 @@ internal sealed class CarProgramEngine
         {
             string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title( "Выберите действие:" )
+                    .Title( $"{Localizator.SelectAction}" )
                     .PageSize( 10 )
                     .AddChoices(
                     [
-                        "Создать машину",
-                        "Посмотреть все созданные машины",
-                        "Очистить консоль",
-                        "Выход"
+                        Localizator.CreateCar,
+                        Localizator.ViewAllCars,
+                        Localizator.ClearConsole,
+                        Localizator.Exit
                     ] ) );
 
             switch ( choice )
             {
-                case "Создать машину":
+                case var _ when choice == Localizator.CreateCar:
                     CreateCar();
                     break;
 
-                case "Посмотреть все созданные машины":
+                case var _ when choice == Localizator.ViewAllCars:
                     ShowCreatedCars();
                     break;
 
-                case "Выход":
+                case var _ when choice == Localizator.Exit:
                     IsExit = true;
                     return;
 
-                case "Очистить консоль":
+                case var _ when choice == Localizator.ClearConsole:
                     AnsiConsole.Clear();
                     break;
+                default:
+                    continue;
             }
         }
 
@@ -74,7 +76,7 @@ internal sealed class CarProgramEngine
     {
         if ( !_createdCars.Any() )
         {
-            AnsiConsole.MarkupLine( "[yellow]Машин пока нет.[/]" );
+            AnsiConsole.MarkupLine( $"[yellow]{Localizator.NoCarsAvailable}.[/]" );
             return;
         }
 
@@ -89,10 +91,10 @@ internal sealed class CarProgramEngine
     {
         try
         {
-            string model = GetSelection( "Выберите модель:", CarData.Models );
-            string color = GetSelection( "Выберите цвет:", CarData.Colors );
-            string wheelDrive = GetSelection( "Выберите привод:", CarData.WheelDrive );
-            string wheelPosition = GetSelection( "Выберите сторону руля:", CarData.WheelPosition );
+            string model = GetSelection( $"{Localizator.SelectModelPrompt}:", CarData.Models );
+            string color = GetSelection( $"{Localizator.SelectColorPrompt}:", CarData.Colors );
+            string wheelDrive = GetSelection( $"{Localizator.SelectWheelDrivePrompt}:", CarData.WheelDrive );
+            string wheelPosition = GetSelection( $"{Localizator.SelectWheelPositionPrompt}:", CarData.WheelPosition );
 
             ITransmission transmission = SelectTransmission();
             ICarEngine engine = SelectEngine();
@@ -101,19 +103,19 @@ internal sealed class CarProgramEngine
             ICar car = CarFactory.CreateCar( model, bodyType, engine, transmission, color, wheelPosition, wheelDrive );
             _createdCars.Add( car );
 
-            AnsiConsole.MarkupLine( "[green]Машина успешно создана![/]" );
+            AnsiConsole.MarkupLine( $"[green]{Localizator.CarSuccessfullyCreated}![/]" );
             car.DisplayConfiguration();
         }
         catch ( Exception ex )
         {
-            AnsiConsole.MarkupLine( $"[red]Ошибка: {ex.Message}[/]" );
+            AnsiConsole.MarkupLine( $"[red]{Localizator.Error}: {ex.Message}[/]" );
         }
     }
 
     private static IBodyType SelectBodyType()
     {
         SelectionPrompt<IBodyType> selection = new SelectionPrompt<IBodyType>()
-            .Title( "[green]Выберите кузов:[/]" )
+            .Title( $"[green]{Localizator.SelectBody}[/]" )
             .PageSize( 5 )
             .UseConverter( t => $"{t.Name}" )
             .AddChoices( CarData.BodyTypes );
@@ -124,9 +126,9 @@ internal sealed class CarProgramEngine
     private static ICarEngine SelectEngine()
     {
         SelectionPrompt<ICarEngine> selection = new SelectionPrompt<ICarEngine>()
-            .Title( "[green]Выберите двигатель:[/]" )
+            .Title( $"[green]{Localizator.SelectEngine}[/]" )
             .PageSize( 5 )
-            .UseConverter( t => $"{t.Name} ({t.HorsePower} л.с.)" )
+            .UseConverter( t => $"{t.Name} ({t.HorsePower} {Localizator.HorsePowerTitle}.)" )
             .AddChoices( CarData.CarEngines );
 
         return AnsiConsole.Prompt( selection );
@@ -135,9 +137,9 @@ internal sealed class CarProgramEngine
     private static ITransmission SelectTransmission()
     {
         SelectionPrompt<ITransmission> selection = new SelectionPrompt<ITransmission>()
-            .Title( "[green]Выберите тип трансмиссии:[/]" )
+            .Title( $"[green]{Localizator.SelectTransmission}[/]" )
             .PageSize( 5 )
-            .UseConverter( t => $"{t.GetName()} (Кол-во передач: {t.GetGearsAmount()})" )
+            .UseConverter( t => $"{t.GetName()} ({Localizator.GearsLabel}: {t.GetGearsAmount()})" )
             .AddChoices( CarData.Transmissions );
 
         return AnsiConsole.Prompt( selection );

@@ -2,5 +2,5 @@
 
 internal sealed class DieselCarEngine : BaseCarEngine
 {
-    public DieselCarEngine() : base( "Дизельный 2.0L двигатель", 300 ) { }
+    public DieselCarEngine() : base( Localizator.DieselEngine, 300 ) { }
 }

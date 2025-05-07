@@ -2,5 +2,5 @@
 
 internal sealed class VariatorTransmission : BaseTransmission
 {
-    public VariatorTransmission() : base( "Вариатор", 1 ) { }
+    public VariatorTransmission() : base( Localizator.VariatorTransmission, 1 ) { }
 }
