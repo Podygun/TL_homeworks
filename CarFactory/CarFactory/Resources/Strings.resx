@@ -154,7 +154,7 @@
     <value>Select model</value>
   </data>
   <data name="SelectColorPrompt" xml:space="preserve">
-    <value>Select color:</value>
+    <value>Select color</value>
   </data>
   <data name="SelectWheelDrivePrompt" xml:space="preserve">
     <value>Select drivetrain</value>
@@ -193,7 +193,7 @@
     <value>Gears</value>
   </data>
   <data name="SelectAction" xml:space="preserve">
-    <value>Select an action:</value>
+    <value>Select an action</value>
   </data>
   <data name="SpeedValue" xml:space="preserve">
     <value>km/h</value>
@@ -211,10 +211,10 @@
     <value>Exit</value>
   </data>
   <data name="NoCarsAvailable" xml:space="preserve">
-    <value>No cars available.</value>
+    <value>No cars available</value>
   </data>
   <data name="SelectBody" xml:space="preserve">
-    <value>Select body type:</value>
+    <value>Select body type</value>
   </data>
   <data name="SelectEngine" xml:space="preserve">
     <value>Select engine</value>
@@ -223,7 +223,7 @@
     <value>Select transmission type</value>
   </data>
   <data name="CarSuccessfullyCreated" xml:space="preserve">
-    <value>Car successfully created!</value>
+    <value>Car successfully created</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>

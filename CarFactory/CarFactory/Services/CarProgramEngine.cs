@@ -10,11 +10,11 @@ namespace CarFactory.Services;
 internal sealed class CarProgramEngine
 {
     private readonly List<ICar> _createdCars = [];
-    private bool IsExit = false;
+    private bool _isExit = false;
 
     public void Run()
     {
-        while ( !IsExit )
+        while ( !_isExit )
         {
             try
             {
@@ -59,7 +59,7 @@ internal sealed class CarProgramEngine
                     break;
 
                 case var _ when choice == Localizator.Exit:
-                    IsExit = true;
+                    _isExit = true;
                     return;
 
                 case var _ when choice == Localizator.ClearConsole:
@@ -115,7 +115,7 @@ internal sealed class CarProgramEngine
     private static IBodyType SelectBodyType()
     {
         SelectionPrompt<IBodyType> selection = new SelectionPrompt<IBodyType>()
-            .Title( $"[green]{Localizator.SelectBody}[/]" )
+            .Title( $"[green]{Localizator.SelectBody}:[/]" )
             .PageSize( 5 )
             .UseConverter( t => $"{t.Name}" )
             .AddChoices( CarData.BodyTypes );
@@ -126,7 +126,7 @@ internal sealed class CarProgramEngine
     private static ICarEngine SelectEngine()
     {
         SelectionPrompt<ICarEngine> selection = new SelectionPrompt<ICarEngine>()
-            .Title( $"[green]{Localizator.SelectEngine}[/]" )
+            .Title( $"[green]{Localizator.SelectEngine}:[/]" )
             .PageSize( 5 )
             .UseConverter( t => $"{t.Name} ({t.HorsePower} {Localizator.HorsePowerTitle}.)" )
             .AddChoices( CarData.CarEngines );
@@ -137,7 +137,7 @@ internal sealed class CarProgramEngine
     private static ITransmission SelectTransmission()
     {
         SelectionPrompt<ITransmission> selection = new SelectionPrompt<ITransmission>()
-            .Title( $"[green]{Localizator.SelectTransmission}[/]" )
+            .Title( $"[green]{Localizator.SelectTransmission}:[/]" )
             .PageSize( 5 )
             .UseConverter( t => $"{t.GetName()} ({Localizator.GearsLabel}: {t.GetGearsAmount()})" )
             .AddChoices( CarData.Transmissions );
