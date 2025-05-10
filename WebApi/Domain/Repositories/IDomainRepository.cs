@@ -5,7 +5,7 @@ public interface IDomainRepository<T>
 {
     Task AddAsync( T entity );
 
-    Task<T> GetByIdAsync( Guid id );
+    Task<T?> GetByIdAsync( Guid id );
 
     Task<List<T>> GetAllAsync();
 
