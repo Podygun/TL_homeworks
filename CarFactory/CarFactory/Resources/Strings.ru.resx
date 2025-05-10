@@ -231,4 +231,40 @@
   <data name="HorsePowerTitle" xml:space="preserve">
     <value>л.с.</value>
   </data>
+  <data name="Models_Toyota" xml:space="preserve">
+    <value>Тойота</value>
+</data>
+<data name="Models_BMW" xml:space="preserve">
+    <value>БМВ</value>
+</data>
+<data name="Models_Audi" xml:space="preserve">
+    <value>Ауди</value>
+</data>
+<data name="Colors_Red" xml:space="preserve">
+    <value>Красный</value>
+</data>
+<data name="Colors_Blue" xml:space="preserve">
+    <value>Синий</value>
+</data>
+<data name="Colors_Black" xml:space="preserve">
+    <value>Черный</value>
+</data>
+<data name="Colors_White" xml:space="preserve">
+    <value>Белый</value>
+</data>
+<data name="WheelDrive_Front" xml:space="preserve">
+    <value>Передний</value>
+</data>
+<data name="WheelDrive_Rear" xml:space="preserve">
+    <value>Задний</value>
+</data>
+<data name="WheelDrive_All" xml:space="preserve">
+    <value>Полный</value>
+</data>
+<data name="WheelPosition_Left" xml:space="preserve">
+    <value>Левый</value>
+</data>
+<data name="WheelPosition_Right" xml:space="preserve">
+    <value>Правый</value>
+</data>
 </root>

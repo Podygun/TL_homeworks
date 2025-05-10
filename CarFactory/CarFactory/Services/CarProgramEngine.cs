@@ -91,10 +91,35 @@ internal sealed class CarProgramEngine
     {
         try
         {
-            string model = GetSelection( $"{Localizator.SelectModelPrompt}:", CarData.Models );
-            string color = GetSelection( $"{Localizator.SelectColorPrompt}:", CarData.Colors );
-            string wheelDrive = GetSelection( $"{Localizator.SelectWheelDrivePrompt}:", CarData.WheelDrive );
-            string wheelPosition = GetSelection( $"{Localizator.SelectWheelPositionPrompt}:", CarData.WheelPosition );
+            string modelName = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title( Localizator.SelectModelPrompt )
+                    .PageSize( 5 )
+                    .AddChoices( EnumExtensions.GetLocalizedModelNames() ) );
+
+            string colorName = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title( Localizator.SelectColorPrompt )
+                    .PageSize( 5 )
+                    .AddChoices( EnumExtensions.GetLocalizedColorNames() ) );
+
+            string wheelDriveName = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title( Localizator.SelectWheelDrivePrompt )
+                    .PageSize( 5 )
+                    .AddChoices( EnumExtensions.GetLocalizedWheelDrive() ) );
+
+            string wheelPositionName = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title( Localizator.SelectWheelPositionPrompt )
+                    .PageSize( 5 )
+                    .AddChoices( EnumExtensions.GetLocalizedWheelPosition() ) );
+
+            var model = EnumExtensions.GetModelByLocalizedName( modelName ).ToString();
+            var color = EnumExtensions.GetColorByLocalizedName( colorName ).ToString();
+            var wheelDrive = EnumExtensions.GetWheelDriveByLocalizedName( wheelDriveName ).ToString();
+            var wheelPosition = EnumExtensions.GetWheelPositionByLocalizedName( wheelPositionName ).ToString();
+
 
             ITransmission transmission = SelectTransmission();
             ICarEngine engine = SelectEngine();
@@ -145,7 +170,7 @@ internal sealed class CarProgramEngine
         return AnsiConsole.Prompt( selection );
     }
 
-    private static string GetSelection( string title, IReadOnlyList<string> options )
+    private static string GetSelection( string title, IEnumerable<string> options )
     {
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()

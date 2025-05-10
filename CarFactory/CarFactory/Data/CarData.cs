@@ -15,15 +15,31 @@ public static class CarData
     internal static readonly IReadOnlyList<ICarEngine> CarEngines =
         [ new DieselCarEngine(), new PetrolCarEngine(), new ElectricCarEngine() ];
 
-    public static readonly IReadOnlyList<string> Models =
-        new List<string> { "Toyota", "BMW", "Audi" };
+    public enum CarModels
+    {
+        Toyota,
+        BMW,
+        Audi
+    }
 
-    public static readonly IReadOnlyList<string> Colors =
-        new List<string> { "Красный", "Синий", "Черный", "Белый" };
+    public enum CarColors
+    {
+        Красный,
+        Синий,
+        Черный,
+        Белый
+    }
 
-    public static readonly IReadOnlyList<string> WheelDrive =
-        new List<string> { "Передний", "Задний", "Полный" };
+    public enum WheelDrives
+    {
+        Передний,
+        Задний,
+        Полный
+    }
 
-    public static readonly IReadOnlyList<string> WheelPosition =
-        new List<string> { "Левый", "Правый" };
+    public enum WheelPositions
+    {
+        Левый,
+        Правый
+    }
 }
