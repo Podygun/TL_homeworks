@@ -1,44 +1,68 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 public sealed class RoomServiceRepository : IRoomServiceRepository
 {
-    public void Add( RoomService roomService )
+    private readonly ApplicationDbContext _context;
+
+    public RoomServiceRepository( ApplicationDbContext context )
     {
-        WebApiDataStorage.RoomServices.Add( roomService );
+        _context = context;
     }
 
-    public void DeleteById( Guid id )
+    public async Task<List<RoomService>> GetAllAsync()
     {
-        RoomService roomService = GetById( id );
-
-        WebApiDataStorage.RoomServices.Remove( roomService );
+        return await _context.RoomServices.ToListAsync();
     }
 
-    public List<RoomService> GetAll()
+    public async Task<RoomService> GetByIdAsync( Guid id )
     {
-        return WebApiDataStorage.RoomServices;
-    }
-
-    public RoomService GetById( Guid id )
-    {
-        RoomService? roomService = WebApiDataStorage.RoomServices.FirstOrDefault( p => p.Id == id );
+        RoomService? roomService = await _context.RoomServices.FindAsync( id );
 
         if ( roomService is null )
         {
-            throw new InvalidOperationException( $"Room service with id {id} does not exist" );
+            throw new InvalidOperationException( $"Room Service with id {id} does not exist" );
         }
 
         return roomService;
     }
 
-    public void Update( RoomService roomService )
+    public async Task AddAsync( RoomService roomService )
     {
-        RoomService existingRoomService = GetById( roomService.Id );
+        await _context.RoomServices.AddAsync( roomService );
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync( RoomService roomService )
+    {
+        RoomService? existingRoomService = await GetByIdAsync( roomService.Id );
+
+        if ( existingRoomService is null )
+        {
+            throw new InvalidOperationException( $"Room Service with id {roomService.Id} does not exist" );
+        }
 
         existingRoomService.Name = roomService.Name;
+        existingRoomService.RoomTypes = roomService.RoomTypes;
+
+        _context.RoomServices.Update( existingRoomService );
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteByIdAsync( Guid id )
+    {
+        RoomService? roomService = await GetByIdAsync( id );
+
+        if ( roomService is null )
+        {
+            throw new InvalidOperationException( $"Property with id {roomService.Id} does not exist" );
+        }
+
+        _context.RoomServices.Remove( roomService );
+        await _context.SaveChangesAsync();
     }
 }

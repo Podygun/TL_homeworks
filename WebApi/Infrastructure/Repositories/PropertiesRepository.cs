@@ -1,26 +1,27 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 public sealed class PropertiesRepository : IPropertiesRepository
 {
-    public void Add( Property property )
+    private readonly ApplicationDbContext _context;
+
+    public PropertiesRepository( ApplicationDbContext context )
     {
-        WebApiDataStorage.Properties.Add( property );
+        _context = context;
     }
 
-    public void DeleteById( Guid id )
+    public async Task<List<Property>> GetAllAsync()
     {
-        Property property = GetById( id );
-
-        WebApiDataStorage.Properties.Remove( property );
+        return await _context.Properties.ToListAsync();
     }
 
-    public Property GetById( Guid id )
+    public async Task<Property> GetByIdAsync( Guid id )
     {
-        Property? property = WebApiDataStorage.Properties.FirstOrDefault( p => p.Id == id );
+        Property? property = await _context.Properties.FindAsync( id );
 
         if ( property is null )
         {
@@ -30,15 +31,43 @@ public sealed class PropertiesRepository : IPropertiesRepository
         return property;
     }
 
-    public List<Property> GetAll()
+    public async Task AddAsync( Property property )
     {
-        return WebApiDataStorage.Properties;
+        await _context.Properties.AddAsync( property );
+        await _context.SaveChangesAsync();
     }
 
-    public void Update( Property property )
+    public async Task UpdateAsync( Property property )
     {
-        Property existingProperty = GetById( property.Id );
+        Property? existingProperty = await GetByIdAsync( property.Id );
+
+        if ( existingProperty is null )
+        {
+            throw new InvalidOperationException( $"Property with id {property.Id} does not exist" );
+        }
 
         existingProperty.Name = property.Name;
+        existingProperty.Country = property.Country;
+        existingProperty.Address = property.Address;
+        existingProperty.Longitude = property.Longitude;
+        existingProperty.Latitude = property.Latitude;
+        existingProperty.City = property.City;
+
+        _context.Properties.Update( existingProperty );
+        await _context.SaveChangesAsync();
     }
+
+    public async Task DeleteByIdAsync( Guid id )
+    {
+        Property? property = await GetByIdAsync( id );
+
+        if ( property is null )
+        {
+            throw new InvalidOperationException( $"Property with id {id} does not exist" );
+        }
+
+        _context.Properties.Remove( property );
+        await _context.SaveChangesAsync();
+    }
+
 }
