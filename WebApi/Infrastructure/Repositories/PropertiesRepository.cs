@@ -19,16 +19,9 @@ public sealed class PropertiesRepository : IPropertiesRepository
         return await _context.Properties.ToListAsync();
     }
 
-    public async Task<Property> GetByIdAsync( Guid id )
+    public async Task<Property?> GetByIdAsync( Guid id )
     {
-        Property? property = await _context.Properties.FindAsync( id );
-
-        if ( property is null )
-        {
-            throw new InvalidOperationException( $"Property with id {id} does not exist" );
-        }
-
-        return property;
+        return await _context.Properties.FindAsync( id );
     }
 
     public async Task AddAsync( Property property )
