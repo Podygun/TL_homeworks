@@ -3,13 +3,13 @@
 
 public interface IDomainRepository<T>
 {
-    void Add( T entity );
+    Task AddAsync( T entity );
 
-    T GetById( Guid id );
+    Task<T> GetByIdAsync( Guid id );
 
-    List<T> GetAll();
+    Task<List<T>> GetAllAsync();
 
-    void Update( T entity );
+    Task UpdateAsync( T entity );
 
-    void DeleteById( Guid id );
+    Task DeleteByIdAsync( Guid id );
 }
