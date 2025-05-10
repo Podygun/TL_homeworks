@@ -5,6 +5,8 @@ public sealed class RoomService
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
 
+    public IList<RoomType> RoomTypes { get; set; } = [];
+
     public RoomService( Guid id, string name )
     {
         Id = id;

@@ -8,6 +8,9 @@ public sealed class RoomType
     public string Currency { get; set; } = null!;
     public int MinPersonCount { get; set; }
     public int MaxPersonCount { get; set; }
-    public IList<RoomService>? RoomServices { get; set; }
-    public IList<RoomAmentity>? RoomAmentities { get; set; }
+
+    public Property Property { get; set; } = null!;
+
+    public IList<RoomService> RoomServices { get; set; } = [];
+    public IList<RoomAmentity> RoomAmentities { get; set; } = [];
 }

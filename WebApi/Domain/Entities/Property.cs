@@ -10,6 +10,8 @@ public sealed class Property
     public double Latitude { get; set; }
     public double Longitude { get; set; }
 
+    public IList<RoomType> RoomTypes { get; set; } = [];
+
 
     public Property( string name, string country,
         string city, string address, double latitude, double longitude )
