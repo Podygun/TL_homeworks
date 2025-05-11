@@ -1,20 +1,20 @@
 
+using Domain.Repositories;
+using Infrastructure.Data;
+using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace ReservationApi
 {
     public class Program
     {
         public static void Main( string[] args )
         {
-            var builder = WebApplication.CreateBuilder( args );
+            WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
-            // Add services to the container.
+            RegisterServices( builder );
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if ( app.Environment.IsDevelopment() )
@@ -31,6 +31,24 @@ namespace ReservationApi
             app.MapControllers();
 
             app.Run();
+        }
+
+        public static void RegisterServices( WebApplicationBuilder builder )
+        {
+            // SQLite database connection
+            builder.Services.AddDbContext<ApplicationDbContext>( options =>
+                options.UseSqlite( builder.Configuration.GetConnectionString( "DefaultConnection" ) ) );
+
+            // DI services
+            builder.Services.AddScoped<IPropertiesRepository, PropertiesRepository>();
+            builder.Services.AddScoped<IRoomServiceRepository, RoomServiceRepository>();
+            builder.Services.AddScoped<IRoomAmentityRepository, RoomAmentityRepository>();
+            builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
+
+            // Built-in services
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
         }
     }
 }
