@@ -219,7 +219,7 @@ public class GameManager
         return ChooseFighterClass( name, race, weapon, armor );
     }
 
-    protected FighterBase ChooseFighterClass( string name, IRace race, WeaponBase weapon, IArmor armor )
+    protected virtual FighterBase ChooseFighterClass( string name, IRace race, WeaponBase weapon, IArmor armor )
     {
         Console.WriteLine( "\nВыберите класс:" );
         List<string> classes = GameItems.FighterClasses.Keys.ToList();
@@ -235,7 +235,7 @@ public class GameManager
         return GameItems.FighterClasses[ selectedClass ]( name, race, weapon, armor );
     }
 
-    protected IRace ChooseRace()
+    protected virtual IRace ChooseRace()
     {
         Console.WriteLine( "\nВыберите расу:" );
 
@@ -250,7 +250,7 @@ public class GameManager
         return GameItems.Races[ choice - 1 ];
     }
 
-    protected WeaponBase ChooseWeapon()
+    protected virtual WeaponBase ChooseWeapon()
     {
         Console.WriteLine( "\nВыберите оружие:" );
 
@@ -264,7 +264,7 @@ public class GameManager
         return GameItems.Weapons[ choice - 1 ];
     }
 
-    protected IArmor ChooseArmor()
+    protected virtual IArmor ChooseArmor()
     {
         Console.WriteLine( "\nВыберите броню:" );
 
@@ -370,8 +370,13 @@ public class GameManager
         }
     }
 
-    protected static void ResetFightersState( List<FighterBase> fighters )
+    protected static void ResetFightersState( List<FighterBase>? fighters )
     {
+        if ( fighters is null )
+        {
+            throw new NullReferenceException( nameof( fighters ) );
+        }
+
         foreach ( FighterBase fighter in fighters )
         {
             fighter.ResetState();
