@@ -76,9 +76,4 @@ public sealed class Localizator
     public static string ManualTransmission => Get( "ManualTransmission" );
     public static string VariatorTransmission => Get( "VariatorTransmission" );
 
-    // Enums
-    public static string GetModelName( string model ) => Get( $"Models_{model}" );
-    public static string GetColorName( string color ) => Get( $"Colors_{color}" );
-    public static string GetWheelDriveName( string drive ) => Get( $"WheelDrive_{drive}" );
-    public static string GetWheelPositionName( string position ) => Get( $"WheelPosition_{position}" );
 }

@@ -231,40 +231,40 @@
   <data name="HorsePowerTitle" xml:space="preserve">
     <value>h.p.</value>
   </data>
-  <data name="Models_Toyota" xml:space="preserve">
+<data name="Toyota" xml:space="preserve">
     <value>Toyota</value>
 </data>
-<data name="Models_BMW" xml:space="preserve">
+<data name="BMW" xml:space="preserve">
     <value>BMW</value>
 </data>
-<data name="Models_Audi" xml:space="preserve">
+<data name="Audi" xml:space="preserve">
     <value>Audi</value>
 </data>
-<data name="Colors_Red" xml:space="preserve">
+<data name="Red" xml:space="preserve">
     <value>Red</value>
 </data>
-<data name="Colors_Blue" xml:space="preserve">
+<data name="Blue" xml:space="preserve">
     <value>Blue</value>
 </data>
-<data name="Colors_Black" xml:space="preserve">
+<data name="Black" xml:space="preserve">
     <value>Black</value>
 </data>
-<data name="Colors_White" xml:space="preserve">
+<data name="White" xml:space="preserve">
     <value>White</value>
 </data>
-<data name="WheelDrive_Front" xml:space="preserve">
+<data name="Front" xml:space="preserve">
     <value>Front</value>
 </data>
-<data name="WheelDrive_Rear" xml:space="preserve">
+<data name="Rear" xml:space="preserve">
     <value>Rear</value>
 </data>
-<data name="WheelDrive_All" xml:space="preserve">
+<data name="All" xml:space="preserve">
     <value>All</value>
 </data>
-<data name="WheelPosition_Left" xml:space="preserve">
+<data name="Left" xml:space="preserve">
     <value>Left</value>
 </data>
-<data name="WheelPosition_Right" xml:space="preserve">
+<data name="Right" xml:space="preserve">
     <value>Right</value>
 </data>
 </root>

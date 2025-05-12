@@ -4,6 +4,7 @@ using CarFactory.Domain.BodyTypes;
 using CarFactory.Domain.Engines;
 using CarFactory.Domain.Transmissions;
 using Spectre.Console;
+using static CarFactory.Data.CarData;
 
 namespace CarFactory.Services;
 
@@ -69,7 +70,6 @@ internal sealed class CarProgramEngine
                     continue;
             }
         }
-
     }
 
     private void ShowCreatedCars()
@@ -91,41 +91,21 @@ internal sealed class CarProgramEngine
     {
         try
         {
-            string modelName = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title( Localizator.SelectModelPrompt )
-                    .PageSize( 5 )
-                    .AddChoices( EnumExtensions.GetLocalizedModelNames() ) );
+            string[] models = Enum.GetValues( typeof( CarModels ) ).Cast<CarModels>().Select( m => m.GetLocalizedName() ).ToArray();
+            string[] colors = Enum.GetValues( typeof( CarColors ) ).Cast<CarColors>().Select( c => c.GetLocalizedName() ).ToArray();
+            string[] wheelDrives = Enum.GetValues( typeof( WheelDrives ) ).Cast<WheelDrives>().Select( d => d.GetLocalizedName() ).ToArray();
+            string[] wheelPositions = Enum.GetValues( typeof( WheelPositions ) ).Cast<WheelPositions>().Select( p => p.GetLocalizedName() ).ToArray();
 
-            string colorName = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title( Localizator.SelectColorPrompt )
-                    .PageSize( 5 )
-                    .AddChoices( EnumExtensions.GetLocalizedColorNames() ) );
-
-            string wheelDriveName = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title( Localizator.SelectWheelDrivePrompt )
-                    .PageSize( 5 )
-                    .AddChoices( EnumExtensions.GetLocalizedWheelDrive() ) );
-
-            string wheelPositionName = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title( Localizator.SelectWheelPositionPrompt )
-                    .PageSize( 5 )
-                    .AddChoices( EnumExtensions.GetLocalizedWheelPosition() ) );
-
-            var model = EnumExtensions.GetModelByLocalizedName( modelName ).ToString();
-            var color = EnumExtensions.GetColorByLocalizedName( colorName ).ToString();
-            var wheelDrive = EnumExtensions.GetWheelDriveByLocalizedName( wheelDriveName ).ToString();
-            var wheelPosition = EnumExtensions.GetWheelPositionByLocalizedName( wheelPositionName ).ToString();
-
+            string modelName = GetSelection( models, Localizator.SelectModelPrompt );
+            string colorName = GetSelection( colors, Localizator.SelectColorPrompt );
+            string wheelDriveName = GetSelection( wheelDrives, Localizator.SelectWheelDrivePrompt );
+            string wheelPositionName = GetSelection( wheelPositions, Localizator.SelectWheelPositionPrompt );
 
             ITransmission transmission = SelectTransmission();
             ICarEngine engine = SelectEngine();
             IBodyType bodyType = SelectBodyType();
 
-            ICar car = CarFactory.CreateCar( model, bodyType, engine, transmission, color, wheelPosition, wheelDrive );
+            ICar car = CarFactory.CreateCar( modelName, bodyType, engine, transmission, colorName, wheelPositionName, wheelDriveName );
             _createdCars.Add( car );
 
             AnsiConsole.MarkupLine( $"[green]{Localizator.CarSuccessfullyCreated}![/]" );
@@ -170,12 +150,12 @@ internal sealed class CarProgramEngine
         return AnsiConsole.Prompt( selection );
     }
 
-    private static string GetSelection( string title, IEnumerable<string> options )
+    private static string GetSelection( string[] choices, string title )
     {
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title( $"[green]{title}[/]" )
-                .PageSize( 10 )
-                .AddChoices( options ) );
+                .Title( title )
+                .PageSize( 5 )
+                .AddChoices( choices ) );
     }
 }

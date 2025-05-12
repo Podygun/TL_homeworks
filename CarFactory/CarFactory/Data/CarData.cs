@@ -24,22 +24,22 @@ public static class CarData
 
     public enum CarColors
     {
-        Красный,
-        Синий,
-        Черный,
-        Белый
+        Red,
+        Blue,
+        Black,
+        White
     }
 
     public enum WheelDrives
     {
-        Передний,
-        Задний,
-        Полный
+        Front,
+        Rear,
+        Full
     }
 
     public enum WheelPositions
     {
-        Левый,
-        Правый
+        Left,
+        Right
     }
 }
