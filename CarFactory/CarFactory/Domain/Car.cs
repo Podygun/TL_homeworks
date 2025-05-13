@@ -53,13 +53,13 @@ internal sealed class Car : ICar
         table.AddColumn( new TableColumn( $"[bold]{Localizator.DescriptionColumn}[/]" ).Centered() );
         table.AddColumn( new TableColumn( $"[bold]{Localizator.PropertiesColumn}[/]" ).Centered() );
 
-        table.AddRow( $"[blue]{Localizator.ModelLabel}[/]", Model ?? "Не указано" );
-        table.AddRow( $"[blue]{Localizator.BodyLabel}[/]", BodyType?.Name ?? "Не указано" );
-        table.AddRow( $"[blue]{Localizator.ColorLabel}[/]", Color ?? "Не указано" );
-        table.AddRow( $"[blue]{Localizator.EngineLabel}[/]", $"{CarEngine?.Name ?? "Не указано"} ([green]{CarEngine?.HorsePower ?? 0} {Localizator.HorsePowerTitle}[/])" );
-        table.AddRow( $"[blue]{Localizator.TransmissionLabel}[/]", $"{Transmission?.GetName() ?? "Не указано"} ([green]{Localizator.GearsLabel}: {Transmission?.GetGearsAmount() ?? 0}[/])" );
-        table.AddRow( $"[blue]{Localizator.WheelDriveLabel}[/]", WheelDrive ?? "Не указано" );
-        table.AddRow( $"[blue]{Localizator.WheelPositionLabel}[/]", WheelPosition ?? "Не указано" );
+        table.AddRow( $"[blue]{Localizator.ModelLabel}[/]", Model ?? Localizator.NoName );
+        table.AddRow( $"[blue]{Localizator.BodyLabel}[/]", BodyType?.Name ?? Localizator.NoName );
+        table.AddRow( $"[blue]{Localizator.ColorLabel}[/]", Color ?? Localizator.NoName );
+        table.AddRow( $"[blue]{Localizator.EngineLabel}[/]", $"{CarEngine?.Name ?? Localizator.NoName} ([green]{CarEngine?.HorsePower ?? 0} {Localizator.HorsePowerTitle}[/])" );
+        table.AddRow( $"[blue]{Localizator.TransmissionLabel}[/]", $"{Transmission?.GetName() ?? Localizator.NoName} ([green]{Localizator.GearsLabel}: {Transmission?.GetGearsAmount() ?? 0}[/])" );
+        table.AddRow( $"[blue]{Localizator.WheelDriveLabel}[/]", WheelDrive ?? Localizator.NoName );
+        table.AddRow( $"[blue]{Localizator.WheelPositionLabel}[/]", WheelPosition ?? Localizator.NoName );
         table.AddRow( $"[blue]{Localizator.MaxSpeedLabel}[/]", $"[bold]{MaxSpeed} {Localizator.SpeedValue}[/]" );
 
         AnsiConsole.Write( table );
