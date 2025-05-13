@@ -17,29 +17,29 @@ public static class CarData
 
     public enum CarModels
     {
-        Toyota,
-        BMW,
-        Audi
+        Toyota = 0,
+        BMW = 1,
+        Audi = 2
     }
 
     public enum CarColors
     {
-        Red,
-        Blue,
-        Black,
-        White
+        Red = 0,
+        Blue = 1,
+        Black = 2,
+        White = 3
     }
 
     public enum WheelDrives
     {
-        Front,
-        Rear,
-        Full
+        Front = 0,
+        Rear = 1,
+        Full = 2
     }
 
     public enum WheelPositions
     {
-        Left,
-        Right
+        Left = 0,
+        Right = 1
     }
 }
