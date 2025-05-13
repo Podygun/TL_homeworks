@@ -60,6 +60,7 @@ public sealed class Localizator
     public static string CarSuccessfullyCreated => Get( "CarSuccessfullyCreated" );
     public static string Error => Get( "Error" );
     public static string HorsePowerTitle => Get( "HorsePowerTitle" );
+    public static string NoName => Get( "NoName" );
 
     // Типы кузовов
     public static string CoupeBodyType => Get( "CoupeBodyType" );
