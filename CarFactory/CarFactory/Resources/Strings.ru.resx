@@ -231,40 +231,43 @@
   <data name="HorsePowerTitle" xml:space="preserve">
     <value>л.с.</value>
   </data>
-<data name="Toyota" xml:space="preserve">
+  <data name="Toyota" xml:space="preserve">
     <value>Toyota</value>
-</data>
-<data name="BMW" xml:space="preserve">
+  </data>
+  <data name="BMW" xml:space="preserve">
     <value>BMW</value>
-</data>
-<data name="Audi" xml:space="preserve">
+  </data>
+  <data name="Audi" xml:space="preserve">
     <value>Audi</value>
-</data>
-<data name="Red" xml:space="preserve">
+  </data>
+  <data name="Red" xml:space="preserve">
     <value>Красный</value>
-</data>
-<data name="Blue" xml:space="preserve">
+  </data>
+  <data name="Blue" xml:space="preserve">
     <value>Синий</value>
-</data>
-<data name="Black" xml:space="preserve">
+  </data>
+  <data name="Black" xml:space="preserve">
     <value>Черный</value>
-</data>
-<data name="White" xml:space="preserve">
+  </data>
+  <data name="White" xml:space="preserve">
     <value>Белый</value>
-</data>
-<data name="Front" xml:space="preserve">
+  </data>
+  <data name="Front" xml:space="preserve">
     <value>Передний</value>
-</data>
-<data name="Rear" xml:space="preserve">
+  </data>
+  <data name="Rear" xml:space="preserve">
     <value>Задний</value>
-</data>
-<data name="Full" xml:space="preserve">
-    <value>Полный</value>
-</data>
-<data name="Left" xml:space="preserve">
+  </data>
+  <data name="Left" xml:space="preserve">
     <value>Левый</value>
-</data>
-<data name="Right" xml:space="preserve">
+  </data>
+  <data name="Right" xml:space="preserve">
     <value>Правый</value>
-</data>
+  </data>
+  <data name="Full" xml:space="preserve">
+    <value>Полный</value>
+  </data>
+  <data name="NoName" xml:space="preserve">
+    <value>Не указано</value>
+  </data>
 </root>
