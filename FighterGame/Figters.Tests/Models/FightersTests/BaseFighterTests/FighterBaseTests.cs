@@ -2,15 +2,14 @@
 
 public sealed class FighterBaseTests
 {
-    //Arrange
-    TestFighter _fighter = new( "Test Fighter", 100 );
-
-
     [Fact]
     public void IsAlive_ShouldReturnTrue_WhenHealthIsAboveZero()
     {
+        //Arrange
+        TestFighter fighter = new( "Test Fighter", 100 );
+
         // Act
-        bool isAlive = _fighter.IsAlive();
+        bool isAlive = fighter.IsAlive();
 
         // Assert
         Assert.True( isAlive );
@@ -19,8 +18,11 @@ public sealed class FighterBaseTests
     [Fact]
     public void GetCurrentHealth_ShouldReturnInitialHealth()
     {
+        //Arrange
+        TestFighter fighter = new( "Test Fighter", 100 );
+
         // Act
-        int currentHealth = _fighter.GetCurrentHealth();
+        int currentHealth = fighter.GetCurrentHealth();
 
         // Assert
         Assert.Equal( 100, currentHealth );
@@ -29,8 +31,11 @@ public sealed class FighterBaseTests
     [Fact]
     public void GetMaxHealth_ShouldReturnMaxHealth()
     {
+        //Arrange
+        TestFighter fighter = new( "Test Fighter", 100 );
+
         // Act
-        int maxHealth = _fighter.GetMaxHealth();
+        int maxHealth = fighter.GetMaxHealth();
 
         // Assert
         Assert.Equal( 100, maxHealth );
@@ -39,12 +44,15 @@ public sealed class FighterBaseTests
     [Fact]
     public void ResetState_ShouldResetHealthToMaxHealth()
     {
+        //Arrange
+        TestFighter fighter = new( "Test Fighter", 100 );
+
         // Arrange
-        _fighter.TakeDamage( 50 );
+        fighter.TakeDamage( 50 );
 
         // Act
-        _fighter.ResetState();
-        int currentHealth = _fighter.GetCurrentHealth();
+        fighter.ResetState();
+        int currentHealth = fighter.GetCurrentHealth();
 
         // Assert
         Assert.Equal( 100, currentHealth ); // Проверяем, что здоровье восстановлено
