@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.content {
+  background-color: aliceblue;
+  padding: 10px;
+  max-width: 600px;
+  border: 1px solid darkgray;
+}
+
+.main-form {
+  display: grid;
+  gap: 15px;
+}
+
+.main-form button {
+  cursor: pointer;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+
+.main-form button:hover {
+  background-color: gold;
+}
+
+.result {
+  background-color: black;
+  color: white;
+  padding: 5px;
+  display: none;
+}
+
+.result.result__visible {
+  display: block;
+}
+
+@media (min-width: 400px) {
+  .main-form {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .main-form button {
+    grid-column: 2 / 3;
+  }
+}
