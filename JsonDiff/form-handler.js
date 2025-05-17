@@ -10,7 +10,6 @@ export function JsonDiffForm() {
   const button = document.querySelector('.main-form button');
 
   form.addEventListener('submit', async (event) => {
-    console.log('submit');
     event.preventDefault();
 
     const defaultButtonHtml = button.innerHTML;

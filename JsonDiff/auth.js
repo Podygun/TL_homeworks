@@ -1,7 +1,6 @@
-// Состояние приложения
 const AUTH_KEY = 'jsonDiffAuthKey';
 
-export function auth() {
+export function Init() {
   const logo = document.getElementById('logo');
   const authSection = document.getElementById('authSection');
   const promo = document.getElementById('promo');
@@ -115,7 +114,6 @@ export function auth() {
     resultBlock.classList.remove('result__visible');
   }
 
-  // Инициализация
   updateUI();
   showPromo();
 }
