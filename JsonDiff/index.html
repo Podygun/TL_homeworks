@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Json diff</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+   <header class="header">
+    <div class="logo" id="logo">PODY JSON-DIFF</div>
+    <div class="auth-section" id="authSection">
+      <span class="auth-text">Log in</span>
+    </div>
+  </header>
+  <body>
+    <main class="wrapper">
+      <div id="promo" class="promo">
+      <h1>Compare <span class="red">two JSON objects</span> and see the <span class="orange">difference</span></h1>
+      <div id="startBlock" class="start-block">
+        <a href="#" id="startLink" class="start-link">Start</a>
+      </div>
+    </div>
+
+      <div id="authForm" class="auth-form">
+        <h2>Sign In</h2>
+        <form id="signInForm">
+          <div class="form-group">
+            <label for="login">Login</label>
+            <input type="text" id="login" name="login" required>
+            <div id="loginError" class="error-message"></div>
+          </div>
+          <button type="submit" class="signin-btn">SIGN IN</button>
+        </form>
+      </div>
+
+      <div id="appContent" class="content" style="display: none;">
+        <form class="main-form">
+          <label for="oldJson">Old json</label>
+          <textarea id="oldJson" rows="10" cols="50">
+{
+  "timeout": 20,
+  "verbose": true,
+  "host": "google.com"
+}
+          </textarea>
+          <div id="oldJsonError" class="error-message"></div>
+          <label for="newJson">New json</label>
+          <textarea id="newJson" rows="10" cols="50">
+{
+  "timeout": 50,
+  "proxy": "888.888.88.88",
+  "host": "google.com"
+}
+          </textarea>
+          <div id="newJsonError" class="error-message"></div>
+          <button>Show difference</button>
+        </form>
+        <div class="result"><div>
+      </div>
+    </main>
+    <footer class="footer">
+      <p>Copyright © 2025</p>
+    </footer>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
