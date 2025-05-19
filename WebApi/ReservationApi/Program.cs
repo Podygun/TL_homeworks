@@ -41,9 +41,9 @@ namespace ReservationApi
 
             // DI services
             builder.Services.AddScoped<IPropertiesRepository, PropertiesRepository>();
-            builder.Services.AddScoped<IRoomServiceRepository, RoomServiceRepository>();
-            builder.Services.AddScoped<IRoomAmentityRepository, RoomAmentityRepository>();
-            builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
+            builder.Services.AddScoped<IRoomServicesRepository, RoomServiceRepository>();
+            builder.Services.AddScoped<IRoomAmentitiesRepository, RoomAmentityRepository>();
+            builder.Services.AddScoped<IRoomTypesRepository, RoomTypeRepository>();
 
             // Built-in services
             builder.Services.AddControllers();
