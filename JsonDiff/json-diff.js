@@ -35,10 +35,10 @@ const create = async (oldObj, newObj) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(result);
-    }, 2000);
+    }, 0);
   });
 };
 
-export const JsonDiff = {
+export const jsonDiff = {
   create
 };
