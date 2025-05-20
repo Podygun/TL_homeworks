@@ -34,9 +34,11 @@ export const init = () => {
 
   // Клик по Log in/out
   authSection.addEventListener('click', (e) => {
-    if (e.target.classList.contains('logout-text')) {
+    const isLoggedIn = Boolean(localStorage.getItem(AUTH_KEY));
+    
+    if (isLoggedIn) {
       logout();
-    } else if (!currentUser) {
+    } else {
       showAuthForm();
     }
   });
