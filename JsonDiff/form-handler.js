@@ -2,7 +2,7 @@ import { jsonDiff } from "./json-diff.js";
 
 const resultVisibleClass = 'result__visible';
 
-export function jsonDiffForm() {
+export const jsonDiffForm = () => {
   const form = document.querySelector('.main-form');
   const textareaOld = document.querySelector('#oldJson');
   const textareaNew = document.querySelector('#newJson');

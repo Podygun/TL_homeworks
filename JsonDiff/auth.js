@@ -1,6 +1,6 @@
 const AUTH_KEY = 'jsonDiffAuthKey';
 
-export function init() {
+export const init = () => {
   const logo = document.getElementById('logo');
   const authSection = document.getElementById('authSection');
   const promo = document.getElementById('promo');
@@ -59,14 +59,14 @@ export function init() {
     showAppContent();
   });
 
-  function logout() {
+  const logout = () => {
     localStorage.removeItem(AUTH_KEY);
     currentUser = null;
     updateUI();
     showPromo();
   }
 
-  function updateUI() {
+  const updateUI = () => {
     if (currentUser) {
       authSection.innerHTML = `
         <span class="user-greeting">Hello, ${currentUser.name}!</span>
@@ -79,13 +79,13 @@ export function init() {
     }
   }
 
-  function showPromo() {
+  const showPromo = () => {
     promo.style.display = 'block';
     authForm.style.display = 'none';
     appContent.style.display = 'none';
   }
 
-  function showAuthForm() {
+  const showAuthForm = () => {
     promo.style.display = 'none';
     authForm.style.display = 'block';
     appContent.style.display = 'none';
@@ -93,13 +93,13 @@ export function init() {
     loginError.textContent = '';
   }
 
-  function showAppContent() {
+  const showAppContent = () => {
     promo.style.display = 'none';
     authForm.style.display = 'none';
     appContent.style.display = 'block';
   }
 
-  function resetForm() {
+  const resetForm = () => {
     oldJsonTextarea.value = `{
   "timeout": 20,
   "verbose": true,

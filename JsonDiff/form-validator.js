@@ -1,4 +1,4 @@
-export function formValidation() {
+export const formValidation = () => {
     const form = document.querySelector('.main-form');
     const textareaOld = document.querySelector('#oldJson');
     const textareaNew = document.querySelector('#newJson');
@@ -6,7 +6,7 @@ export function formValidation() {
     const button = document.querySelector('.main-form button');
 
     // Валидация принятых json строк
-    function isValidJson(str) {
+    const isValidJson = (str) => {
         try {
             JSON.parse(str);
             return true;
@@ -15,13 +15,13 @@ export function formValidation() {
         }
     }
 
-    function showError(elementId, message) {
+    const showError = (elementId, message) => {
         const errorElement = document.getElementById(elementId);
         errorElement.textContent = message;
         errorElement.classList.add('active');
     }
 
-    function resetErrors() {
+    const resetErrors = () => {
         document.querySelectorAll('.error-message').forEach(el => {
             el.textContent = '';
             el.classList.remove('active');
