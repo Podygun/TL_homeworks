@@ -1,8 +1,8 @@
-import { JsonDiff } from "./json-diff.js";
+import { jsonDiff } from "./json-diff.js";
 
 const resultVisibleClass = 'result__visible';
 
-export function JsonDiffForm() {
+export function jsonDiffForm() {
   const form = document.querySelector('.main-form');
   const textareaOld = document.querySelector('#oldJson');
   const textareaNew = document.querySelector('#newJson');
@@ -19,7 +19,7 @@ export function JsonDiffForm() {
     try {
       const oldValue = JSON.parse(textareaOld.value);
       const newValue = JSON.parse(textareaNew.value);
-      const result = await JsonDiff.create(oldValue, newValue);
+      const result = await jsonDiff.create(oldValue, newValue);
 
       const jsonResult = JSON.stringify(result, undefined, 2);
       resultBlock.innerHTML = `<pre>${jsonResult}</pre>`;

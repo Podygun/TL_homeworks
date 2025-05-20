@@ -1,10 +1,10 @@
-import { Init } from "./auth.js";
-import { JsonDiffForm } from "./form-handler.js";
-import { FormValidation } from './form-validator.js';
+import { init } from "./auth.js";
+import { jsonDiffForm } from "./form-handler.js";
+import { formValidation } from './form-validator.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  Init();
-  JsonDiffForm();
-  FormValidation();
+  init();  
+  jsonDiffForm();
+  formValidation();
 });

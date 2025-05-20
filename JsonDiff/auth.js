@@ -1,6 +1,6 @@
 const AUTH_KEY = 'jsonDiffAuthKey';
 
-export function Init() {
+export function init() {
   const logo = document.getElementById('logo');
   const authSection = document.getElementById('authSection');
   const promo = document.getElementById('promo');
