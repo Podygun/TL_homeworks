@@ -1,4 +1,4 @@
-import { jsonDiff } from "./json-diff.js";
+import { jsonDiff } from "../services/json-diff.js";
 
 const resultVisibleClass = 'result__visible';
 

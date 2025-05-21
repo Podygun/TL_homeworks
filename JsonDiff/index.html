@@ -22,7 +22,7 @@
       </div>
     </div>
 
-      <div id="authForm" class="default-form">
+      <div id="authForm" class="default-form auth-form">
         <h2>Sign In</h2>
         <form id="signInForm">
           <div class="form-group">
@@ -34,7 +34,7 @@
         </form>
       </div>
 
-      <div id="appContent" class="content" style="display: none;">
+      <div id="appContent" class="content">
         <form class="default-form main-form">
           <label for="oldJson">Old json</label>
           <textarea id="oldJson" rows="10" cols="50">
@@ -44,7 +44,7 @@
   "host": "google.com"
 }
           </textarea>
-          <div id="oldJsonError" class="error-message"></div>
+          <div id="oldJsonError" class="error-message hide"></div>
           <label for="newJson">New json</label>
           <textarea id="newJson" rows="10" cols="50">
 {
@@ -53,7 +53,7 @@
   "host": "google.com"
 }
           </textarea>
-          <div id="newJsonError" class="error-message"></div>
+          <div id="newJsonError" class="error-message hide"></div>
           <button>Show difference</button>
         </form>
         <div class="result"><div>
@@ -62,6 +62,6 @@
     <footer class="footer">
       <p>Copyright © 2025</p>
     </footer>
-    <script type="module" src="./index.js"></script>
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>

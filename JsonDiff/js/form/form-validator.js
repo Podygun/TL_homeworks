@@ -1,11 +1,14 @@
+import { hideElement, showElement } from "../utils/dom-helpers.js";
+
 export const formValidation = () => {
     const form = document.querySelector('.main-form');
     const textareaOld = document.querySelector('#oldJson');
     const textareaNew = document.querySelector('#newJson');
     const resultBlock = document.querySelector('.result');
     const button = document.querySelector('.main-form button');
+    const oldJsonError = document.querySelector('#oldJsonError');
+    const newJsonError = document.querySelector('#newJsonError');
 
-    // Валидация принятых json строк
     const isValidJson = (str) => {
         try {
             JSON.parse(str);
@@ -19,12 +22,14 @@ export const formValidation = () => {
         const errorElement = document.getElementById(elementId);
         errorElement.textContent = message;
         errorElement.classList.add('active');
+        showElement(errorElement);
     }
 
     const resetErrors = () => {
         document.querySelectorAll('.error-message').forEach(el => {
             el.textContent = '';
             el.classList.remove('active');
+            // hideElement(el);
         });
         textareaOld.classList.remove('error');
         textareaNew.classList.remove('error');
@@ -40,7 +45,6 @@ export const formValidation = () => {
         const newValue = textareaNew.value.trim();
         let isValid = true;
 
-        // Валидация oldJson
         if (!oldValue) {
             showError('oldJsonError', 'Поле не может быть пустым');
             textareaOld.classList.add('error');
@@ -50,8 +54,10 @@ export const formValidation = () => {
             textareaOld.classList.add('error');
             isValid = false;
         }
+        else{
+            hideElement(oldJsonError);
+        }
 
-        // Валидация newJson
         if (!newValue) {
             showError('newJsonError', 'Поле не может быть пустым');
             textareaNew.classList.add('error');
@@ -61,11 +67,26 @@ export const formValidation = () => {
             textareaNew.classList.add('error');
             isValid = false;
         }
+        else{
+            hideElement(newJsonError);
+        }
 
         if (!isValid) return;
 
-        const defaultButtonHtml = button.innerHTML;
         button.innerHTML = 'Loading...';
         button.disabled = true;
     });
+
+}
+
+export const validateLogin = (loginString) => {
+    if (!loginString) {
+      return false;
+    }
+
+    if(loginString.length < 2 || loginString.length > 20){
+        return false;
+    } 
+       
+    return true
 }
