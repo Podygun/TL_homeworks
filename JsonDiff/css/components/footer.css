@@ -1,0 +1,11 @@
+@import "./variables.css";
+
+.footer {
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  text-align: center;
+  padding: 1rem;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
