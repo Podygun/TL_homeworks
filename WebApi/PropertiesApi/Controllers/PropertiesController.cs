@@ -1,6 +1,5 @@
 ﻿using Application.Mappers;
 using Application.Services.PropertiesServices;
-using Application.Services.RoomTypesServices;
 using Application.Services.Utilities;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -66,10 +65,13 @@ public sealed class PropertiesController : ControllerBase
 
 
     [HttpPut( "{id:int}" )]
-    public async Task<IActionResult> Update( [FromBody] PropertyDto propertyDto, [FromRoute] int id )
+    public async Task<IActionResult> Update( [FromBody] CreatePropertyDto propertyDto, [FromRoute] int id )
     {
-        propertyDto.Id = id;
-        OperationResult result = await _propertiesService.UpdateAsync( propertyDto.ToDomain() );
+        Property propertyToUpdate = propertyDto.ToDomain();
+
+        propertyToUpdate.Id = id;
+
+        OperationResult result = await _propertiesService.UpdateAsync( propertyToUpdate );
 
         if ( result == OperationResult.Success )
         {
