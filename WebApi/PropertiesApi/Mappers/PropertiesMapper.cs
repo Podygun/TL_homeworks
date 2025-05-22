@@ -15,12 +15,7 @@ internal static class PropertiesMapper
             Country = p.Country,
             City = p.City,
             Latitude = p.Latitude,
-            Longitude = p.Longitude,
-            RoomTypes = p.RoomTypes.Select( rt =>
-            {
-                rt.Property = null;
-                return rt;
-            } ).ToList(),
+            Longitude = p.Longitude
         } ).ToList();
     }
 
@@ -61,12 +56,7 @@ internal static class PropertiesMapper
             City = p.City,
             Address = p.Address,
             Latitude = p.Latitude,
-            Longitude = p.Longitude,
-            RoomTypes = p.RoomTypes.Select( rt =>
-            {
-                rt.Property = null;
-                return rt;
-            } ).ToList(),
+            Longitude = p.Longitude
         };
     }
 
