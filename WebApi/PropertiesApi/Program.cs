@@ -1,6 +1,7 @@
-using Application.Dtos;
 using Application.Mappers;
-using Application.Services.PropertiesService;
+using Application.Services.PropertiesServices;
+using Application.Services.RoomAmentitiesServices;
+using Application.Services.RoomTypesServices;
 using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Data;
@@ -42,15 +43,13 @@ namespace PropertiesApi
 
             // Repos (Infrastructure)
             builder.Services.AddScoped<IPropertiesRepository, PropertiesRepository>();
-            builder.Services.AddScoped<IRoomServiceRepository, RoomServiceRepository>();
-            builder.Services.AddScoped<IRoomAmentityRepository, RoomAmentityRepository>();
-            builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
-
-            //Mappers (Application)
-            builder.Services.AddScoped<IMapper<Property, PropertyDto>, PropertiesMapper>();
+            builder.Services.AddScoped<IRoomServicesRepository, RoomServiceRepository>();
+            builder.Services.AddScoped<IRoomAmentitiesRepository, RoomAmentityRepository>();
+            builder.Services.AddScoped<IRoomTypesRepository, RoomTypeRepository>();
 
             //Services (Application)
             builder.Services.AddScoped<IPropertiesService, PropertiesService>();
+            builder.Services.AddScoped<IRoomTypesService, RoomTypesService>();
 
 
 
