@@ -49,7 +49,7 @@ public class GameManager
         }
     }
 
-    private List<FighterBase> CreateFighters()
+    protected List<FighterBase> CreateFighters()
     {
         int amountFighters = InputInt( "Введите кол-во игроков ", 2, MaxFightersAmount );
 
@@ -64,7 +64,7 @@ public class GameManager
         return list;
     }
 
-    public void Fight( List<FighterBase> fighters )
+    protected void Fight( List<FighterBase> fighters )
     {
         Console.WriteLine( "\n=== НАЧАЛО БИТВЫ ===" );
 
@@ -164,7 +164,7 @@ public class GameManager
         ResetFightersState( fighters );
     }
 
-    public List<FighterBase> CreateRandomFighters()
+    protected List<FighterBase> CreateRandomFighters()
     {
         Console.WriteLine( "\n=== СОЗДАНИЕ СЛУЧАЙНЫХ БОЙЦОВ ===" );
 
@@ -210,7 +210,7 @@ public class GameManager
         return fighters;
     }
 
-    private FighterBase CreateFighter()
+    protected FighterBase CreateFighter()
     {
         string name = InputString( "Введите имя бойца: " );
         IRace race = ChooseRace();
@@ -219,7 +219,7 @@ public class GameManager
         return ChooseFighterClass( name, race, weapon, armor );
     }
 
-    private FighterBase ChooseFighterClass( string name, IRace race, WeaponBase weapon, IArmor armor )
+    protected virtual FighterBase ChooseFighterClass( string name, IRace race, WeaponBase weapon, IArmor armor )
     {
         Console.WriteLine( "\nВыберите класс:" );
         List<string> classes = GameItems.FighterClasses.Keys.ToList();
@@ -235,7 +235,7 @@ public class GameManager
         return GameItems.FighterClasses[ selectedClass ]( name, race, weapon, armor );
     }
 
-    private IRace ChooseRace()
+    protected virtual IRace ChooseRace()
     {
         Console.WriteLine( "\nВыберите расу:" );
 
@@ -250,7 +250,7 @@ public class GameManager
         return GameItems.Races[ choice - 1 ];
     }
 
-    private WeaponBase ChooseWeapon()
+    protected virtual WeaponBase ChooseWeapon()
     {
         Console.WriteLine( "\nВыберите оружие:" );
 
@@ -264,7 +264,7 @@ public class GameManager
         return GameItems.Weapons[ choice - 1 ];
     }
 
-    private IArmor ChooseArmor()
+    protected virtual IArmor ChooseArmor()
     {
         Console.WriteLine( "\nВыберите броню:" );
 
@@ -278,7 +278,7 @@ public class GameManager
         return GameItems.Armors[ choice - 1 ];
     }
 
-    private static void PrintMenu()
+    protected static void PrintMenu()
     {
         Console.WriteLine( "\n=== Меню (вводите соответствующие цифры)===" );
         Console.WriteLine( "1. Добавить бойцов" );
@@ -289,7 +289,7 @@ public class GameManager
         Console.WriteLine( "============" );
     }
 
-    private static void PrintEncyclopedia()
+    protected static void PrintEncyclopedia()
     {
         Console.WriteLine( "╔════════════════════════════════════╗" );
         Console.WriteLine( "║         ЭНЦИКЛОПЕДИЯ ИГРЫ          ║" );
@@ -341,7 +341,7 @@ public class GameManager
         }
     }
 
-    private static string InputString( string message )
+    protected static string InputString( string message )
     {
         string input;
         do
@@ -357,7 +357,7 @@ public class GameManager
         return input;
     }
 
-    private static int InputInt( string message, int min, int max )
+    protected static int InputInt( string message, int min, int max )
     {
         while ( true )
         {
@@ -370,8 +370,13 @@ public class GameManager
         }
     }
 
-    private static void ResetFightersState( List<FighterBase> fighters )
+    protected static void ResetFightersState( List<FighterBase>? fighters )
     {
+        if ( fighters == null )
+        {
+            throw new NullReferenceException( nameof( fighters ) );
+        }
+
         foreach ( FighterBase fighter in fighters )
         {
             fighter.ResetState();
