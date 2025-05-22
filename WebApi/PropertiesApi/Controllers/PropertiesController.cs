@@ -1,7 +1,10 @@
-﻿using Application.Dtos;
-using Application.Services.PropertiesService;
+﻿using Application.Mappers;
+using Application.Services.PropertiesServices;
+using Application.Services.RoomTypesServices;
 using Application.Services.Utilities;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using PropertiesApi.Dtos.Properties;
 
 namespace PropertiesApi.Controllers;
 
@@ -16,64 +19,79 @@ public sealed class PropertiesController : ControllerBase
         _propertiesService = propertiesService;
     }
 
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        List<PropertyDto>? properties = await _propertiesService.GetAllAsync();
+        List<Property>? properties = await _propertiesService.GetAllAsync();
 
-        return Ok( properties );
+        if ( properties == null )
+        {
+            return BadRequest();
+        }
+
+        List<PropertyDto> propertiesDto = properties.ToDto();
+
+        return Ok( propertiesDto );
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create( [FromBody] PropertyDto propertyDto )
-    {
-        OperationResult result = await _propertiesService.AddAsync( propertyDto );
 
-        if ( result.Success )
+    [HttpPost]
+    public async Task<IActionResult> Create( [FromBody] CreatePropertyDto createPropertyDto )
+    {
+        OperationResult result = await _propertiesService.AddAsync( createPropertyDto.ToDomain() );
+
+        if ( result == OperationResult.Success )
         {
-            return Ok( result );
+            return CreatedAtAction( nameof( Create ), createPropertyDto );
         }
 
         return BadRequest();
     }
 
+
     [HttpGet( "{propertyId:guid}" )]
     public async Task<IActionResult> GetById( [FromRoute] Guid propertyId )
     {
-        PropertyDto? property = await _propertiesService.GetByIdAsync( propertyId );
+        Property? property = await _propertiesService.GetByIdAsync( propertyId );
 
-        if ( property is null )
+        if ( property == null )
         {
             return NotFound();
         }
 
-        return Ok( property );
+        return Ok( property.ToDto() );
 
     }
+
 
     [HttpPut( "{id:guid}" )]
     public async Task<IActionResult> Update( [FromBody] PropertyDto propertyDto, [FromRoute] Guid id )
     {
-        OperationResult result = await _propertiesService.UpdateAsync( propertyDto, id );
+        propertyDto.Id = id;
+        OperationResult result = await _propertiesService.UpdateAsync( propertyDto.ToDomain() );
 
-        if ( result.Success )
+        if ( result == OperationResult.Success )
         {
             return Ok();
         }
 
         return BadRequest();
     }
+
 
     [HttpDelete( "{id:guid}" )]
     public async Task<IActionResult> Delete( [FromRoute] Guid id )
     {
         OperationResult result = await _propertiesService.DeleteByIdAsync( id );
 
-        if ( result.Success )
+        if ( result == OperationResult.Success )
         {
             return Ok();
         }
 
         return BadRequest();
     }
+
+
 }
