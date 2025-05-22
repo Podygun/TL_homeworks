@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public sealed class RoomAmentityRepository : IRoomAmentityRepository
+public sealed class RoomAmentityRepository : IRoomAmentitiesRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -18,7 +18,7 @@ public sealed class RoomAmentityRepository : IRoomAmentityRepository
     {
         RoomAmentity? roomAmentity = await _context.RoomAmentities.FindAsync( id );
 
-        if ( roomAmentity is null )
+        if ( roomAmentity == null )
         {
             throw new InvalidOperationException( $"Room Amentity with id {id} does not exist" );
         }
@@ -41,7 +41,7 @@ public sealed class RoomAmentityRepository : IRoomAmentityRepository
     {
         RoomAmentity? existingRoomAmentity = await GetByIdAsync( roomAmentity.Id );
 
-        if ( existingRoomAmentity is null )
+        if ( existingRoomAmentity == null )
         {
             throw new InvalidOperationException( $"Room Amentity with id {roomAmentity.Id} does not exist" );
         }
@@ -57,7 +57,7 @@ public sealed class RoomAmentityRepository : IRoomAmentityRepository
     {
         RoomAmentity? roomAmentity = await GetByIdAsync( id );
 
-        if ( roomAmentity is null )
+        if ( roomAmentity == null )
         {
             throw new InvalidOperationException( $"Property with id {id} does not exist" );
         }

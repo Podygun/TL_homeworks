@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public sealed class RoomServiceRepository : IRoomServiceRepository
+public sealed class RoomServiceRepository : IRoomServicesRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -23,7 +23,7 @@ public sealed class RoomServiceRepository : IRoomServiceRepository
     {
         RoomService? roomService = await _context.RoomServices.FindAsync( id );
 
-        if ( roomService is null )
+        if ( roomService == null )
         {
             throw new InvalidOperationException( $"Room Service with id {id} does not exist" );
         }
@@ -41,7 +41,7 @@ public sealed class RoomServiceRepository : IRoomServiceRepository
     {
         RoomService? existingRoomService = await GetByIdAsync( roomService.Id );
 
-        if ( existingRoomService is null )
+        if ( existingRoomService == null )
         {
             throw new InvalidOperationException( $"Room Service with id {roomService.Id} does not exist" );
         }
@@ -57,7 +57,7 @@ public sealed class RoomServiceRepository : IRoomServiceRepository
     {
         RoomService? roomService = await GetByIdAsync( id );
 
-        if ( roomService is null )
+        if ( roomService == null )
         {
             throw new InvalidOperationException( $"Property with id {roomService.Id} does not exist" );
         }

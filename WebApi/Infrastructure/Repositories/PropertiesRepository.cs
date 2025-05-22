@@ -34,7 +34,7 @@ public sealed class PropertiesRepository : IPropertiesRepository
     {
         Property? existingProperty = await GetByIdAsync( property.Id );
 
-        if ( existingProperty is null )
+        if ( existingProperty == null )
         {
             throw new InvalidOperationException( $"Property with id {property.Id} does not exist" );
         }
@@ -54,7 +54,7 @@ public sealed class PropertiesRepository : IPropertiesRepository
     {
         Property? property = await GetByIdAsync( id );
 
-        if ( property is null )
+        if ( property == null )
         {
             throw new InvalidOperationException( $"Property with id {id} does not exist" );
         }
@@ -62,5 +62,4 @@ public sealed class PropertiesRepository : IPropertiesRepository
         _context.Properties.Remove( property );
         await _context.SaveChangesAsync();
     }
-
 }
