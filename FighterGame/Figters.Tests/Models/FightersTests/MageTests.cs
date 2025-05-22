@@ -4,19 +4,14 @@ namespace Figters.Tests.Models.FightersTests;
 
 public sealed class MageTests : BaseMockFighter
 {
-    private readonly Mage _mage;
-
-    public MageTests()
-    {
-        _mage = new Mage( "Test Berserker", _mockRace.Object, _mockWeapon.Object, _mockArmor.Object );
-    }
-
-
     [Fact]
     public void CalculateDamage_ShouldReturnCorrectDamage()
     {
+        // Arrange
+        Mage mage = new( "Test Mage", _mockRace.Object, _mockWeapon.Object, _mockArmor.Object );
+
         // Act
-        int damage = _mage.CalculateDamage();
+        int damage = mage.CalculateDamage();
 
         // Assert
         Assert.Equal( 25, damage ); // 20 (оружие) + 5 (раса)
@@ -26,14 +21,17 @@ public sealed class MageTests : BaseMockFighter
     [Fact]
     public void TakeDamage_ShouldReduceHealthCorrectly()
     {
+
         // Arrange
+        Mage mage = new( "Test Mage", _mockRace.Object, _mockWeapon.Object, _mockArmor.Object );
+
         int damageToAttack = 30;
 
-        _mage.TakeDamage( damageToAttack );
+        mage.TakeDamage( damageToAttack );
 
         // Act
-        int actualHealth = _mage.GetCurrentHealth();
-        int expectedHealth = 100 - ( damageToAttack - _mage.CalculateArmor() );
+        int actualHealth = mage.GetCurrentHealth();
+        int expectedHealth = 100 - ( damageToAttack - mage.CalculateArmor() );
 
         // Assert
         Assert.Equal( expectedHealth, actualHealth );
@@ -43,8 +41,11 @@ public sealed class MageTests : BaseMockFighter
     [Fact]
     public void CalculateArmor_ShouldReturnCorrectArmor()
     {
+        // Arrange
+        Mage mage = new( "Test Mage", _mockRace.Object, _mockWeapon.Object, _mockArmor.Object );
+
         // Act
-        int currentArmor = _mage.CalculateArmor();
+        int currentArmor = mage.CalculateArmor();
 
         // Assert
         Assert.Equal( 15, currentArmor ); // 10 (броня расы) + 5 (броня брони)
