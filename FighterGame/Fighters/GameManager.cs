@@ -372,7 +372,7 @@ public class GameManager
 
     protected static void ResetFightersState( List<FighterBase>? fighters )
     {
-        if ( fighters is null )
+        if ( fighters == null )
         {
             throw new NullReferenceException( nameof( fighters ) );
         }
