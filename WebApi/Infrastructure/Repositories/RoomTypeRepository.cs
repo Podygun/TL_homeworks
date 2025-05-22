@@ -14,7 +14,7 @@ public sealed class RoomTypeRepository : IRoomTypesRepository
         _context = context;
     }
 
-    public async Task<RoomType> GetByIdAsync( Guid id )
+    public async Task<RoomType> GetByIdAsync( int id )
     {
         RoomType? roomType = await _context.RoomTypes
             .Include( rt => rt.RoomServices )
@@ -37,7 +37,7 @@ public sealed class RoomTypeRepository : IRoomTypesRepository
             .ToListAsync();
     }
 
-    public async Task<List<RoomType>> GetByPropertyId( Guid propertyId )
+    public async Task<List<RoomType>> GetByPropertyId( int propertyId )
     {
         return await _context.RoomTypes
             .Where( rt => rt.PropertyId == propertyId )
@@ -83,7 +83,7 @@ public sealed class RoomTypeRepository : IRoomTypesRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteByIdAsync( Guid id )
+    public async Task DeleteByIdAsync( int id )
     {
         RoomType? roomType = await GetByIdAsync( id );
 

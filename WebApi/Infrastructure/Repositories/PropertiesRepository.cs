@@ -19,7 +19,7 @@ public sealed class PropertiesRepository : IPropertiesRepository
         return await _context.Properties.ToListAsync();
     }
 
-    public async Task<Property?> GetByIdAsync( Guid id )
+    public async Task<Property?> GetByIdAsync( int id )
     {
         return await _context.Properties.FindAsync( id );
     }
@@ -50,7 +50,7 @@ public sealed class PropertiesRepository : IPropertiesRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteByIdAsync( Guid id )
+    public async Task DeleteByIdAsync( int id )
     {
         Property? property = await GetByIdAsync( id );
 

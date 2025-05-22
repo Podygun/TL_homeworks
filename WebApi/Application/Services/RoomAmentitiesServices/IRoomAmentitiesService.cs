@@ -5,7 +5,7 @@ namespace Application.Services.RoomAmentitiesServices;
 
 public interface IRoomAmentitiesService
 {
-    Task<RoomAmentity?> GetByIdAsync( Guid id );
+    Task<RoomAmentity?> GetByIdAsync( int id );
 
     Task<List<RoomAmentity>?> GetAllAsync();
 
@@ -13,5 +13,5 @@ public interface IRoomAmentitiesService
 
     Task<OperationResult> UpdateAsync( RoomAmentity roomAmentity );
 
-    Task<OperationResult> DeleteByIdAsync( Guid id );
+    Task<OperationResult> DeleteByIdAsync( int id );
 }

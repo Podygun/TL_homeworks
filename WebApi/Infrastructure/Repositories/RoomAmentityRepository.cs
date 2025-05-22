@@ -14,7 +14,7 @@ public sealed class RoomAmentityRepository : IRoomAmentitiesRepository
         _context = context;
     }
 
-    public async Task<RoomAmentity> GetByIdAsync( Guid id )
+    public async Task<RoomAmentity> GetByIdAsync( int id )
     {
         RoomAmentity? roomAmentity = await _context.RoomAmentities.FindAsync( id );
 
@@ -53,7 +53,7 @@ public sealed class RoomAmentityRepository : IRoomAmentitiesRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteByIdAsync( Guid id )
+    public async Task DeleteByIdAsync( int id )
     {
         RoomAmentity? roomAmentity = await GetByIdAsync( id );
 

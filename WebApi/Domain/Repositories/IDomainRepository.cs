@@ -5,11 +5,11 @@ public interface IDomainRepository<T>
 {
     Task AddAsync( T entity );
 
-    Task<T?> GetByIdAsync( Guid id );
+    Task<T?> GetByIdAsync( int id );
 
     Task<List<T>> GetAllAsync();
 
     Task UpdateAsync( T entity );
 
-    Task DeleteByIdAsync( Guid id );
+    Task DeleteByIdAsync( int id );
 }

@@ -2,8 +2,8 @@
 
 public sealed class RoomType
 {
-    public Guid Id { get; set; }
-    public Guid PropertyId { get; set; }
+    public int Id { get; set; }
+    public int PropertyId { get; set; }
     public decimal DailyPrice { get; set; }
     public string Currency { get; set; }
     public int MinPersonCount { get; set; }

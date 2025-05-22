@@ -29,7 +29,7 @@ public sealed class PropertiesService : IPropertiesService
     }
 
 
-    public async Task<OperationResult> DeleteByIdAsync( Guid id )
+    public async Task<OperationResult> DeleteByIdAsync( int id )
     {
         try
         {
@@ -65,7 +65,7 @@ public sealed class PropertiesService : IPropertiesService
     }
 
 
-    public async Task<Property?> GetByIdAsync( Guid id )
+    public async Task<Property?> GetByIdAsync( int id )
     {
         try
         {

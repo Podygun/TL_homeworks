@@ -27,7 +27,7 @@ public sealed class RoomTypesService : IRoomTypesService
         }
     }
 
-    public async Task<OperationResult> DeleteByIdAsync( Guid id )
+    public async Task<OperationResult> DeleteByIdAsync( int id )
     {
         try
         {
@@ -55,7 +55,7 @@ public sealed class RoomTypesService : IRoomTypesService
         }
     }
 
-    public async Task<RoomType?> GetByIdAsync( Guid id )
+    public async Task<RoomType?> GetByIdAsync( int id )
     {
         try
         {
@@ -69,7 +69,7 @@ public sealed class RoomTypesService : IRoomTypesService
         }
     }
 
-    public async Task<List<RoomType>?> GetByPropertyIdAsync( Guid propertyId )
+    public async Task<List<RoomType>?> GetByPropertyIdAsync( int propertyId )
     {
         try
         {

@@ -38,7 +38,7 @@ public sealed class RoomTypesController : ControllerBase
 
 
     [HttpGet( "{propertyId}/roomtypes" )]
-    public async Task<IActionResult> GetRoomTypesByPropertyId( [FromRoute] Guid propertyId )
+    public async Task<IActionResult> GetRoomTypesByPropertyId( [FromRoute] int propertyId )
     {
         List<RoomType>? roomTypes = await _roomTypesService.GetByPropertyIdAsync( propertyId );
 
@@ -65,8 +65,8 @@ public sealed class RoomTypesController : ControllerBase
     }
 
 
-    [HttpGet( "{roomTypeId:guid}" )]
-    public async Task<IActionResult> GetById( [FromRoute] Guid roomTypeId )
+    [HttpGet( "{roomTypeId:int}" )]
+    public async Task<IActionResult> GetById( [FromRoute] int roomTypeId )
     {
         RoomType? roomType = await _roomTypesService.GetByIdAsync( roomTypeId );
 
@@ -79,8 +79,8 @@ public sealed class RoomTypesController : ControllerBase
     }
 
 
-    [HttpPut( "{id:guid}" )]
-    public async Task<IActionResult> Update( [FromBody] RoomTypeDto roomTypeDto, [FromRoute] Guid id )
+    [HttpPut( "{id:int}" )]
+    public async Task<IActionResult> Update( [FromBody] RoomTypeDto roomTypeDto, [FromRoute] int id )
     {
         roomTypeDto.Id = id;
 
@@ -95,8 +95,8 @@ public sealed class RoomTypesController : ControllerBase
     }
 
 
-    [HttpDelete( "{id:guid}" )]
-    public async Task<IActionResult> Delete( [FromRoute] Guid id )
+    [HttpDelete( "{id:int}" )]
+    public async Task<IActionResult> Delete( [FromRoute] int id )
     {
         OperationResult result = await _roomTypesService.DeleteByIdAsync( id );
 

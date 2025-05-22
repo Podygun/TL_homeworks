@@ -19,7 +19,7 @@ public sealed class RoomServiceRepository : IRoomServicesRepository
         return await _context.RoomServices.ToListAsync();
     }
 
-    public async Task<RoomService> GetByIdAsync( Guid id )
+    public async Task<RoomService> GetByIdAsync( int id )
     {
         RoomService? roomService = await _context.RoomServices.FindAsync( id );
 
@@ -53,7 +53,7 @@ public sealed class RoomServiceRepository : IRoomServicesRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteByIdAsync( Guid id )
+    public async Task DeleteByIdAsync( int id )
     {
         RoomService? roomService = await GetByIdAsync( id );
 

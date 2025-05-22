@@ -5,7 +5,7 @@ namespace Application.Services.PropertiesServices;
 
 public interface IPropertiesService
 {
-    Task<Property?> GetByIdAsync( Guid id );
+    Task<Property?> GetByIdAsync( int id );
 
     Task<List<Property>?> GetAllAsync();
 
@@ -13,5 +13,5 @@ public interface IPropertiesService
 
     Task<OperationResult> UpdateAsync( Property property );
 
-    Task<OperationResult> DeleteByIdAsync( Guid id );
+    Task<OperationResult> DeleteByIdAsync( int id );
 }

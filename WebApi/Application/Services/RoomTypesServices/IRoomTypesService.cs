@@ -5,15 +5,15 @@ namespace Application.Services.RoomTypesServices;
 
 public interface IRoomTypesService
 {
-    Task<RoomType?> GetByIdAsync( Guid id );
+    Task<RoomType?> GetByIdAsync( int id );
 
     Task<List<RoomType>?> GetAllAsync();
 
-    Task<List<RoomType>?> GetByPropertyIdAsync( Guid propertyId );
+    Task<List<RoomType>?> GetByPropertyIdAsync( int propertyId );
 
     Task<OperationResult> AddAsync( RoomType roomType );
 
     Task<OperationResult> UpdateAsync( RoomType roomType );
 
-    Task<OperationResult> DeleteByIdAsync( Guid id );
+    Task<OperationResult> DeleteByIdAsync( int id );
 }

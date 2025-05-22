@@ -50,8 +50,8 @@ public sealed class PropertiesController : ControllerBase
     }
 
 
-    [HttpGet( "{propertyId:guid}" )]
-    public async Task<IActionResult> GetById( [FromRoute] Guid propertyId )
+    [HttpGet( "{propertyId:int}" )]
+    public async Task<IActionResult> GetById( [FromRoute] int propertyId )
     {
         Property? property = await _propertiesService.GetByIdAsync( propertyId );
 
@@ -65,8 +65,8 @@ public sealed class PropertiesController : ControllerBase
     }
 
 
-    [HttpPut( "{id:guid}" )]
-    public async Task<IActionResult> Update( [FromBody] PropertyDto propertyDto, [FromRoute] Guid id )
+    [HttpPut( "{id:int}" )]
+    public async Task<IActionResult> Update( [FromBody] PropertyDto propertyDto, [FromRoute] int id )
     {
         propertyDto.Id = id;
         OperationResult result = await _propertiesService.UpdateAsync( propertyDto.ToDomain() );
@@ -80,8 +80,8 @@ public sealed class PropertiesController : ControllerBase
     }
 
 
-    [HttpDelete( "{id:guid}" )]
-    public async Task<IActionResult> Delete( [FromRoute] Guid id )
+    [HttpDelete( "{id:int}" )]
+    public async Task<IActionResult> Delete( [FromRoute] int id )
     {
         OperationResult result = await _propertiesService.DeleteByIdAsync( id );
 

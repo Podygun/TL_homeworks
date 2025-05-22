@@ -7,7 +7,7 @@ namespace PropertiesApi.Dtos.Properties;
 /// </summary>
 public class PropertyDto
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string Country { get; set; } = null!;
     public string City { get; set; } = null!;

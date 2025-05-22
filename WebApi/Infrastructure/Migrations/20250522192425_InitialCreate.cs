@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class DBInitialize : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +14,8 @@ namespace Infrastructure.Migrations
                 name: "Properties",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Country = table.Column<string>(type: "TEXT", nullable: false),
                     City = table.Column<string>(type: "TEXT", nullable: false),
@@ -32,7 +32,8 @@ namespace Infrastructure.Migrations
                 name: "RoomAmentities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -44,7 +45,8 @@ namespace Infrastructure.Migrations
                 name: "RoomServices",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -56,8 +58,9 @@ namespace Infrastructure.Migrations
                 name: "RoomTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    PropertyId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PropertyId = table.Column<int>(type: "INTEGER", nullable: false),
                     DailyPrice = table.Column<decimal>(type: "TEXT", nullable: false),
                     Currency = table.Column<string>(type: "TEXT", nullable: false),
                     MinPersonCount = table.Column<int>(type: "INTEGER", nullable: false),
@@ -78,8 +81,8 @@ namespace Infrastructure.Migrations
                 name: "RoomTypeRoomAmentities",
                 columns: table => new
                 {
-                    RoomAmentitiesId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    RoomTypesId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    RoomAmentitiesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RoomTypesId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,8 +105,8 @@ namespace Infrastructure.Migrations
                 name: "RoomTypeRoomServices",
                 columns: table => new
                 {
-                    RoomServicesId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    RoomTypesId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    RoomServicesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RoomTypesId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

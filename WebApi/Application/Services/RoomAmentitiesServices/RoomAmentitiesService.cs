@@ -27,7 +27,7 @@ public sealed class RoomAmentitiesService : IRoomAmentitiesService
         }
     }
 
-    public async Task<OperationResult> DeleteByIdAsync( Guid id )
+    public async Task<OperationResult> DeleteByIdAsync( int id )
     {
         try
         {
@@ -55,7 +55,7 @@ public sealed class RoomAmentitiesService : IRoomAmentitiesService
         }
     }
 
-    public async Task<RoomAmentity?> GetByIdAsync( Guid id )
+    public async Task<RoomAmentity?> GetByIdAsync( int id )
     {
         try
         {
