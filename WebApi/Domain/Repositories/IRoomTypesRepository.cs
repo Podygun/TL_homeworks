@@ -2,4 +2,7 @@
 
 namespace Domain.Repositories;
 
-public interface IRoomTypesRepository : IDomainRepository<RoomType> { }
+public interface IRoomTypesRepository : IDomainRepository<RoomType>
+{
+    Task<List<RoomType>> GetByPropertyId( Guid propertyId );
+}

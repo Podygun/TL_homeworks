@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public sealed class RoomTypeRepository : IRoomTypeRepository
+public sealed class RoomTypeRepository : IRoomTypesRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -21,7 +21,7 @@ public sealed class RoomTypeRepository : IRoomTypeRepository
             .Include( rt => rt.RoomAmentities )
             .FirstOrDefaultAsync( rt => rt.Id == id );
 
-        if ( roomType is null )
+        if ( roomType == null )
         {
             throw new InvalidOperationException( $"Room Type with id {id} does not exist" );
         }
@@ -37,6 +37,15 @@ public sealed class RoomTypeRepository : IRoomTypeRepository
             .ToListAsync();
     }
 
+    public async Task<List<RoomType>> GetByPropertyId( Guid propertyId )
+    {
+        return await _context.RoomTypes
+            .Where( rt => rt.PropertyId == propertyId )
+            .Include( rt => rt.RoomServices )
+            .Include( rt => rt.RoomAmentities )
+            .ToListAsync();
+    }
+
     public async Task AddAsync( RoomType roomType )
     {
         await _context.RoomTypes.AddAsync( roomType );
@@ -47,7 +56,7 @@ public sealed class RoomTypeRepository : IRoomTypeRepository
     {
         RoomType? existingRoomType = await GetByIdAsync( roomType.Id );
 
-        if ( existingRoomType is null )
+        if ( existingRoomType == null )
         {
             throw new InvalidOperationException( $"Room Type with id {roomType.Id} does not exist" );
         }
@@ -64,6 +73,7 @@ public sealed class RoomTypeRepository : IRoomTypeRepository
         }
 
         existingRoomType.RoomAmentities.Clear();
+
         foreach ( RoomAmentity amentity in roomType.RoomAmentities )
         {
             existingRoomType.RoomAmentities.Add( amentity );
@@ -77,7 +87,7 @@ public sealed class RoomTypeRepository : IRoomTypeRepository
     {
         RoomType? roomType = await GetByIdAsync( id );
 
-        if ( roomType is not null )
+        if ( roomType != null )
         {
             _context.RoomTypes.Remove( roomType );
             await _context.SaveChangesAsync();
@@ -87,4 +97,6 @@ public sealed class RoomTypeRepository : IRoomTypeRepository
             throw new InvalidOperationException( $"Property with id {id} does not exist" );
         }
     }
+
+
 }
