@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using PropertiesApi.Dtos.RoomAmentities;
+using PropertiesApi.Dtos.RoomServices;
 
 namespace PropertiesApi.Dtos.RoomTypes;
 
@@ -11,6 +12,6 @@ public sealed class RoomTypeDto
     public int MinPersonCount { get; set; }
     public int MaxPersonCount { get; set; }
 
-    public IList<RoomService> RoomServices { get; set; } = [];
-    public IList<RoomAmentity> RoomAmentities { get; set; } = [];
+    public IList<RoomServiceDto> RoomServicesDto { get; set; } = [];
+    public IList<RoomAmentityDto> RoomAmentitiesDto { get; set; } = [];
 }
