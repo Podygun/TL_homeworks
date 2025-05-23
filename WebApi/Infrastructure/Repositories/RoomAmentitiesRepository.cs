@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public sealed class RoomAmentityRepository : IRoomAmentitiesRepository
+public sealed class RoomAmentitiesRepository : IRoomAmentitiesRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public RoomAmentityRepository( ApplicationDbContext context )
+    public RoomAmentitiesRepository( ApplicationDbContext context )
     {
         _context = context;
     }

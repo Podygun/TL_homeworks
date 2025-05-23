@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public sealed class RoomServiceRepository : IRoomServicesRepository
+public sealed class RoomServicesRepository : IRoomServicesRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public RoomServiceRepository( ApplicationDbContext context )
+    public RoomServicesRepository( ApplicationDbContext context )
     {
         _context = context;
     }
