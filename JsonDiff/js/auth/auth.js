@@ -19,7 +19,6 @@ export const authentication = () => {
     
     const login = loginInput.value.trim();
 
-
     if (!validateLogin(login)) {
       showElement(loginError);
       loginError.textContent = 'Uncorrect login';

@@ -1,5 +1,6 @@
 import { hideElement, showElement, updateStateUI } from "../utils/dom-helpers.js";
 import { AUTH_KEY } from '../utils/configuration.js';
+import { isUserAuthenticated } from "../auth/new-auth.js";
 
 export const pagination = () => {
   const logo = document.getElementById('logo');
@@ -19,25 +20,24 @@ export const pagination = () => {
     showPromo();
   });
 
-  startLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    currentUser = localStorage.getItem(AUTH_KEY);
-
-    if (currentUser) {
+  startLink.addEventListener('click', () => {
+    
+    if (isUserAuthenticated()) {
       showAppContent();
     } else {
       showAuthForm();
     }
+
   });
 
-  authSection.addEventListener('click', (e) => {
-    const isLoggedIn = Boolean(localStorage.getItem(AUTH_KEY));
+  authSection.addEventListener('click', () => {   
     
-    if (isLoggedIn) {
+    if (isUserAuthenticated()) {
       logout();
     } else {
       showAuthForm();
     }
+
   });
 
   const logout = () => {
