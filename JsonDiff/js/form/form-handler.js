@@ -1,40 +1,71 @@
 import { jsonDiff } from "../services/json-diff.js";
+import { validateForm } from "./form-validator.js";
+import { AuthHandler } from "../auth/auth.js";
+import {
+  hideElement,
+  showElement,
+  updateStateUI,
+} from "../utils/dom-helpers.js";
 
-const resultVisibleClass = 'result__visible';
+export const handleForms = () => {
+  handleAuthForm();
+  handleDiffForm();
+};
 
-export const jsonDiffForm = () => {
-  const form = document.querySelector('.main-form');
-  const textareaOld = document.querySelector('#oldJson');
-  const textareaNew = document.querySelector('#newJson');
-  const resultBlock = document.querySelector('.result');
-  const button = document.querySelector('.main-form button');
+const handleAuthForm = () => {
+  const authForm = document.getElementById("authForm");
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+  authForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-    const defaultButtonHtml = button.innerHTML;
-    button.innerHTML = 'Loading...';
-    button.disabled = true;
+    if (validateForm(authForm)) {
+      const loginInput = document.getElementById("login");
+      const authBlock = document.getElementById("authBlock");
+      const username = loginInput.value.trim();
 
-    try {
-      const oldValue = JSON.parse(textareaOld.value);
-      const newValue = JSON.parse(textareaNew.value);
-      const result = await jsonDiff.create(oldValue, newValue);
+      const appContentBlock = document.getElementById("appContentBlock");
 
-      const jsonResult = JSON.stringify(result, undefined, 2);
-      resultBlock.innerHTML = `<pre>${jsonResult}</pre>`;
-      
-      if (!resultBlock.classList.contains(resultVisibleClass)) {
-        resultBlock.classList.add(resultVisibleClass);
-      }
-    } catch (error) {
-      resultBlock.innerHTML = `<pre class="error">Error: ${error.message}</pre>`;
-      if (!resultBlock.classList.contains(resultVisibleClass)) {
-        resultBlock.classList.add(resultVisibleClass);
-      }
-    } finally {
-      button.innerHTML = defaultButtonHtml;
-      button.disabled = false;
+      AuthHandler.setUsername(username);
+      hideElement(authBlock);
+      showElement(appContentBlock);
+      updateStateUI();
     }
   });
-}
+};
+
+const handleDiffForm = () => {
+  const diffForm = document.getElementById("diffForm");
+  const textareaOld = document.querySelector("#oldJson");
+  const textareaNew = document.querySelector("#newJson");
+  const resultBlock = document.getElementById("resultBlock");
+  const button = document.querySelector(".main-form button");
+
+  diffForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (validateForm(diffForm)) {
+      const defaultButtonHtml = button.innerHTML;
+      button.innerHTML = "Loading...";
+      button.disabled = true;
+
+      try {
+        const oldValue = JSON.parse(textareaOld.value);
+        const newValue = JSON.parse(textareaNew.value);
+        const result = await jsonDiff.create(oldValue, newValue);
+        const jsonResult = JSON.stringify(result, undefined, 2);
+
+        resultBlock.innerHTML = `<pre>${jsonResult}</pre>`;
+        showElement(resultBlock);
+      } catch (error) {
+        resultBlock.innerHTML = `<pre class="error">Error: ${error.message}</pre>`;
+        showElement(resultBlock);
+      } finally {
+        button.innerHTML = defaultButtonHtml;
+        button.disabled = false;
+      }
+    }
+    else{
+      hideElement(resultBlock);
+    }
+  });
+};

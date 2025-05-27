@@ -1,31 +1,32 @@
-import { AUTH_KEY } from './configuration.js';
+import { AuthHandler } from "../auth/auth.js";
 
-export const showElement = (element) => element?.classList.remove('hide');
-export const hideElement = (element) => element?.classList.add('hide');
+export const showElement = (element) => element?.classList.remove("hide");
+export const hideElement = (element) => element?.classList.add("hide");
 export const toggleElement = (element, isVisible) => {
   isVisible ? showElement(element) : hideElement(element);
 };
 
+const domElements = {
+  loginSection: document.getElementById("loginSection"),
+  startBlock: document.getElementById("startBlock"),
+}
+
 export const updateStateUI = () => {
-
-  const authSection = document.getElementById('authSection');
-  const appContent = document.getElementById('appContent');
-  const startBlock = document.getElementById('startBlock');
-
-  let currentUser = localStorage.getItem(AUTH_KEY);
-  let currentUserName = JSON.parse(localStorage.getItem(AUTH_KEY));
-
-  if (currentUser) {
-      authSection.innerHTML = `
-        <span class="user-greeting">Hello, ${currentUserName.name}!</span>
+  if (AuthHandler.isAuthenticated()) {
+    domElements.loginSection.innerHTML = `
+        <span class="user-greeting">Hello, ${AuthHandler.getUsername()}!</span>
         <span class="logout-text">Log out</span>
-      `;
-      showElement(startBlock);
-      showElement(appContent);
-      hideElement(authForm)
-    } else {
-      authSection.innerHTML = '<span class="auth-text">Log in</span>';
-      hideElement(startBlock);
-      hideElement(appContent);
-    }
+    `;
+    showElement(domElements.startBlock);
+  } else {
+    loginSection.innerHTML = '<span class="auth-text">Log in</span>';
+    hideElement(domElements.startBlock);
+  }
+};
+
+export const hideErrors = () => {
+  const errorSpans = document.querySelectorAll('.validation-message');
+  errorSpans.forEach(span => {
+    span.classList.add('hide');
+  });
 }

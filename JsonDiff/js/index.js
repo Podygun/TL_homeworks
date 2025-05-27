@@ -1,9 +1,6 @@
-import { authentication } from './auth/auth.js';
-import { jsonDiffForm } from './form/form-handler.js';
-import { formValidation } from './form/form-validator.js';
-import { pagination } from './services/pagination.js'
+import { setPagination } from './services/pagination.js'
+import { handleForms } from './form/form-handler.js';
 
-authentication();
-pagination();
-jsonDiffForm();
-formValidation();
+
+setPagination();
+handleForms();

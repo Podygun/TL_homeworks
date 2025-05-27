@@ -1,92 +1,70 @@
 import { hideElement, showElement } from "../utils/dom-helpers.js";
 
-export const formValidation = () => {
-    const form = document.querySelector('.main-form');
-    const textareaOld = document.querySelector('#oldJson');
-    const textareaNew = document.querySelector('#newJson');
-    const resultBlock = document.querySelector('.result');
-    const button = document.querySelector('.main-form button');
-    const oldJsonError = document.querySelector('#oldJsonError');
-    const newJsonError = document.querySelector('#newJsonError');
+export const validateForm = (form) => {
+  const inputs = form.querySelectorAll("input, textarea");
+  let isValid = true;
 
-    const isValidJson = (str) => {
-        try {
-            JSON.parse(str);
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
+  inputs.forEach((input) => {
+    const validationRules = input.getAttribute("validation-rules");
+    const validationMessage = input.nextElementSibling;
 
-    const showError = (elementId, message) => {
-        const errorElement = document.getElementById(elementId);
-        errorElement.textContent = message;
-        errorElement.classList.add('active');
-        showElement(errorElement);
-    }
+    validationMessage.textContent = "";
 
-    const resetErrors = () => {
-        document.querySelectorAll('.error-message').forEach(el => {
-            el.textContent = '';
-            el.classList.remove('active');
-            // hideElement(el);
-        });
-        textareaOld.classList.remove('error');
-        textareaNew.classList.remove('error');
-    }
+    if (validationRules) {
+      if (validationRules.includes('required')) {
 
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        resetErrors();
-        resultBlock.classList.remove('result__visible');
-        resultBlock.innerHTML = '';
-        
-        const oldValue = textareaOld.value.trim();
-        const newValue = textareaNew.value.trim();
-        let isValid = true;
-
-        if (!oldValue) {
-            showError('oldJsonError', 'Поле не может быть пустым');
-            textareaOld.classList.add('error');
-            isValid = false;
-        } else if (!isValidJson(oldValue)) {
-            showError('oldJsonError', 'Невалидный JSON');
-            textareaOld.classList.add('error');
-            isValid = false;
+        if (!input.value.trim()) {
+          validationMessage.textContent = 'Поле обязательно для заполнения.';
+          showElement(validationMessage);
+          isValid = false;
+        } else if (!validateLogin(input.value.trim())) {
+          validationMessage.textContent = 'Логин должен быть > 2 символов';
+          showElement(validationMessage);
+          isValid = false;
         }
         else{
-            hideElement(oldJsonError);
+          hideElement(validationMessage)
         }
+        return;
+      }
 
-        if (!newValue) {
-            showError('newJsonError', 'Поле не может быть пустым');
-            textareaNew.classList.add('error');
-            isValid = false;
-        } else if (!isValidJson(newValue)) {
-            showError('newJsonError', 'Невалидный JSON');
-            textareaNew.classList.add('error');
-            isValid = false;
-        }
-        else{
-            hideElement(newJsonError);
-        }
+      if (validationRules.includes('json-format') && !isValidJson(input.value.trim())) {
+        validationMessage.textContent = 'Неверный формат JSON.';
 
-        if (!isValid) return;
+        input.classList.add("error");
 
-        button.innerHTML = 'Loading...';
-        button.disabled = true;
-    });
+        showElement(validationMessage);
+        isValid = false;
+        return;
+      }
+      else{
+        hideElement(validationMessage)
+        input.classList.remove("error");
+      }
 
-}
-
-export const validateLogin = (loginString) => {
-    if (!loginString) {
-      return false;
     }
+  });
 
-    if(loginString.length < 2 || loginString.length > 20){
-        return false;
-    } 
-       
-    return true
-}
+  return isValid;
+};
+
+const isValidJson = (str) => {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const validateLogin = (loginString) => {
+  if (!loginString) {
+    return false;
+  }
+
+  if (loginString.length < 2 || loginString.length > 20) {
+    return false;
+  }
+
+  return true;
+};

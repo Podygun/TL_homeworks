@@ -1,73 +1,65 @@
-import { hideElement, showElement, updateStateUI } from "../utils/dom-helpers.js";
-import { AUTH_KEY } from '../utils/configuration.js';
-import { isUserAuthenticated } from "../auth/new-auth.js";
+import { hideElement, hideErrors, showElement, updateStateUI } from "../utils/dom-helpers.js";
+import { AuthHandler } from "../auth/auth.js";
 
-export const pagination = () => {
-  const logo = document.getElementById('logo');
-  const authSection = document.getElementById('authSection');
-  const promo = document.getElementById('promo');
-  const startLink = document.getElementById('startLink');
-  const authForm = document.getElementById('authForm');
-  const appContent = document.getElementById('appContent');
-  const loginInput = document.getElementById('login');
-  const loginError = document.getElementById('loginError');
+const domElements = {
+  logo: document.getElementById("logo"),
+  loginSection: document.getElementById("loginSection"),
+  promo: document.getElementById("promo"),
+  startLink: document.getElementById("startLink"),
+  startBlock: document.getElementById("startBlock"),
+  authBlock: document.getElementById("authBlock"),
+  appContent: document.getElementById("appContentBlock"),
+  loginInput: document.getElementById("login"),
+}
 
-  let currentUser = localStorage.getItem(AUTH_KEY);
+export const setPagination = () => {
 
-  hideElement(loginError);
-
-  logo.addEventListener('click', () => {
+  domElements.logo.addEventListener("click", () => {
     showPromo();
   });
 
-  startLink.addEventListener('click', () => {
-    
-    if (isUserAuthenticated()) {
+  domElements.startLink.addEventListener("click", () => {
+    if (AuthHandler.isAuthenticated()) {
       showAppContent();
     } else {
       showAuthForm();
     }
-
   });
 
-  authSection.addEventListener('click', () => {   
-    
-    if (isUserAuthenticated()) {
+  loginSection.addEventListener("click", () => {
+    if (AuthHandler.isAuthenticated()) {
       logout();
     } else {
       showAuthForm();
     }
-
   });
 
   const logout = () => {
-    localStorage.removeItem(AUTH_KEY);
-    currentUser = null;
+    AuthHandler.clearUser();
     updateStateUI();
     showPromo();
-  }
+  };
 
   const showPromo = () => {
-    showElement(promo);
-    hideElement(authForm);
-    hideElement(appContent);
-  }
+    showElement(domElements.promo);
+    hideElement(domElements.authBlock);
+    hideElement(domElements.appContent);
+  };
 
   const showAuthForm = () => {
-    hideElement(promo);
-    showElement(authForm);
-    hideElement(appContent);
-
-    loginInput.value = '';
-    loginError.textContent = '';
-  }
+    hideErrors();
+    hideElement(domElements.promo);
+    showElement(domElements.authBlock);
+    hideElement(domElements.appContent);
+  };
 
   const showAppContent = () => {
-    hideElement(promo);
-    hideElement(authForm);
-    showElement(appContent);
-  }
+    hideElement(domElements.promo);
+    hideElement(domElements.authBlock);
+    showElement(domElements.appContent);
+  };
 
-    updateStateUI();
-    showPromo();
-}
+  updateStateUI();
+  showPromo();
+};
+
