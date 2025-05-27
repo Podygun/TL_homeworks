@@ -17,7 +17,7 @@
   border-radius: 8px;
 }
 
-.result {
+.resultBlock {
   background-color: #f5f5f5;
   border: 2px solid #bbb;
   border-radius: 8px;
@@ -25,18 +25,14 @@
   font-family: monospace;
   min-height: 150px;
   margin-top: 15px;
-  display: none;
+  display: block;
   overflow: auto;
 }
 
-.result pre {
+.resultBlock pre {
   margin: 0;
   white-space: pre-wrap;
   word-wrap: break-word;
-}
-
-.result.result__visible {
-  display: block;
 }
 
 .start-block {
