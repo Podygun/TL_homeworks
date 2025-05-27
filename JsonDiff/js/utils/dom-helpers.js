@@ -9,17 +9,21 @@ export const toggleElement = (element, isVisible) => {
 const domElements = {
   loginSection: document.getElementById("loginSection"),
   startBlock: document.getElementById("startBlock"),
+  resultBlock: document.getElementById("resultBlock")
 }
 
 export const updateStateUI = () => {
   if (AuthHandler.isAuthenticated()) {
+
+    hideElement(domElements.resultBlock);
+
     domElements.loginSection.innerHTML = `
         <span class="user-greeting">Hello, ${AuthHandler.getUsername()}!</span>
         <span class="logout-text">Log out</span>
     `;
     showElement(domElements.startBlock);
   } else {
-    loginSection.innerHTML = '<span class="auth-text">Log in</span>';
+    domElements.loginSection.innerHTML = '<span class="auth-text">Log in</span>';
     hideElement(domElements.startBlock);
   }
 };
