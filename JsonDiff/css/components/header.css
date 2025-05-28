@@ -1,0 +1,44 @@
+.header {
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.logo:hover {
+  transition: opacity var(--transition-duration) ease;
+  opacity: var(--hover-opacity);
+}
+
+.auth-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.auth-text, .logout-text {
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: opacity var(--transition-duration) ease;
+}
+
+.user-greeting {
+  font-weight: bold;
+}
+
+.auth-text:hover, .logout-text:hover {
+  opacity: var(--hover-opacity);
+  text-decoration: none;
+}
+
+.logout-text {
+  font-size: 0.9rem;
+}
