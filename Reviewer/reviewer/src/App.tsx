@@ -1,10 +1,10 @@
-import Home from './components/Home/Home';
 import './App.css';
+import FeedbackForm from './components/FeedbackForm/FeedbackForm';
 
 function App() {
   return (
     <div className="app">
-      <Home />
+      <FeedbackForm />
     </div>
   );
 }
