@@ -9,7 +9,7 @@ public class ReservationsRepository : IReservationsRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public ReservationRepository( ApplicationDbContext context )
+    public ReservationsRepository( ApplicationDbContext context )
     {
         _context = context;
     }
@@ -62,7 +62,7 @@ public class ReservationsRepository : IReservationsRepository
     public async Task<IEnumerable<Reservation>> GetByDatesAsync( DateTime from, DateTime to )
     {
         return await _context.Reservations
-            .Where( r => r.ArrivalDate <= to && r.DepartureDate >= from )
+            .Where( r => r.ArrivalDateTime <= to && r.DepartureDateTime >= from )
             .ToListAsync();
     }
 
@@ -70,7 +70,7 @@ public class ReservationsRepository : IReservationsRepository
     {
         return !await _context.Reservations
             .AnyAsync( r => r.RoomTypeId == roomTypeId &&
-                          r.ArrivalDate < departureDate &&
-                          r.DepartureDate > arrivalDate );
+                          r.ArrivalDateTime < departureDate &&
+                          r.DepartureDateTime > arrivalDate );
     }
 }

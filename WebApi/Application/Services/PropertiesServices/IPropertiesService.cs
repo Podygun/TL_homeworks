@@ -14,4 +14,6 @@ public interface IPropertiesService
     Task<OperationResult> UpdateAsync( Property property );
 
     Task<OperationResult> DeleteByIdAsync( int id );
+
+    Task<List<Property>?> SearchPropertiesAsync( string city, DateTime arrivalDate, DateTime departureDate, int guests, decimal? maxPrice );
 }

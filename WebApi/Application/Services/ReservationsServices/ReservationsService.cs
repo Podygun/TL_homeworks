@@ -17,36 +17,51 @@ public class ReservationsService : IReservationsService
         _roomTypesRepository = roomTypeRepository;
     }
 
-    public async Task<Reservation> GetReservationByIdAsync( int id )
+    public Task<OperationResult> CreateReservationAsync( Reservation reservation )
     {
-        return await _reservationsRepository.GetByIdAsync( id );
+        throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<Reservation>> GetReservationsByPropertyAsync( int propertyId )
+    public Task<Reservation> GetReservationByIdAsync( int id )
     {
-        return await _reservationsRepository.GetByPropertyIdAsync( propertyId );
+        throw new NotImplementedException();
     }
 
-    public async Task<OperationResult<Reservation>> CreateReservationAsync( Reservation reservation )
+    public Task<IEnumerable<Reservation>> GetReservationsByPropertyAsync( int propertyId )
     {
-        if ( !await _reservationsRepository.IsRoomAvailableAsync(
-            reservation.RoomTypeId,
-            reservation.ArrivalDate,
-            reservation.DepartureDate ) )
-        {
-            return OperationResult<Reservation>.Failed( "Номер недоступен на выбранные даты" );
-        }
-
-        var roomType = await _roomTypeRepository.GetByIdAsync( reservation.RoomTypeId );
-        if ( roomType == null )
-        {
-            return OperationResult<Reservation>.Failed( "Тип номера не найден" );
-        }
-
-        reservation.CalculateTotal( roomType.DailyPrice );
-        reservation.Currency = roomType.Currency;
-
-        await _reservationRepository.AddAsync( reservation );
-        return OperationResult<Reservation>.Success( reservation );
+        throw new NotImplementedException();
     }
+
+    //public async Task<Reservation> GetReservationByIdAsync( int id )
+    //{
+    //    return await _reservationsRepository.GetByIdAsync( id );
+    //}
+
+    //public async Task<IEnumerable<Reservation>> GetReservationsByPropertyAsync( int propertyId )
+    //{
+    //    return await _reservationsRepository.GetByPropertyIdAsync( propertyId );
+    //}
+
+    //public async Task<OperationResult<Reservation>> CreateReservationAsync( Reservation reservation )
+    //{
+    //    if ( !await _reservationsRepository.IsRoomAvailableAsync(
+    //        reservation.RoomTypeId,
+    //        reservation.ArrivalDate,
+    //        reservation.DepartureDate ) )
+    //    {
+    //        return OperationResult<Reservation>.Failed( "Номер недоступен на выбранные даты" );
+    //    }
+
+    //    var roomType = await _roomTypeRepository.GetByIdAsync( reservation.RoomTypeId );
+    //    if ( roomType == null )
+    //    {
+    //        return OperationResult<Reservation>.Failed( "Тип номера не найден" );
+    //    }
+
+    //    reservation.CalculateTotal( roomType.DailyPrice );
+    //    reservation.Currency = roomType.Currency;
+
+    //    await _reservationRepository.AddAsync( reservation );
+    //    return OperationResult<Reservation>.Success( reservation );
+    //}
 }

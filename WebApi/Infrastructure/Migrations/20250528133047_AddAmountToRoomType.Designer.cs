@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250528133047_AddAmountToRoomType")]
+    partial class AddAmountToRoomType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -56,14 +59,20 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("ArrivalDateTime")
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("ArrivalTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DepartureDateTime")
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("DepartureTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GuestName")
@@ -85,9 +94,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArrivalDateTime");
+                    b.HasIndex("ArrivalDate");
 
-                    b.HasIndex("DepartureDateTime");
+                    b.HasIndex("DepartureDate");
 
                     b.HasIndex("PropertyId");
 
@@ -191,13 +200,13 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Reservation", b =>
                 {
                     b.HasOne("Domain.Entities.Property", "Property")
-                        .WithMany("Reservations")
+                        .WithMany()
                         .HasForeignKey("PropertyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.RoomType", "RoomType")
-                        .WithMany("Reservations")
+                        .WithMany()
                         .HasForeignKey("RoomTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -250,14 +259,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Property", b =>
                 {
-                    b.Navigation("Reservations");
-
                     b.Navigation("RoomTypes");
-                });
-
-            modelBuilder.Entity("Domain.Entities.RoomType", b =>
-                {
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

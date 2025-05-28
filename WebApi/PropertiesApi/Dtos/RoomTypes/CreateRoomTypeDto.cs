@@ -7,4 +7,5 @@ public sealed class CreateRoomTypeDto
     public string Currency { get; set; } = null!;
     public int MinPersonCount { get; set; }
     public int MaxPersonCount { get; set; }
+    public int AmountRooms { get; set; }
 }

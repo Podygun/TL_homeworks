@@ -42,7 +42,7 @@ public class Program
         builder.Services.AddScoped<IRoomServicesRepository, RoomServicesRepository>();
         builder.Services.AddScoped<IRoomAmentitiesRepository, RoomAmentitiesRepository>();
         builder.Services.AddScoped<IRoomTypesRepository, RoomTypesRepository>();
-        builder.Services.AddScoped<IReservationsRepository, ReservationRepository>();
+        builder.Services.AddScoped<IReservationsRepository, ReservationsRepository>();
 
         //Services (Application)
         builder.Services.AddScoped<IPropertiesService, PropertiesService>();

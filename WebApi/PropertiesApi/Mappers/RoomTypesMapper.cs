@@ -22,7 +22,8 @@ internal static class RoomTypesMapper
             DailyPrice = rt.DailyPrice,
             Currency = rt.Currency,
             MinPersonCount = rt.MinPersonCount,
-            MaxPersonCount = rt.MaxPersonCount
+            MaxPersonCount = rt.MaxPersonCount,
+            AmountRooms = rt.AmountRooms
         } ).ToList();
     }
 
@@ -34,7 +35,8 @@ internal static class RoomTypesMapper
             DailyPrice = rt.DailyPrice,
             Currency = rt.Currency,
             MinPersonCount = rt.MinPersonCount,
-            MaxPersonCount = rt.MaxPersonCount
+            MaxPersonCount = rt.MaxPersonCount,
+            AmountRooms = rt.AmountRooms
         };
     }
 
@@ -48,6 +50,7 @@ internal static class RoomTypesMapper
             Currency = roomType.Currency,
             MinPersonCount = roomType.MinPersonCount,
             MaxPersonCount = roomType.MaxPersonCount,
+            AmountRooms = roomType.AmountRooms,
             RoomServicesDto = roomType.RoomServices?.ToDto() ?? new List<RoomServiceDto>(),
             RoomAmentitiesDto = roomType.RoomAmentities?.ToDto() ?? new List<RoomAmentityDto>()
         };
@@ -61,7 +64,8 @@ internal static class RoomTypesMapper
             DailyPrice = rt.DailyPrice,
             Currency = rt.Currency,
             MinPersonCount = rt.MinPersonCount,
-            MaxPersonCount = rt.MaxPersonCount
+            MaxPersonCount = rt.MaxPersonCount,
+            AmountRooms = rt.AmountRooms
         };
     }
 }

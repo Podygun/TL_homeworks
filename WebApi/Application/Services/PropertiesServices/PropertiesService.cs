@@ -8,6 +8,7 @@ public sealed class PropertiesService : IPropertiesService
 {
     private readonly IPropertiesRepository _propertiesRepository;
 
+
     public PropertiesService( IPropertiesRepository propertiesRepository )
     {
         _propertiesRepository = propertiesRepository;
@@ -78,6 +79,28 @@ public sealed class PropertiesService : IPropertiesService
             return null;
         }
     }
+
+
+    public async Task<List<Property>?> SearchPropertiesAsync(
+        string city,
+        DateTime arrivalDate,
+        DateTime departureDate,
+        int guests,
+        decimal? maxPrice )
+    {
+        try
+        {
+            List<Property> properties = await _propertiesRepository.GetPropertiesByFiltersAsync( city, arrivalDate, departureDate, guests, maxPrice );
+
+            return properties;
+        }
+        catch
+        {
+            return null;
+        }
+
+    }
+
 
     public async Task<OperationResult> UpdateAsync( Property property )
     {

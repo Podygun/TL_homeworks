@@ -1,6 +1,8 @@
-﻿namespace Domain.Entities;
+﻿using ReservationApi.Dtos.RoomTypes;
 
-public sealed class Property
+namespace ReservationApi.Dtos.Properties;
+
+public class FoundPropertyDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -10,6 +12,5 @@ public sealed class Property
     public double Latitude { get; set; }
     public double Longitude { get; set; }
 
-    public IList<RoomType> RoomTypes { get; set; } = [];
-    public IList<Reservation> Reservations { get; set; } = [];
+    public IList<RoomTypeDto> RoomTypes { get; set; } = [];
 }

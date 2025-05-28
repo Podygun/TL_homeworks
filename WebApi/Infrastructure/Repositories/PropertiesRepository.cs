@@ -62,4 +62,59 @@ public sealed class PropertiesRepository : IPropertiesRepository
         _context.Properties.Remove( property );
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<Property>> GetPropertiesByFiltersAsync(
+        string city,
+        DateTime arrivalDate,
+        DateTime departureDate,
+        int guests,
+        decimal? maxPrice
+        )
+    {
+        return await _context.Properties
+
+            .Include( p => p.RoomTypes )
+                .ThenInclude( rt => rt.RoomServices )
+
+            .Include( p => p.RoomTypes )
+                .ThenInclude( rt => rt.RoomAmentities )
+
+            .Where( p => p.City == city )
+
+            .Select( p => new Property
+            {
+                Id = p.Id,
+                Name = p.Name,
+                City = p.City,
+                Country = p.Country,
+                Address = p.Address,
+                Latitude = p.Latitude,
+                Longitude = p.Longitude,
+                RoomTypes = p.RoomTypes
+                    .Where( rt =>
+                        rt.MaxPersonCount >= guests &&
+                        ( !maxPrice.HasValue || rt.DailyPrice <= maxPrice ) &&
+                        rt.AmountRooms > 0 &&
+                        !rt.Reservations.Any( r =>
+                            arrivalDate < r.DepartureDateTime &&
+                            departureDate > r.ArrivalDateTime
+                        )
+                    )
+                    .Select( rt => new RoomType
+                    {
+                        Id = rt.Id,
+                        PropertyId = rt.PropertyId,
+                        DailyPrice = rt.DailyPrice,
+                        Currency = rt.Currency,
+                        MinPersonCount = rt.MinPersonCount,
+                        MaxPersonCount = rt.MaxPersonCount,
+                        AmountRooms = rt.AmountRooms,
+                        RoomServices = rt.RoomServices.ToList(),
+                        RoomAmentities = rt.RoomAmentities.ToList()
+                    } )
+                    .ToList()
+            } )
+            .Where( p => p.RoomTypes.Any() )
+            .ToListAsync();
+    }
 }
