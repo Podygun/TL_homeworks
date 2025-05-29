@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Utilities;
-using Infrastructure.Repositories;
 
 namespace Application.Services.ReservationsServices;
 
@@ -58,14 +57,12 @@ public class ReservationsService : IReservationsService
             return OperationResult.BadRequest;
         }
 
-        var checkInTime = new TimeOnly( 12, 0 ); // 12:00
-        var checkOutTime = new TimeOnly( 10, 0 ); // 10:00
 
         reservation.Currency = selectedRoomType.Currency;
         reservation.Total = reservation.NightsCount * selectedRoomType.DailyPrice;
 
+        // setup time for arrive and departure (12:00, 10:00)
         reservation.ArrivalDateTime = reservation.ArrivalDateTime.AddHours( 12 );
-
         reservation.DepartureDateTime = reservation.DepartureDateTime.AddHours( 10 );
 
         try
@@ -110,38 +107,4 @@ public class ReservationsService : IReservationsService
 
     }
 
-
-
-    //public async Task<Reservation> GetReservationByIdAsync( int id )
-    //{
-    //    return await _reservationsRepository.GetByIdAsync( id );
-    //}
-
-    //public async Task<IEnumerable<Reservation>> GetReservationsByPropertyAsync( int propertyId )
-    //{
-    //    return await _reservationsRepository.GetByPropertyIdAsync( propertyId );
-    //}
-
-    //public async Task<OperationResult<Reservation>> CreateReservationAsync( Reservation reservation )
-    //{
-    //    if ( !await _reservationsRepository.IsRoomAvailableAsync(
-    //        reservation.RoomTypeId,
-    //        reservation.ArrivalDate,
-    //        reservation.DepartureDate ) )
-    //    {
-    //        return OperationResult<Reservation>.Failed( "Номер недоступен на выбранные даты" );
-    //    }
-
-    //    var roomType = await _roomTypeRepository.GetByIdAsync( reservation.RoomTypeId );
-    //    if ( roomType == null )
-    //    {
-    //        return OperationResult<Reservation>.Failed( "Тип номера не найден" );
-    //    }
-
-    //    reservation.CalculateTotal( roomType.DailyPrice );
-    //    reservation.Currency = roomType.Currency;
-
-    //    await _reservationRepository.AddAsync( reservation );
-    //    return OperationResult<Reservation>.Success( reservation );
-    //}
 }

@@ -31,7 +31,7 @@ public class ReservationsRepository : IReservationsRepository
 
     public async Task DeleteByIdAsync( int id )
     {
-        var reservation = await GetByIdAsync( id );
+        Reservation reservation = await GetByIdAsync( id );
         if ( reservation != null )
         {
             _context.Reservations.Remove( reservation );
