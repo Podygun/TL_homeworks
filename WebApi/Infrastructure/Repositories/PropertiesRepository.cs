@@ -110,8 +110,17 @@ public sealed class PropertiesRepository : IPropertiesRepository
                         MaxPersonCount = rt.MaxPersonCount,
                         AmountRooms = rt.AmountRooms,
                         RoomServices = rt.RoomServices.ToList(),
-                        RoomAmentities = rt.RoomAmentities.ToList()
+                        RoomAmentities = rt.RoomAmentities.ToList(),
+                        Reservations = rt.Reservations
+                            .Where( r =>
+                                arrivalDate < r.DepartureDateTime &&
+                                departureDate > r.ArrivalDateTime
+                            )
+                            .ToList()
                     } )
+                    .Where( rt =>
+                        rt.AmountRooms > rt.Reservations.Count // Проверка доступности
+                    )
                     .ToList()
             } )
             .Where( p => p.RoomTypes.Any() )
