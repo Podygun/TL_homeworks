@@ -37,6 +37,7 @@ internal static class ReservationMapper
     {
         return new ReservationDto()
         {
+            Id = domain.Id,
             ArrivalDateTime = domain.ArrivalDateTime,
             DepartureDateTime = domain.DepartureDateTime,
             GuestName = domain.GuestName,

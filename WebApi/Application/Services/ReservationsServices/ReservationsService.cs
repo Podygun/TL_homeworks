@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Utilities;
+using Infrastructure.Repositories;
 
 namespace Application.Services.ReservationsServices;
 
@@ -46,9 +47,26 @@ public class ReservationsService : IReservationsService
             return OperationResult.BadRequest;
         }
 
+        int availableRooms = await _roomTypesRepository.GetAmountAvailableRoomsAsync(
+            reservation.RoomTypeId,
+            reservation.PropertyId,
+            reservation.ArrivalDateTime,
+            reservation.DepartureDateTime );
+
+        if ( availableRooms <= 0 )
+        {
+            return OperationResult.BadRequest;
+        }
+
+        var checkInTime = new TimeOnly( 12, 0 ); // 12:00
+        var checkOutTime = new TimeOnly( 10, 0 ); // 10:00
 
         reservation.Currency = selectedRoomType.Currency;
         reservation.Total = reservation.NightsCount * selectedRoomType.DailyPrice;
+
+        reservation.ArrivalDateTime = reservation.ArrivalDateTime.AddHours( 12 );
+
+        reservation.DepartureDateTime = reservation.DepartureDateTime.AddHours( 10 );
 
         try
         {

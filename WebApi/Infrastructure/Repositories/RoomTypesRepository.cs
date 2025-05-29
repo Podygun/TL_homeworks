@@ -98,5 +98,25 @@ public sealed class RoomTypesRepository : IRoomTypesRepository
         }
     }
 
+    public async Task<int> GetAmountAvailableRoomsAsync( int roomTypeId, int propertyId, DateTime arrivalDate, DateTime departureDate )
+    {
+        int totalRooms = await _context.RoomTypes
+            .Where( rt => rt.Id == roomTypeId && rt.PropertyId == propertyId )
+            .Select( rt => rt.AmountRooms )
+            .FirstOrDefaultAsync();
 
+        if ( totalRooms == 0 )
+        {
+            return 0;
+        }
+
+        int bookedRooms = await _context.Reservations
+            .Where( r => r.RoomTypeId == roomTypeId &&
+                        r.PropertyId == propertyId &&
+                        arrivalDate < r.DepartureDateTime &&
+                        departureDate > r.ArrivalDateTime )
+            .CountAsync();
+
+        return totalRooms - bookedRooms;
+    }
 }
