@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Domain.Utilities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,23 +23,9 @@ public class ReservationsRepository : IReservationsRepository
             .FirstOrDefaultAsync( r => r.Id == id );
     }
 
-    public async Task<List<Reservation>> GetAllAsync()
-    {
-        return await _context.Reservations
-            .Include( r => r.Property )
-            .Include( r => r.RoomType )
-            .ToListAsync();
-    }
-
     public async Task AddAsync( Reservation entity )
     {
         await _context.Reservations.AddAsync( entity );
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task UpdateAsync( Reservation entity )
-    {
-        _context.Reservations.Update( entity );
         await _context.SaveChangesAsync();
     }
 
@@ -52,25 +39,43 @@ public class ReservationsRepository : IReservationsRepository
         }
     }
 
-    public async Task<IEnumerable<Reservation>> GetByPropertyIdAsync( int propertyId )
+    public async Task<IEnumerable<Reservation>> GetFilteredReservationAsync( ReservationFilter filter )
     {
-        return await _context.Reservations
-            .Where( r => r.PropertyId == propertyId )
-            .ToListAsync();
-    }
+        IQueryable<Reservation> query = _context.Reservations
+            .Include( r => r.Property )
+            .Include( r => r.RoomType )
+            .AsQueryable();
 
-    public async Task<IEnumerable<Reservation>> GetByDatesAsync( DateTime from, DateTime to )
-    {
-        return await _context.Reservations
-            .Where( r => r.ArrivalDateTime <= to && r.DepartureDateTime >= from )
-            .ToListAsync();
-    }
+        if ( filter.PropertyId.HasValue )
+            query = query.Where( r => r.PropertyId == filter.PropertyId );
 
-    public async Task<bool> IsRoomAvailableAsync( int roomTypeId, DateTime arrivalDate, DateTime departureDate )
-    {
-        return !await _context.Reservations
-            .AnyAsync( r => r.RoomTypeId == roomTypeId &&
-                          r.ArrivalDateTime < departureDate &&
-                          r.DepartureDateTime > arrivalDate );
+        if ( filter.RoomTypeId.HasValue )
+            query = query.Where( r => r.RoomTypeId == filter.RoomTypeId );
+
+        if ( filter.ArrivalDateFrom.HasValue )
+            query = query.Where( r => r.ArrivalDateTime >= filter.ArrivalDateFrom.Value.ToDateTime( TimeOnly.MinValue ) );
+
+        if ( filter.ArrivalDateTo.HasValue )
+            query = query.Where( r => r.ArrivalDateTime <= filter.ArrivalDateTo.Value.ToDateTime( TimeOnly.MaxValue ) );
+
+        if ( filter.DepartureDateFrom.HasValue )
+            query = query.Where( r => r.ArrivalDateTime >= filter.DepartureDateFrom.Value.ToDateTime( TimeOnly.MinValue ) );
+
+        if ( filter.DepartureDateTo.HasValue )
+            query = query.Where( r => r.ArrivalDateTime <= filter.DepartureDateTo.Value.ToDateTime( TimeOnly.MaxValue ) );
+
+        if ( !string.IsNullOrEmpty( filter.GuestName ) )
+            query = query.Where( r => r.GuestName.Contains( filter.GuestName ) );
+
+        if ( !string.IsNullOrEmpty( filter.GuestPhone ) )
+            query = query.Where( r => r.GuestPhoneNumber.Contains( filter.GuestPhone ) );
+
+        if ( filter.MinTotal.HasValue )
+            query = query.Where( r => r.Total >= filter.MinTotal );
+
+        if ( filter.MaxTotal.HasValue )
+            query = query.Where( r => r.Total <= filter.MaxTotal );
+
+        return await query.ToListAsync();
     }
 }

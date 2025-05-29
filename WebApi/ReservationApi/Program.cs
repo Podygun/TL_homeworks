@@ -1,4 +1,5 @@
 using Application.Services.PropertiesServices;
+using Application.Services.ReservationsServices;
 using Application.Services.RoomTypesServices;
 using Domain.Repositories;
 using Infrastructure.Data;
@@ -47,6 +48,7 @@ public class Program
         //Services (Application)
         builder.Services.AddScoped<IPropertiesService, PropertiesService>();
         builder.Services.AddScoped<IRoomTypesService, RoomTypesService>();
+        builder.Services.AddScoped<IReservationsService, ReservationsService>();
 
         // Built-in services
         builder.Services.AddControllers();

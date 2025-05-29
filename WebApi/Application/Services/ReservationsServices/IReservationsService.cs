@@ -1,11 +1,13 @@
 ﻿using Application.Services.Utilities;
 using Domain.Entities;
+using Domain.Utilities;
 
 namespace Application.Services.ReservationsServices;
 
 public interface IReservationsService
 {
-    Task<Reservation> GetReservationByIdAsync( int id );
-    Task<IEnumerable<Reservation>> GetReservationsByPropertyAsync( int propertyId );
-    Task<OperationResult> CreateReservationAsync( Reservation reservation );
+    Task<Reservation> GetByIdAsync( int id );
+    Task<OperationResult> AddAsync( Reservation reservation );
+    Task<OperationResult> DeleteByIdAsync( int id );
+    Task<List<Reservation>?> GetFilteredReservationAsync( ReservationFilter filter);
 }

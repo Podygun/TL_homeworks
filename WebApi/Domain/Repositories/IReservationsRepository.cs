@@ -1,11 +1,15 @@
 ﻿using Domain.Entities;
+using Domain.Utilities;
 
 namespace Domain.Repositories;
 
-public interface IReservationsRepository : IDomainRepository<Reservation>
+public interface IReservationsRepository
 {
-    Task<IEnumerable<Reservation>> GetByPropertyIdAsync( int propertyId );
-    Task<IEnumerable<Reservation>> GetByDatesAsync( DateTime from, DateTime to );
-    Task<bool> IsRoomAvailableAsync( int roomTypeId, DateTime arrivalDate, DateTime departureDate );
+    Task<Reservation?> GetByIdAsync( int id );
 
+    Task AddAsync( Reservation reservation );
+
+    Task DeleteByIdAsync( int id );
+
+    Task<IEnumerable<Reservation>> GetFilteredReservationAsync( ReservationFilter filter );
 }

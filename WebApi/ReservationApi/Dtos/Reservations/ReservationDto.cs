@@ -1,14 +1,15 @@
-﻿namespace Domain.Entities;
+﻿using ReservationApi.Dtos.Properties;
+using ReservationApi.Dtos.RoomTypes;
 
-public sealed class Reservation
+namespace ReservationApi.Dtos.Reservations;
+
+public class ReservationDto
 {
     public int Id { get; set; }
 
-    public int PropertyId { get; set; }
-    public Property Property { get; set; }
+    public PropertyDto Property { get; set; }
 
-    public int RoomTypeId { get; set; }
-    public RoomType RoomType { get; set; }
+    public RoomTypeDto RoomType { get; set; }
 
     public DateTime ArrivalDateTime { get; set; }
     public DateTime DepartureDateTime { get; set; }
@@ -21,4 +22,3 @@ public sealed class Reservation
 
     public int NightsCount => ( DepartureDateTime - ArrivalDateTime ).Days;
 }
-
