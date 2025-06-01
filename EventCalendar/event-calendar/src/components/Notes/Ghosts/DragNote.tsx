@@ -1,6 +1,6 @@
 import React from "react";
 import type { PreviewProps } from "../../types/types";
-import styles from './Previews.module.css';
+import styles from './GhostNotes.module.css';
 
 const DragNote: React.FC<PreviewProps> = ({ x, y, note }) => {
   return (

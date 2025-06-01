@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import type { IColumn, Note, NoteState } from "../types/types";
 import Column from "../Columns/Column";
 import DragNote from "../Notes/Ghosts/DragNote";
-import styles from "./Kanban.module.css";
+import styles from "./KanbanBoard.module.css";
 import data from "../common/notesData";
 
 const KanbanBoard: React.FC = () => {

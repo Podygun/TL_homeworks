@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './Previews.module.css';
+import styles from './GhostNotes.module.css';
 
 const NewNotePreview: React.FC = () => {
   return <div className={styles.newNotePreview} />;
