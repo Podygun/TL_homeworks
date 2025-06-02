@@ -15,16 +15,12 @@ export type PriceEntry = {
 const BASE_URL = 'https://localhost:7145';
 
 export async function fetchCurrencies(): Promise<CurrencyInfo[]> {
-  console.log(`${BASE_URL}/Currency`);
-
   const res = await fetch(`${BASE_URL}/Currency`);
   if (!res.ok) throw new Error('Failed to fetch currencies');
   return res.json();
 }
 
 export async function fetchCurrency(code: string): Promise<CurrencyInfo> {
-  console.log(`${BASE_URL}/Currency/${encodeURIComponent(code)}`);
-
   const res = await fetch(`${BASE_URL}/Currency/${encodeURIComponent(code)}`);
   if (!res.ok) throw new Error(`Failed to fetch currency ${code}`);
   return res.json();

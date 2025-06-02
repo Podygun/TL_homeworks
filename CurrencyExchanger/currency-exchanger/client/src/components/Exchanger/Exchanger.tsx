@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchCurrencies, fetchLatestRate, CurrencyInfo } from '../api/currencyApi';
 import { formatNumber, formatUpdateTime } from '../utils/formatters';
 import styles from './Exchanger.module.css';
+import CurrencyDescription from '../CurrencyDescription/CurrencyDescription';
 
 export default function ExchangeWidget() {
   const [currencies, setCurrencies] = useState<CurrencyInfo[]>([]);
@@ -11,6 +12,9 @@ export default function ExchangeWidget() {
   const [baseAmount, setBaseAmount] = useState<string>('1');
   const [convertedAmount, setConvertedAmount] = useState<number>(0);
   const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
+
+  const baseCurrencyInfo = currencies.find((c) => c.code === baseCurrency);
+  const targetCurrencyInfo = currencies.find((c) => c.code === targetCurrency);
 
   useEffect(() => {
     fetchCurrencies().then(setCurrencies).catch(console.error);
@@ -32,25 +36,25 @@ export default function ExchangeWidget() {
   }, [baseCurrency, targetCurrency]);
 
   // Расчет итоговой единицы (при изменении параметров)
-  useEffect(() => {   
-      const amountNum = parseFloat(baseAmount);
-      
-      if (isNaN(amountNum) || amountNum < 0) {
-        setConvertedAmount(0);
-        return;
-      }
+  useEffect(() => {
+    const amountNum = parseFloat(baseAmount);
 
-      if (targetCurrency === baseCurrency) {
-        setConvertedAmount(amountNum);
-        return;
-      }
-  
-      if (rate) {
-        setConvertedAmount(amountNum * rate);
-      } else {
-        setConvertedAmount(0);
-      }
-    }, [baseAmount, targetCurrency, baseCurrency, rate]);
+    if (isNaN(amountNum) || amountNum < 0) {
+      setConvertedAmount(0);
+      return;
+    }
+
+    if (targetCurrency === baseCurrency) {
+      setConvertedAmount(amountNum);
+      return;
+    }
+
+    if (rate) {
+      setConvertedAmount(amountNum * rate);
+    } else {
+      setConvertedAmount(0);
+    }
+  }, [baseAmount, targetCurrency, baseCurrency, rate]);
 
   const handleBaseAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -114,6 +118,14 @@ export default function ExchangeWidget() {
           <p>Loading rate...</p>
         )}
       </div>
+      {baseCurrencyInfo === targetCurrencyInfo ? (
+        baseCurrencyInfo && <CurrencyDescription currency={baseCurrencyInfo} />
+      ) : (
+        <>
+          {baseCurrencyInfo && <CurrencyDescription currency={baseCurrencyInfo} />}
+          {targetCurrencyInfo && <CurrencyDescription currency={targetCurrencyInfo} />}
+        </>
+      )}
     </div>
   );
 }
