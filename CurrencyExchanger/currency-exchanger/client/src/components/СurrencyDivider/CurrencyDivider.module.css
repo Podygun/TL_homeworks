@@ -1,0 +1,26 @@
+.wrapper {
+  position: relative;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.line {
+  border: none;
+  border-top: 2px solid #e0e0e0;
+  margin: 0;
+}
+
+.label {
+  position: absolute;
+  top: -0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  padding: 0.3rem 1.2rem;
+  border-radius: 30px;
+  border: 1px solid #d0d0d0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
