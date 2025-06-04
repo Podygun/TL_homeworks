@@ -1,11 +1,11 @@
 .container {
-  max-width: 320px;
+  max-width: 800px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
-  border: 1px solid #ccc;
   padding: 16px;
-  border-radius: 6px;
-  background: #fafafa;
+  border-radius: 20px;
+  background: var(--color-primary);
+  box-shadow: 6px 6px 20px 0 rgba(0, 0, 0, 0.3);
 }
 
 .header {
@@ -40,19 +40,26 @@
 }
 
 .input[readonly] {
-  background-color: #eee;
   cursor: default;
 }
 
 .select {
-  width: 90px;
+  width: 300px;
   font-size: 16px;
   border: 1px solid #aaa;
   border-left: none;
   border-radius: 0 4px 4px 0;
   padding: 8px;
   background-color: white;
-    color:black;
-
+  color:black;
   cursor: pointer;
+}
+
+.fromCurrencyTitle{
+  color: var(--text-color-light);
+}
+
+.toCurrencyTitle{
+  font-size: 2rem;
+  font-weight: 300;
 }
