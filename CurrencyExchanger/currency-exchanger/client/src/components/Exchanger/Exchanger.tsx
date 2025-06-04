@@ -83,19 +83,19 @@ export default function ExchangeWidget() {
   };
 
   const renderCurrencyDescriptions = () => {
-  if (baseCurrencyInfo && targetCurrencyInfo) {
-    if (baseCurrencyInfo.code === targetCurrencyInfo.code) {
-      return <CurrencyDescription currency={baseCurrencyInfo} />;
+    if (baseCurrencyInfo && targetCurrencyInfo) {
+      if (baseCurrencyInfo.code === targetCurrencyInfo.code) {
+        return <CurrencyDescription currency={baseCurrencyInfo} />;
+      }
     }
-  }
 
-  return (
-    <>
-      {baseCurrencyInfo && <CurrencyDescription currency={baseCurrencyInfo} />}
-      {targetCurrencyInfo && <CurrencyDescription currency={targetCurrencyInfo} />}
-    </>
-  );
-};
+    return (
+      <>
+        {baseCurrencyInfo && <CurrencyDescription currency={baseCurrencyInfo} />}
+        {targetCurrencyInfo && <CurrencyDescription currency={targetCurrencyInfo} />}
+      </>
+    );
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -108,50 +108,61 @@ export default function ExchangeWidget() {
   if (currencies.length !== 0) {
     return (
       <div className={styles.container}>
-        <div className={styles.header}>
+        
+        <div className={styles.newHeader}>
           <div className={styles.fromCurrencyTitle}>
-            {1} {baseCurrencyInfo?.name} is
-          </div>
-          <div className={styles.toCurrencyTitle}>
-            {1 * (rate ?? 0)} {targetCurrencyInfo?.name}
-          </div>
-          <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
+              {1} {baseCurrencyInfo?.name} is
+            </div>
+            <div className={styles.toCurrencyTitle}>
+              {1 * (rate ?? 0)} {targetCurrencyInfo?.name}
+            </div>
         </div>
-        <CurrencyChart baseCurrency={baseCurrency} targetCurrency={targetCurrency} />
 
+        <div className={styles.header}>
+          <div className={styles.leftHeader}>
+            <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
+            <div className={styles.converterRow}>
+              <input
+                type="text"
+                inputMode="decimal"
+                value={baseAmount}
+                onChange={handleBaseAmountChange}
+                className={styles.input}
+                aria-label="Base amount"
+              />
+              <select value={baseCurrency} onChange={(e) => setBaseCurrency(e.target.value)} className={styles.select}>
+                {currencies.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.code}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.converterRow}>
+              <input
+                type="text"
+                value={formatNumber(convertedAmount)}
+                readOnly
+                className={styles.input}
+                aria-label="Converted amount"
+              />
+              <select
+                value={targetCurrency}
+                onChange={(e) => setTargetCurrency(e.target.value)}
+                className={styles.select}
+              >
+                {currencies.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.code}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-        <div className={styles.converterRow}>
-          <input
-            type="text"
-            inputMode="decimal"
-            value={baseAmount}
-            onChange={handleBaseAmountChange}
-            className={styles.input}
-            aria-label="Base amount"
-          />
-          <select value={baseCurrency} onChange={(e) => setBaseCurrency(e.target.value)} className={styles.select}>
-            {currencies.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.code}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className={styles.converterRow}>
-          <input
-            type="text"
-            value={formatNumber(convertedAmount)}
-            readOnly
-            className={styles.input}
-            aria-label="Converted amount"
-          />
-          <select value={targetCurrency} onChange={(e) => setTargetCurrency(e.target.value)} className={styles.select}>
-            {currencies.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.code}
-              </option>
-            ))}
-          </select>
+          <div className={styles.rightHeader}>
+            <CurrencyChart baseCurrency={baseCurrency} targetCurrency={targetCurrency} />
+          </div>
         </div>
 
         {baseCurrencyInfo && targetCurrencyInfo && (

@@ -1,23 +1,47 @@
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
   padding: 16px;
   border-radius: 20px;
   background: var(--color-primary);
   box-shadow: 6px 6px 20px 0 rgba(0, 0, 0, 0.3);
 }
 
-.header {
+.newHeader{
   text-align: left;
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column; /* располагаем дочерние элементы вертикально */
+  margin-bottom: 20px;
+}
+
+/* Новый flex-контейнер для header */
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* две равные колонки */
+  /* margin-bottom: 90px; */
   font-size: 0.9rem;
   color: #333;
+  /* убираем flex-direction: column; */
+}
+
+/* Левая часть header — вертикальный стек */
+.leftHeader {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Правая часть header — график */
+.rightHeader {
+  flex-grow: 1; /* занимает оставшееся пространство */
+  height: auto; /* подберите высоту под ваш график */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* центрируем график */
+
 }
 
 .time {
+  margin-bottom: 10px;
   font-size: 0.7rem;
   color: var(--text-color-light);
 }
@@ -28,10 +52,11 @@
 }
 
 .input {
-  flex: 1 1 auto;
+  width: 80px;
+  /* flex: 1 1 auto; */
   padding: 8px 10px;
   font-size: 16px;
-  border: 1px solid #aaa;
+  border: 1px solid var(--border-color);
   border-radius: 4px 0 0 4px;
   outline: none;
   background-color: white;
@@ -45,7 +70,7 @@
 .select {
   width: 300px;
   font-size: 16px;
-  border: 1px solid #aaa;
+  border: 1px solid var(--border-color);
   border-left: none;
   border-radius: 0 4px 4px 0;
   padding: 8px;
@@ -59,6 +84,7 @@
 }
 
 .toCurrencyTitle{
+  color: black;
   font-size: 2rem;
   font-weight: 300;
 }
