@@ -68,12 +68,12 @@ const CurrencyChart: React.FC<CurrencyChartProps> = ({ baseCurrency, targetCurre
   }, [baseCurrency, targetCurrency, timeInterval]);
 
   const chartData = {
-    labels: data.map((item) => new Date(item.dateTime).toLocaleTimeString()),
+    labels: data.map((item) => new Date(item.dateTime)),
     datasets: [
       {
         data: data.map((item) => item.price),
         borderColor: '#3467d5',
-        fill: 'origin',
+        fill: true,
         backgroundColor: 'rgba(52, 103, 213, 0.5)',
         pointRadius: 3,
         tension: 0.1
@@ -86,10 +86,7 @@ const CurrencyChart: React.FC<CurrencyChartProps> = ({ baseCurrency, targetCurre
     scales: {
       x: {
         ticks: {
-          display: false // отключаем подписи по оси X
-        },
-        grid: {
-          display: false // если нужно, отключить сетку по оси X
+          display: false
         }
       }
     },
