@@ -45,3 +45,17 @@ export async function fetchLatestRate(
   if (data.length === 0) return null;
   return data[data.length - 1];
 }
+
+
+export async function fetchRates(
+  paymentCurrency: string,
+  purchasedCurrency: string,
+  fromDateTime: string
+): Promise<PriceEntry[]> {
+  const url = `${BASE_URL}/prices/?PaymentCurrency=${encodeURIComponent(
+    paymentCurrency
+  )}&PurchasedCurrency=${encodeURIComponent(purchasedCurrency)}&FromDateTime=${encodeURIComponent(fromDateTime)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Failed to fetch prices');
+  return res.json();
+}
