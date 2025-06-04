@@ -1,4 +1,4 @@
-import './App.css'
+import './styles/app.css'
 import ExchangeWidget from './components/Exchanger/Exchanger'
 
 export default function App() {
