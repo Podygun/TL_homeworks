@@ -9,9 +9,9 @@ type CurrencyDescriptionProps = {
 export default function CurrencyDescription({ currency }: CurrencyDescriptionProps) {
   return (
     <div className={styles.CurrencyDescription}>
-      <h2>
+      <h4>
         {currency.name} - {currency.code} - {currency.symbol}
-      </h2>
+      </h4>
       <p>{currency.description}</p>
     </div>
   );

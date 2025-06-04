@@ -81,12 +81,20 @@ export default function ExchangeWidget() {
     }
   };
 
-  const renderCurrencyDescriptions = () => (
+  const renderCurrencyDescriptions = () => {
+  if (baseCurrencyInfo && targetCurrencyInfo) {
+    if (baseCurrencyInfo.code === targetCurrencyInfo.code) {
+      return <CurrencyDescription currency={baseCurrencyInfo} />;
+    }
+  }
+
+  return (
     <>
       {baseCurrencyInfo && <CurrencyDescription currency={baseCurrencyInfo} />}
       {targetCurrencyInfo && <CurrencyDescription currency={targetCurrencyInfo} />}
     </>
   );
+};
 
   if (isLoading) {
     return <Loader />;
@@ -106,7 +114,7 @@ export default function ExchangeWidget() {
           <div className={styles.toCurrencyTitle}>
             {1 * (rate ?? 0)} {targetCurrencyInfo?.name}
           </div>
-          <div className={styles.time}>{lastUpdateTime ? `Last update: ${formatUpdateTime(lastUpdateTime)}` : ''}</div>
+          <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
         </div>
 
         <div className={styles.converterRow}>

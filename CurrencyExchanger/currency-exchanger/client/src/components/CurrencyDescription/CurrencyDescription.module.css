@@ -1,3 +1,14 @@
-.CurrencyDescription{
-    color:black;
+.CurrencyDescription {
+  color: black;
+  text-align: left; /* Выравнивание текста по левому краю */
+}
+
+.CurrencyDescription h4 {
+  margin-bottom: 0;
+}
+
+.CurrencyDescription p {
+  font-size: 0.9rem;
+  margin-top: 0;
+  color: var(--text-color-light);
 }
