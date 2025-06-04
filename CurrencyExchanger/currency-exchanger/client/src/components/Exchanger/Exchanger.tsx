@@ -6,6 +6,7 @@ import CurrencyDescription from '../CurrencyDescription/CurrencyDescription';
 import CurrencyDivider from '../СurrencyDivider/CurrencyDivider';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../Error/ErrorMessage';
+import CurrencyChart from '../Chart/CurrencyChart';
 
 export default function ExchangeWidget() {
   const [currencies, setCurrencies] = useState<CurrencyInfo[]>([]);
@@ -116,6 +117,8 @@ export default function ExchangeWidget() {
           </div>
           <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
         </div>
+        <CurrencyChart baseCurrency={baseCurrency} targetCurrency={targetCurrency} />
+
 
         <div className={styles.converterRow}>
           <input
