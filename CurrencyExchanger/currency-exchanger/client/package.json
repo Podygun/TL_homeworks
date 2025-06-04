@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.9.0",
+    "chart": "^0.1.2",
+    "chart.js": "^4.4.9",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
