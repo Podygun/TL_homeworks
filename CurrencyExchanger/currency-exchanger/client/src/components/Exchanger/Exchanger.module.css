@@ -1,15 +1,37 @@
 .container {
-  max-width: 900px;
-  margin: 0 auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
   padding: 16px;
   border-radius: 20px;
   background: var(--color-primary);
   box-shadow: 6px 6px 20px 0 rgba(0, 0, 0, 0.3);
 }
 
-.newHeader{
+.filtersContainer {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  background: var(--color-primary);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+    flex-wrap: wrap; /* добавлено */
+
+}
+
+.newHeader {
   text-align: left;
+  grid-template-columns: 1fr 1fr;
   margin-bottom: 20px;
+  display: grid;
 }
 
 .header {
@@ -32,7 +54,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .time {
@@ -54,7 +75,7 @@
   border-radius: 4px 0 0 4px;
   outline: none;
   background-color: white;
-  color:black;
+  color: black;
 }
 
 .input[readonly] {
@@ -69,16 +90,77 @@
   border-radius: 0 4px 4px 0;
   padding: 8px;
   background-color: white;
-  color:black;
+  color: black;
   cursor: pointer;
 }
 
-.fromCurrencyTitle{
+.fromCurrencyTitle {
   color: var(--text-color-light);
 }
 
-.toCurrencyTitle{
+.toCurrencyTitle {
   color: black;
   font-size: 2rem;
   font-weight: 300;
+}
+
+.saveBtnContainer {
+  align-items: end;
+  justify-content: end;
+  display: flex;
+}
+
+.filtersList {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-grow: 1; /* чтобы занимать оставшееся пространство */
+}
+
+.filterBtn{
+  padding: 10px 19px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-accent);
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.3s, color 0.3s;
+  font-size: 0.9rem;
+  user-select: none;
+  transition: opacity 0.3s, color 0.3s, transform 0.1s;
+}
+
+.saveFilterBtn {
+  margin: 0 54px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-accent);
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.3s, color 0.3s;
+  font-size: 0.9rem;
+  user-select: none;
+  transition: opacity 0.3s, color 0.3s, transform 0.1s;
+}
+
+.saveFilterBtn:hover:not(:disabled), .filterBtn:hover:not(:disabled), .clearButton:hover:not(:disabled)  {
+  opacity: 0.5;
+}
+
+.saveFilterBtn:active:not(:disabled), .filterBtn:active:not(:disabled), .clearButton:active:not(:disabled) {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+.clearButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-error);
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
 }

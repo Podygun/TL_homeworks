@@ -19,6 +19,11 @@ export default function ExchangeWidget() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const [savedPairs, setSavedPairs] = useState<string[]>(() => {
+    const saved = localStorage.getItem('currencyPairs');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const baseCurrencyInfo = currencies.find((c) => c.code === baseCurrency);
   const targetCurrencyInfo = currencies.find((c) => c.code === targetCurrency);
 
@@ -59,6 +64,10 @@ export default function ExchangeWidget() {
       });
   }, [baseCurrency, targetCurrency]);
 
+  useEffect(() => {
+    localStorage.setItem('currencyPairs', JSON.stringify(savedPairs));
+  }, [savedPairs]);
+
   // Расчет итоговой единицы (при изменении параметров)
   useEffect(() => {
     const amountNum = parseFloat(baseAmount);
@@ -80,6 +89,21 @@ export default function ExchangeWidget() {
     if (/^\d*\.?\d*$/.test(val)) {
       setBaseAmount(val);
     }
+  };
+
+  const handleSaveFilter = () => {
+    if (!baseCurrency || !targetCurrency) return;
+    if (baseCurrency === targetCurrency) return; // не сохраняем одинаковые валюты
+
+    const pair = `${baseCurrency}/${targetCurrency}`;
+
+    if (savedPairs.includes(pair)) return; // уже есть
+
+    setSavedPairs((prev) => [...prev, pair]);
+  };
+
+  const handleClearFilters = () => {
+    setSavedPairs([]);
   };
 
   const renderCurrencyDescriptions = () => {
@@ -107,70 +131,105 @@ export default function ExchangeWidget() {
 
   if (currencies.length !== 0) {
     return (
-      <div className={styles.container}>
-        
-        <div className={styles.newHeader}>
-          <div className={styles.fromCurrencyTitle}>
-              {1} {baseCurrencyInfo?.name} is
+      <>
+        {savedPairs.length > 0 && (
+          <div className={styles.filtersContainer}>
+            <div className={styles.filtersList}>
+              {savedPairs.map((pair) => (
+                <button
+                  key={pair}
+                  className={styles.filterBtn}
+                  onClick={() => {
+                    const [from, to] = pair.split('/');
+                    setBaseCurrency(from);
+                    setTargetCurrency(to);
+                  }}
+                  type="button"
+                >
+                  {pair}
+                </button>
+              ))}
             </div>
-            <div className={styles.toCurrencyTitle}>
-              {1 * (rate ?? 0)} {targetCurrencyInfo?.name}
-            </div>
-        </div>
-
-        <div className={styles.header}>
-          <div className={styles.leftHeader}>
-            <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
-            <div className={styles.converterRow}>
-              <input
-                type="text"
-                inputMode="decimal"
-                value={baseAmount}
-                onChange={handleBaseAmountChange}
-                className={styles.input}
-                aria-label="Base amount"
-              />
-              <select value={baseCurrency} onChange={(e) => setBaseCurrency(e.target.value)} className={styles.select}>
-                {currencies.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.code}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className={styles.converterRow}>
-              <input
-                type="text"
-                value={formatNumber(convertedAmount)}
-                readOnly
-                className={styles.input}
-                aria-label="Converted amount"
-              />
-              <select
-                value={targetCurrency}
-                onChange={(e) => setTargetCurrency(e.target.value)}
-                className={styles.select}
-              >
-                {currencies.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.code}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <button className={styles.clearButton} onClick={handleClearFilters} type="button">
+              Clear filters
+            </button>
           </div>
-
-          <div className={styles.rightHeader}>
-            <CurrencyChart baseCurrency={baseCurrency} targetCurrency={targetCurrency} />
-          </div>
-        </div>
-
-        {baseCurrencyInfo && targetCurrencyInfo && (
-          <CurrencyDivider baseCode={baseCurrencyInfo.code} targetCode={targetCurrencyInfo.code} />
         )}
+        <div className={styles.container}>
+          <div className={styles.newHeader}>
+            <div>
+              <div className={styles.fromCurrencyTitle}>
+                {1} {baseCurrencyInfo?.name} is
+              </div>
+              <div className={styles.toCurrencyTitle}>
+                {1 * (rate ?? 0)} {targetCurrencyInfo?.name}
+              </div>
+            </div>
+            <div className={styles.saveBtnContainer}>
+              <button className={styles.saveFilterBtn} onClick={handleSaveFilter} type="button">
+                Save Filter
+              </button>
+            </div>
+          </div>
 
-        {renderCurrencyDescriptions()}
-      </div>
+          <div className={styles.header}>
+            <div className={styles.leftHeader}>
+              <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
+              <div className={styles.converterRow}>
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={baseAmount}
+                  onChange={handleBaseAmountChange}
+                  className={styles.input}
+                  aria-label="Base amount"
+                />
+                <select
+                  value={baseCurrency}
+                  onChange={(e) => setBaseCurrency(e.target.value)}
+                  className={styles.select}
+                >
+                  {currencies.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.code}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.converterRow}>
+                <input
+                  type="text"
+                  value={formatNumber(convertedAmount)}
+                  readOnly
+                  className={styles.input}
+                  aria-label="Converted amount"
+                />
+                <select
+                  value={targetCurrency}
+                  onChange={(e) => setTargetCurrency(e.target.value)}
+                  className={styles.select}
+                >
+                  {currencies.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.code}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className={styles.rightHeader}>
+              <CurrencyChart baseCurrency={baseCurrency} targetCurrency={targetCurrency} />
+            </div>
+          </div>
+
+          {baseCurrencyInfo && targetCurrencyInfo && (
+            <CurrencyDivider baseCode={baseCurrencyInfo.code} targetCode={targetCurrencyInfo.code} />
+          )}
+
+          {renderCurrencyDescriptions()}
+        </div>
+      </>
     );
   }
 }
