@@ -1,0 +1,162 @@
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--color-primary);
+  box-shadow: 6px 6px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.filtersContainer {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  background: var(--color-primary);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filtersList {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+
+.header,
+.exchangerContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.header {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.exchangerContainer {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.leftHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.rightHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  height: auto;
+}
+
+.time {
+  margin-bottom: 10px;
+  font-size: 0.7rem;
+  color: var(--text-color-light);
+}
+
+.converterRow {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.input {
+  width: 80px;
+  padding: 8px 10px;
+  font-size: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px 0 0 4px;
+  outline: none;
+  background-color: white;
+  color: black;
+}
+
+.input[readonly] {
+  cursor: default;
+}
+
+.select {
+  width: 300px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid var(--border-color);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.fromCurrencyTitle {
+  color: var(--text-color-light);
+}
+
+.toCurrencyTitle {
+  color: black;
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.saveBtnContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.filterBtn,
+.saveFilterBtn {
+  padding: 10px 19px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-accent);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  user-select: none;
+  transition: opacity 0.3s, color 0.3s, transform 0.1s;
+}
+
+.saveFilterBtn {
+  margin: 0 54px;
+  padding: 10px 20px;
+}
+
+.clearButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-error);
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.2s, opacity 0.3s, color 0.3s, transform 0.1s;
+}
+
+.saveFilterBtn:hover:not(:disabled),
+.filterBtn:hover:not(:disabled),
+.clearButton:hover:not(:disabled) {
+  opacity: 0.5;
+}
+
+.saveFilterBtn:active:not(:disabled),
+.filterBtn:active:not(:disabled),
+.clearButton:active:not(:disabled) {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
