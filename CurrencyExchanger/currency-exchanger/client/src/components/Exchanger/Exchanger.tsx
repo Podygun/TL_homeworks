@@ -27,7 +27,7 @@ export default function ExchangeWidget() {
   const baseCurrencyInfo = currencies.find((c) => c.code === baseCurrency);
   const targetCurrencyInfo = currencies.find((c) => c.code === targetCurrency);
 
-  const fromDateTimeApi = '2000-01-01T00:00:00';
+  const fromDateTimeApi = '2025-05-01T00:00:00';
 
   const handleError = (message: string) => {
     setErrorMessage(message);
@@ -68,7 +68,6 @@ export default function ExchangeWidget() {
     localStorage.setItem('currencyPairs', JSON.stringify(savedPairs));
   }, [savedPairs]);
 
-  // Расчет итоговой единицы (при изменении параметров)
   useEffect(() => {
     const amountNum = parseFloat(baseAmount);
 
@@ -93,11 +92,11 @@ export default function ExchangeWidget() {
 
   const handleSaveFilter = () => {
     if (!baseCurrency || !targetCurrency) return;
-    if (baseCurrency === targetCurrency) return; // не сохраняем одинаковые валюты
+    if (baseCurrency === targetCurrency) return;
 
     const pair = `${baseCurrency}/${targetCurrency}`;
 
-    if (savedPairs.includes(pair)) return; // уже есть
+    if (savedPairs.includes(pair)) return;
 
     setSavedPairs((prev) => [...prev, pair]);
   };
@@ -156,7 +155,7 @@ export default function ExchangeWidget() {
           </div>
         )}
         <div className={styles.container}>
-          <div className={styles.newHeader}>
+          <div className={styles.header}>
             <div>
               <div className={styles.fromCurrencyTitle}>
                 {1} {baseCurrencyInfo?.name} is
@@ -172,7 +171,7 @@ export default function ExchangeWidget() {
             </div>
           </div>
 
-          <div className={styles.header}>
+          <div className={styles.exchangerContainer}>
             <div className={styles.leftHeader}>
               <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
               <div className={styles.converterRow}>

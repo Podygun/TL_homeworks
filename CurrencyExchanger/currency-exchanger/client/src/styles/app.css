@@ -1,7 +1,6 @@
 @import './variables.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-
 :root {
   font-family: 'Roboto', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
