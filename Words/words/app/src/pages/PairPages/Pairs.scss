@@ -1,0 +1,85 @@
+@import "../../styles/variables.scss";
+
+.add-word-container {
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-paper {
+  padding: 2rem;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+
+  .back-button {
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .title {
+    font-weight: 600;
+  }
+}
+
+.form-title {
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  .MuiOutlinedInput-root {
+    border-radius: 12px;
+  }
+
+  .MuiInputLabel-root {
+    color: $text-color;
+  }
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  .cancel-button {
+    background-color: $pink-color;
+    color: $text-color-light;
+    padding: 10px 24px;
+    border-radius: 12px;
+    text-transform: none;
+
+    &:hover {
+      background-color: darken($pink-color, 10%);
+    }   
+  }
+
+  .submit-button {
+    background-color: $primary-color;
+    color: $text-color-light;
+    padding: 10px 24px;
+    border-radius: 12px;
+    text-transform: none;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+
+    &:disabled {
+      background-color: lighten($primary-color, 35%);
+      color: $text-color-light;
+    }
+  }
+}

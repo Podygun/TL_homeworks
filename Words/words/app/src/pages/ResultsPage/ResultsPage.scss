@@ -1,0 +1,52 @@
+@import "../../styles/variables.scss";
+
+
+.resultWrapper {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .resultTitle {
+    text-align: center;
+    color: $dark-blue-color;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .resultInfoWrapper {
+    background-color: $paper-color;
+    border-radius: 12;
+    padding: 2rem;
+    text-align: center;
+
+    .MuiTable-root {
+      margin: 0 auto;
+      max-width: 500px;
+
+      .MuiTableCell-root {
+        border-bottom: 1px solid $light-grey-color;
+        padding: 8px 0px;
+      }
+    }
+  }
+
+  .resultMenuWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+
+    .MuiButton-root {
+      padding: 10px 24px;
+      border-radius: 12;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: none;
+      min-width: 200px;
+    }
+  }
+}

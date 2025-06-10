@@ -1,0 +1,51 @@
+@import "../../styles/variables.scss";
+
+.wrapper {
+  margin: 2rem;
+  padding: 0 1rem 2rem 1rem;
+  background-color: $background-color;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+
+
+  .back-button {
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .addpair-button {
+    background-color: $primary-color;
+    color: $text-color-light;
+    padding: 10px 24px;
+    border-radius: 12px;
+    text-transform: none;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}
+
+.table-paper {
+  margin-top: 2rem;
+  .table-container {
+    border-radius: 4px;
+    background-color: $paper-color;
+
+    .table-head {
+      background-color: $table-head-color;
+    }
+  }
+}

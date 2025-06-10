@@ -1,0 +1,57 @@
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+import type { DictionaryStoreType } from "./DictionaryStoreType";
+
+export const useStore = create<DictionaryStoreType>()(
+  persist(
+    (set) => ({
+      pairs: [],
+
+      add: (pair) => {
+        set((state) => {
+          const isDuplicate = state.pairs.some(
+            (word) =>
+              word.ru.trim().toLowerCase() === pair.ru.trim().toLowerCase() &&
+              word.en.trim().toLowerCase() === pair.en.trim().toLowerCase()
+          );
+
+          return isDuplicate ? state : { pairs: [...state.pairs, pair] };
+        });
+      },
+
+      remove: (pair) => {
+        set((state) => ({
+          pairs: state.pairs.filter(
+            (word) =>
+              !(
+                word.ru === pair.ru &&
+                word.en === pair.en
+              )
+          ),
+        }));
+      },
+
+      edit: (oldPair, newPair) => {
+        set((state) => ({
+          pairs: state.pairs.map((word) =>
+            word.ru === oldPair.ru &&
+            word.en === oldPair.en
+              ? newPair
+              : word
+          ),
+        }));
+      },
+    }),
+    {
+      name: "dictionary-data",
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+      migrate: (persistedState, version) => {
+        if (version === 0) {
+          return persistedState as DictionaryStoreType;
+        }
+        return persistedState as DictionaryStoreType;
+      },
+    }
+  )
+);
