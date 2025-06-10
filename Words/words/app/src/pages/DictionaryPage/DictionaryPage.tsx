@@ -14,13 +14,13 @@ import "./DictionaryPage.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router";
 import { useStore } from "../../store/useStore";
-import type { DictionaryStore } from "../../store/DictionaryStore";
+import type { DictionaryStoreType } from "../../store/DictionaryStoreType";
 import type { WordsPair } from "../../types/Pair";
 import { PairAction } from "./components/PairAction/PairAction";
 
 export const DictionaryPage = () => {
   const navigate = useNavigate();
-  const pairs = useStore((state: DictionaryStore) => state.pairs);
+  const pairs = useStore((state: DictionaryStoreType) => state.pairs);
 
   const handleGoBack = () => {
     navigate("/");

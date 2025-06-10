@@ -8,8 +8,6 @@ import {
   Select,
   MenuItem,
   ListItemText,
-  FormGroup,
-  FormControlLabel,
   Checkbox,
   Paper,
   Box,
