@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import type { DictionaryStore } from "./DictionaryStore";
 
 export const useStore = create<DictionaryStore>()(
@@ -43,7 +43,15 @@ export const useStore = create<DictionaryStore>()(
       },
     }),
     {
-      name: "dictionary-data"
+      name: "dictionary-data",
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+      migrate: (persistedState, version) => {
+        if (version === 0) {
+          return persistedState as DictionaryStore;
+        }
+        return persistedState as DictionaryStore;
+      },
     }
   )
 );
