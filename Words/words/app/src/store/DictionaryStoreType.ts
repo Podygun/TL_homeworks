@@ -1,6 +1,6 @@
 import type { WordsPair } from '../types/Pair';
 
-export interface DictionaryStore {
+export interface DictionaryStoreType {
   pairs: WordsPair[];
   add: (pair: WordsPair) => void;
   remove: (pair: WordsPair) => void;

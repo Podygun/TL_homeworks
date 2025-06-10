@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { DictionaryStore } from "./DictionaryStore";
+import type { DictionaryStoreType } from "./DictionaryStoreType";
 
-export const useStore = create<DictionaryStore>()(
+export const useStore = create<DictionaryStoreType>()(
   persist(
     (set) => ({
       pairs: [],
@@ -48,9 +48,9 @@ export const useStore = create<DictionaryStore>()(
       version: 1,
       migrate: (persistedState, version) => {
         if (version === 0) {
-          return persistedState as DictionaryStore;
+          return persistedState as DictionaryStoreType;
         }
-        return persistedState as DictionaryStore;
+        return persistedState as DictionaryStoreType;
       },
     }
   )
