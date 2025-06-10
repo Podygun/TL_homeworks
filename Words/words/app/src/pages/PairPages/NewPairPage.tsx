@@ -20,11 +20,13 @@ export const NewPairPage = () => {
   const [russianWord, setRussianWord] = useState("");
   const [englishWord, setEnglishWord] = useState("");
 
+  const isSaveButtonDisabled = !russianWord.trim() || !englishWord.trim();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (russianWord.trim() && englishWord.trim()) {
       add({ ru: russianWord, en: englishWord });
-      navigate('/dictionary');
+      navigate("/dictionary");
     }
   };
 
@@ -71,19 +73,13 @@ export const NewPairPage = () => {
             className="form-input"
           />
           <Box className="form-buttons">
-            <Button 
-              variant="contained" 
-              color="secondary"
-              onClick={handleCancel}
-              className="cancel-button"
-            >
+            <Button onClick={handleCancel} className="cancel-button">
               Отменить
             </Button>
-            <Button 
-              type="submit" 
-              variant="contained" 
-              color="primary"
+            <Button
+              type="submit"
               className="submit-button"
+              disabled={isSaveButtonDisabled}
             >
               Сохранить
             </Button>

@@ -1,9 +1,10 @@
-import styles from "./ResultsPage.module.scss";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {
+  Box,
   Button,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -14,13 +15,16 @@ import {
 import { useLocation, useNavigate } from "react-router";
 import type { Results } from "../../types/Results";
 import { useEffect } from "react";
+import "./ResultsPage.scss";
 
-type Row = {
+
+interface ResultsRow {
   icon: React.ElementType;
   iconColor: SvgIconProps["color"];
-  label: string;
+  description: string;
   value: number;
 };
+
 
 export const ResultsPage = () => {
   const navigate = useNavigate();
@@ -28,40 +32,44 @@ export const ResultsPage = () => {
   const result: Results = location.state;
 
   useEffect(() => {
-    if (!result || typeof result.correctCount !== "number") {
+    if (!result || typeof result.CorrectAmount !== "number") {
       navigate("/", { replace: true });
     }
   }, [result, navigate]);
 
   if (!result) return null;
 
-  const rows: Row[] = [
+  const rows: ResultsRow[] = [
     {
       icon: CheckCircleOutlineIcon,
       iconColor: "success",
-      label: "Правильные",
-      value: result.correctCount,
+      description: "Правильные",
+      value: result.CorrectAmount,
     },
     {
       icon: HighlightOffIcon,
       iconColor: "error",
-      label: "Ошибочные",
-      value: result.allCount - result.correctCount,
+      description: "Ошибочные",
+      value: result.TotalAmount - result.CorrectAmount,
     },
     {
       icon: MenuBookIcon,
       iconColor: "secondary",
-      label: "Всего слов",
-      value: result.allCount,
+      description: "Всего слов",
+      value: result.TotalAmount,
     },
   ];
 
   return (
-    <div className={styles.resultWrapper}>
-      <div className={styles.resultInfoWrapper}>
-        <Typography color="primary" align="left">
+    <div className="resultWrapper">
+      <Typography variant="h4" className="resultTitle">
+        Результат проверки знаний
+      </Typography>
+      <Paper elevation={2} className="resultInfoWrapper">
+        <Typography color="primary" align="left" variant="h6">
           Ответы
         </Typography>
+
         <Table>
           <TableBody>
             {rows.map((row, key) => (
@@ -70,22 +78,23 @@ export const ResultsPage = () => {
                   <row.icon color={row.iconColor}></row.icon>
                 </TableCell>
                 <TableCell>
-                  <Typography>{row.label}</Typography>
+                  <Typography>{row.description}</Typography>
                 </TableCell>
                 <TableCell>{row.value}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </div>
-      <div className={styles.resultMenuWrapper}>
-        <Button variant="contained" onClick={() => navigate("/check")}>
+      </Paper>
+
+      <Box className="resultMenuWrapper">
+        <Button variant="contained" onClick={() => navigate("/testing")}>
           Проверить знания ещё раз
         </Button>
         <Button variant="outlined" onClick={() => navigate("/")}>
           Вернуться в начало
         </Button>
-      </div>
+      </Box>
     </div>
   );
 };

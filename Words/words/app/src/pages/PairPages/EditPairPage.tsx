@@ -24,6 +24,8 @@ export const EditPairPage = () => {
   const [russianWord, setRussianWord] = useState(pair?.ru || "");
   const [englishWord, setEnglishWord] = useState(pair?.en || "");
 
+  const isSaveButtonDisabled = !russianWord.trim() || !englishWord.trim();
+
   useEffect(() => {
     if (!pair) {
       navigate("/dictionary");
@@ -85,19 +87,13 @@ export const EditPairPage = () => {
           />
 
           <Box className="form-buttons">
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleCancel}
-              className="cancel-button"
-            >
+            <Button onClick={handleCancel} className="cancel-button">
               Отменить
             </Button>
             <Button
               type="submit"
-              variant="contained"
-              color="primary"
               className="submit-button"
+              disabled={isSaveButtonDisabled}
             >
               Сохранить
             </Button>
