@@ -10,7 +10,6 @@
 
 .form-paper {
   padding: 2rem;
-  border-radius: 16px;
 }
 
 .form-header {
@@ -31,12 +30,10 @@
 
   .title {
     font-weight: 600;
-    color: $dark-blue-color;
   }
 }
 
 .form-title {
-  color: $dark-blue-color;
   margin-bottom: 1.5rem;
   font-weight: 500;
 }
@@ -63,23 +60,26 @@
     padding: 10px 24px;
     border-radius: 12px;
     text-transform: none;
-    font-weight: 600;
 
     &:hover {
       background-color: darken($pink-color, 10%);
-    }
+    }   
   }
 
   .submit-button {
-    background-color: $green-color;
-    color: $text-color;
+    background-color: $primary-color;
+    color: $text-color-light;
     padding: 10px 24px;
     border-radius: 12px;
     text-transform: none;
-    font-weight: 600;
 
     &:hover {
-      background-color: darken($green-color, 10%);
+      background-color: darken($primary-color, 10%);
+    }
+
+    &:disabled {
+      background-color: lighten($primary-color, 35%);
+      color: $text-color-light;
     }
   }
 }
