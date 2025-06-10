@@ -16,7 +16,7 @@ import { useNavigate } from "react-router";
 import { useStore } from "../../store/useStore";
 import type { DictionaryStore } from "../../store/DictionaryStore";
 import type { WordsPair } from "../../types/Pair";
-import { PairAction } from "./components/PairAction";
+import { PairAction } from "./components/PairAction/PairAction";
 
 export const DictionaryPage = () => {
   const navigate = useNavigate();

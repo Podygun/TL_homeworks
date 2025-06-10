@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useStore } from "../../../store/useStore";
-import type { WordsPair } from "../../../types/Pair";
+import { useStore } from "../../../../store/useStore";
+import type { WordsPair } from "../../../../types/Pair";
 import {
   IconButton,
   Menu,
@@ -9,48 +9,41 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { MenuIcon, EditIcon, DeleteIcon } from "./Icons";
+
 
 interface DictionaryActionProps {
   pair: WordsPair;
 }
-
 export const PairAction = ({ pair }: DictionaryActionProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const removePair = useStore((state) => state.remove);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
   const handleEdit = () => {
-    handleClose();
+    handleMenuClose();
     navigate("/editpair", { state: { pair } });
   };
 
   const handleDelete = () => {
-    handleClose();
+    handleMenuClose();
     removePair(pair);
   };
 
   return (
-    <>
+    <div className="actionContainer">
       <IconButton
         aria-label="actions"
-        onClick={handleClick}
-        sx={{
-          borderRadius: "8px",
-          "&:hover": {
-            backgroundColor: "rgba(0, 0, 0, 0.04)",
-          },
-        }}
+        onClick={handleMenuOpen}
+        className="menuButton"
       >
         <MenuIcon />
       </IconButton>
@@ -58,7 +51,7 @@ export const PairAction = ({ pair }: DictionaryActionProps) => {
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleMenuClose}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "right",
@@ -67,27 +60,20 @@ export const PairAction = ({ pair }: DictionaryActionProps) => {
           vertical: "top",
           horizontal: "right",
         }}
-        sx={{
-          "& .MuiPaper-root": {
-            borderRadius: "12px",
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-            minWidth: "180px",
-          },
-        }}
       >
-        <MenuItem onClick={handleEdit}>
-          <ListItemIcon>
+        <MenuItem onClick={handleEdit} className="menuItem">
+          <ListItemIcon className="menuIcon">
             <EditIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Редактировать</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          <ListItemIcon>
+        <MenuItem onClick={handleDelete} className="menuItem">
+          <ListItemIcon className="menuIcon">
             <DeleteIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Удалить</ListItemText>
         </MenuItem>
       </Menu>
-    </>
+    </div>
   );
 };
