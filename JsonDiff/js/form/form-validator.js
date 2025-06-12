@@ -57,14 +57,4 @@ const isValidJson = (str) => {
   }
 };
 
-const validateLogin = (loginString) => {
-  if (!loginString) {
-    return false;
-  }
-
-  if (loginString.length < 2 || loginString.length > 20) {
-    return false;
-  }
-
-  return true;
-};
+const validateLogin = (loginString) => loginString && loginString.length >= 2 && loginString.length <= 20;
