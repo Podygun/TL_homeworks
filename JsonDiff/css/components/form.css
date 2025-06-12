@@ -1,4 +1,4 @@
-.default-form {
+form {
   display: grid;
   gap: 15px;
   font-family: Arial, sans-serif;
@@ -7,15 +7,15 @@
   margin: 0 auto;
 }
 
-.default-form label {
+form label {
   font-weight: bold;
   font-family: Arial, sans-serif;
   margin-bottom: -10px;
   color: var(--color-text);
 }
 
-.default-form input,
-.default-form textarea{
+form input,
+form textarea{
   border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 10px;
@@ -27,19 +27,13 @@
   box-sizing: border-box;
 }
 
-.default-form textarea {
-  min-height: 150px;
-  font-family: monospace;
-}
-
-.default-form input,
-.default-form textarea:focus{
+form textarea:focus{
   border-color: var(--color-secondary);
   outline: none;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-.default-form button {
+form button {
   cursor: pointer;
   padding: 12px 24px;
   text-transform: uppercase;
@@ -56,30 +50,15 @@
   font-size: 0.9rem;
 }
 
-.default-form button:hover:enabled {
+form button:hover:enabled {
   opacity: var(--hover-opacity);
   transform: translateY(-1px);
 }
 
-.default-form button:disabled {
+form button:disabled {
   opacity: var(--hover-opacity);
   cursor: not-allowed;
   transform: none;
-}
-
-.default-form.auth-form {
-  background-color: var(--color-light);
-  padding: 2rem;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 300px;
-  box-shadow: var(--shadow-sm);
-}
-
-.default-form.auth-form h2 {
-  margin-top: 0;
-  color: var(--color-primary);
-  text-align: center;
 }
 
 .form-group {
@@ -94,11 +73,11 @@
 }
 
 @media (max-width: 600px) {
-  .default-form {
+  form {
     gap: 12px;
   }
   
-  .default-form button {
+  form button {
     width: 100%;
     padding: 14px;
   }

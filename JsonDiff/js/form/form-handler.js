@@ -38,7 +38,7 @@ const handleDiffForm = () => {
   const textareaOld = document.querySelector("#oldJson");
   const textareaNew = document.querySelector("#newJson");
   const resultBlock = document.getElementById("resultBlock");
-  const button = document.querySelector(".main-form button");
+  const button = document.querySelector("button");
 
   diffForm.addEventListener("submit", async (e) => {
     e.preventDefault();
