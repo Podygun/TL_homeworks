@@ -2,9 +2,6 @@ import { AuthHandler } from "../auth/auth.js";
 
 export const showElement = (element) => element?.classList.remove("hide");
 export const hideElement = (element) => element?.classList.add("hide");
-export const toggleElement = (element, isVisible) => {
-  isVisible ? showElement(element) : hideElement(element);
-};
 
 const domElements = {
   loginSection: document.getElementById("loginSection"),
