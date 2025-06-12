@@ -10,39 +10,36 @@ export const validateForm = (form) => {
 
     validationMessage.textContent = "";
 
-    if (validationRules) {
-      if (validationRules.includes('required')) {
+    if (!validationRules) {
+      return;
+    }
 
-        if (!input.value.trim()) {
-          validationMessage.textContent = 'Поле обязательно для заполнения.';
-          showElement(validationMessage);
-          isValid = false;
-        } else if (!validateLogin(input.value.trim())) {
-          validationMessage.textContent = 'Логин должен быть > 2 символов';
-          showElement(validationMessage);
-          isValid = false;
-        }
-        else{
-          hideElement(validationMessage)
-        }
-        return;
-      }
-
-      if (validationRules.includes('json-format') && !isValidJson(input.value.trim())) {
-        validationMessage.textContent = 'Неверный формат JSON.';
-
-        input.classList.add("error");
-
+    if (validationRules.includes("required")) {   
+      if (!input.value.trim()) {
+        validationMessage.textContent = "Поле обязательно для заполнения.";
         showElement(validationMessage);
         isValid = false;
-        return;
-      }
-      else{
-        hideElement(validationMessage)
-        input.classList.remove("error");
+        return isValid;
       }
 
+      hideElement(validationMessage);
+      return;
     }
+
+    if (
+      validationRules.includes("json-format") &&
+      !isValidJson(input.value.trim())
+    ) {
+
+      validationMessage.textContent = "Неверный формат JSON.";
+      input.classList.add("error");
+      showElement(validationMessage);
+      isValid = false;
+      return false;
+    }
+
+      hideElement(validationMessage);
+      input.classList.remove("error");   
   });
 
   return isValid;
@@ -56,5 +53,3 @@ const isValidJson = (str) => {
     return false;
   }
 };
-
-const validateLogin = (loginString) => loginString && loginString.length >= 2 && loginString.length <= 20;
