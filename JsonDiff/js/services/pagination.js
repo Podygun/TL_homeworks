@@ -14,26 +14,6 @@ const domElements = {
 
 export const setPagination = () => {
 
-  domElements.logo.addEventListener("click", () => {
-    showPromo();
-  });
-
-  domElements.startLink.addEventListener("click", () => {
-    if (AuthHandler.isAuthenticated()) {
-      showAppContent();
-    } else {
-      showAuthForm();
-    }
-  });
-
-  loginSection.addEventListener("click", () => {
-    if (AuthHandler.isAuthenticated()) {
-      logout();
-    } else {
-      showAuthForm();
-    }
-  });
-
   const logout = () => {
     AuthHandler.clearUser();
     updateStateUI();
@@ -58,6 +38,26 @@ export const setPagination = () => {
     hideElement(domElements.authBlock);
     showElement(domElements.appContent);
   };
+
+  domElements.logo.addEventListener("click", () => {
+    showPromo();
+  });
+
+  domElements.startLink.addEventListener("click", () => {
+    if (AuthHandler.isAuthenticated()) {
+      showAppContent();
+    } else {
+      showAuthForm();
+    }
+  });
+
+  loginSection.addEventListener("click", () => {
+    if (AuthHandler.isAuthenticated()) {
+      logout();
+    } else {
+      showAuthForm();
+    }
+  });
 
   updateStateUI();
   showPromo();
