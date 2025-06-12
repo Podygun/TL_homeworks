@@ -16,3 +16,11 @@
 *.exe
 *.lib
 Reviewer/
+
+Words/
+
+WebApi/
+
+EventCalendar/
+
+CurrencyExchanger/
