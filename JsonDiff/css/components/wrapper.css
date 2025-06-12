@@ -18,8 +18,8 @@
 }
 
 .resultBlock {
-  background-color: #f5f5f5;
-  border: 2px solid #bbb;
+  background-color: var(--background-color);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 10px;
   font-family: monospace;

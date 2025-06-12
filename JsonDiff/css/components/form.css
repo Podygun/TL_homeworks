@@ -15,8 +15,7 @@
 }
 
 .default-form input,
-.default-form textarea,
-.default-form select {
+.default-form textarea{
   border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 10px;
@@ -34,8 +33,7 @@
 }
 
 .default-form input,
-.default-form textarea:focus,
-.default-form select:focus {
+.default-form textarea:focus{
   border-color: var(--color-secondary);
   outline: none;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);

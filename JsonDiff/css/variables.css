@@ -8,6 +8,8 @@
   --color-light: #ecf0f1;
   --color-dark: #1a1a1a;
   --color-border: #ccc;
+  --background-color: #ffffff;
+  --error-background-color: #ffeeee;
 
   /* animations */
   --hover-opacity: 0.7;
