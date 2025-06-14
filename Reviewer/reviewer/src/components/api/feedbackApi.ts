@@ -1,6 +1,8 @@
 import { userAvatars } from '../constants/data';
+import type { FeedbackResponse } from '../types/FeedbackResponse';
+import type { Review } from '../types/Review';
 
-export async function sendFeedback(prevState: any, formData: FormData) {  
+export async function sendFeedback(_prevState: unknown, formData: FormData): Promise<FeedbackResponse> {  
   const name = formData.get('name') as string;
   const feedback = formData.get('feedback') as string;
   const rating = Number(formData.get('rating'));
@@ -9,7 +11,7 @@ export async function sendFeedback(prevState: any, formData: FormData) {
     return { error: 'Заполните все поля' };
   }
 
-  const newReview = {
+  const newReview: Review = {
     id: Date.now(),
     name,
     feedback,
