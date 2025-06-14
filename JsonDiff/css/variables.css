@@ -1,0 +1,17 @@
+:root {
+    /* colors */
+  --color-primary: #2c3e50;
+  --color-secondary: #3498db;
+  --color-accent: #e74c3c;
+  --color-orange: #f39c12;
+  --color-text: #333;
+  --color-light: #ecf0f1;
+  --color-dark: #1a1a1a;
+  --color-border: #ccc;
+  --background-color: #ffffff;
+  --error-background-color: #ffeeee;
+
+  /* animations */
+  --hover-opacity: 0.7;
+  --transition-duration: 0.2s;
+}

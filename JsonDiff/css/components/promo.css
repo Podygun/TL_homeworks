@@ -1,0 +1,16 @@
+.promo {
+  text-align: center;
+}
+
+.promo h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.promo .red {
+  color: var(--color-accent);
+}
+
+.promo .orange {
+  color: var(--color-orange);
+}
