@@ -1,3 +1,4 @@
+import type { Review } from '../types/Review';
 import styles from './ReviewCard.module.css';
 
 export function ReviewCard({ review }: { review: Review }) {
