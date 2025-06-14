@@ -1,152 +1,118 @@
-import { useEffect, useState, useActionState } from "react";
+import { useState, useActionState } from "react";
 import styles from "./Feedback.module.css";
 
 import { useAutoResizeTextarea } from "../hooks/useAutoResizeTextarea";
 import { sendFeedback } from "../api/feedbackApi";
-import { emojis } from "../constants/data";
-import { ReviewCard } from "../ReviewCard/ReviewCard";
+import type { FeedbackFormProps } from "./FeedbackFormProps";
+import { InputRating } from "../InputRating/InputRating";
+import type { FeedbackResponse } from "../types/FeedbackResponse";
 
-interface Review {
-  id: number;
-  name: string;
-  feedback: string;
-  rating: number;
-  avatar: string;
-  date: string;
-}
+type FormErrors = {
+  name?: string;
+  feedback?: string;
+  rating?: string;
+};
 
-export default function FeedbackForm() {
-  const [selectedEmoji, setSelectedEmoji] = useState<number | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [message, formAction, isPending] = useActionState(sendFeedback, null);
-  const [error, setError] = useState<string | null>(null);
+export const FeedbackForm: React.FC<FeedbackFormProps> = ({ addReview }) => {
+  const [rating, setRating] = useState<number | undefined>(undefined);
+  const [name, setName] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [errors, setErrors] = useState<FormErrors>({});
+
   const { textareaRef, formRef } = useAutoResizeTextarea();
-  
-  // Загрузка отзывов при запуске
-  useEffect(() => {
-    const savedReviews = localStorage.getItem("feedbackReviews");
-    if (savedReviews) {
-      try {
-        setReviews(JSON.parse(savedReviews));
-      } catch (error) {
-        console.error("Error parsing saved reviews:", error);
-        localStorage.removeItem("feedbackReviews");
-      }
-    }
-  }, []);
 
-  // Загрузка отзывов при добавлении отзыва
-  useEffect(() => {
-    if (message?.success) {
-      if (Array.isArray(message.reviews)) {
-        setReviews(message.reviews);
-      } else {
-        console.error("Invalid reviews data:", message.reviews);
-        const savedReviews = localStorage.getItem("feedbackReviews");
-        if (savedReviews) setReviews(JSON.parse(savedReviews));
+  const [, formAction, isPending] = useActionState(
+    async (_prevState: FeedbackResponse | null, formData: FormData) => {
+      const nameValue = formData.get("name")?.toString().trim() || "";
+      const feedbackValue = formData.get("feedback")?.toString().trim() || "";
+      const ratingValue = rating;
+
+      const newErrors: FormErrors = {};
+
+      if (!nameValue) {
+        newErrors.name = "Пожалуйста, введите имя";
       }
 
-      // Сброс формы
-      if (formRef.current) {
-        formRef.current.reset();
+      if (!feedbackValue) {
+        newErrors.feedback = "Пожалуйста, оставьте отзыв";
+      }
+
+      if (ratingValue === undefined) {
+        newErrors.rating = "Пожалуйста, выберите оценку";
+      }
+
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return { success: false };
+      }
+
+      formData.set("rating", ratingValue!.toString());
+
+      const response = await sendFeedback(_prevState, formData);
+
+      if (response.success && response.reviews?.length) {
+        addReview(response.reviews[0]);
+
+        formRef.current?.reset();
+        setRating(undefined);
+        setName("");
+        setFeedback("");
+        setErrors({});
         if (textareaRef.current) {
-          textareaRef.current.style.height = 'auto';
+          textareaRef.current.style.height = "auto";
         }
       }
 
-      setSelectedEmoji(null);
-    }
-  }, [message, formRef, textareaRef]);
-
-  // Отправка формы
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (selectedEmoji === null) {
-      setError("Выберите оценку (смайлик)");
-      return;
-    }
-    setError(null);
-
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
-    formData.set("rating", selectedEmoji.toString());
-    formAction(formData);
-  };
+      return response;
+    },
+    null
+  );
 
   return (
     <div className={styles.container}>
-      <form
-        action={formAction}
-        className={styles.form}
-        ref={formRef}
-        onSubmit={handleSubmit}
-      >
+      <form ref={formRef} action={formAction} className={styles.form}>
         <div className={styles.formContent}>
           <h2 className={styles.title}>
             Помогите нам сделать процесс бронирования лучше
           </h2>
 
-          <div className={styles.emojiContainer}>
-            {emojis.map((emoji) => (
-              <div
-                key={emoji.id}
-                className={`${styles.emojiOption} ${
-                  selectedEmoji === emoji.id ? styles.selected : ""
-                }`}
-                onClick={() => setSelectedEmoji(emoji.id)}
-              >
-                <span className={styles.emoji}>{emoji.icon}</span>
-
-                <input
-                  type="radio"
-                  name="rating"
-                  value={emoji.id}
-                  checked={selectedEmoji === emoji.id}
-                  onChange={() => {}}
-                  className={styles.hiddenInput}
-                />
-              </div>
-            ))}
-          </div>
-          {error && <div className={styles.error}>{error}</div>}
-
+          <InputRating
+            defaultRating={rating}
+            onChange={setRating}
+            error={errors?.rating}
+          />
 
           <div className={styles.inputGroup}>
             <span className={styles.floatingLabel}>*Имя</span>
             <input
               type="text"
               name="name"
-              id="name"
               placeholder="Как вас зовут?"
               className={styles.input}
-              required
+              defaultValue={name}
+              onChange={(e) => setName(e.target.value)}
             />
-          </div>
+            {errors?.name && <div className={styles.error}>{errors.name}</div>}
 
-          <textarea
-            ref={textareaRef}
-            name="feedback"
-            placeholder="Напишите, что понравилось, что непонятно"
-            className={styles.textarea}
-          />
-
-          <div className={styles.buttonContainer}>
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={isPending}
-            >
-              {isPending ? "Отправка..." : "Отправить"}
-            </button>
+            <textarea
+              ref={textareaRef}
+              name="feedback"
+              placeholder="Напишите, что понравилось, что непонятно"
+              className={styles.textarea}
+              defaultValue={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            />
+             {errors?.feedback && <div className={styles.error}>{errors.feedback}</div>}
           </div>
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={isPending}
+          >
+            {isPending ? "Отправка..." : "Отправить"}
+          </button>
         </div>
       </form>
-
-      <div className={styles.reviewsContainer}>
-        {reviews.map((review) => (
-          <ReviewCard key={review.id} review={review} />
-        ))}
-      </div>
     </div>
   );
-}
+};
