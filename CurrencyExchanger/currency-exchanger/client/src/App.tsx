@@ -1,10 +1,10 @@
 import './styles/app.css'
-import ExchangeWidget from './components/Exchanger/Exchanger'
+import Exchanger from './components/Exchanger/Exchanger'
 
 export default function App() {
   return (
     <div>
-      <ExchangeWidget/>
+      <Exchanger/>
     </div>
   );
 }
