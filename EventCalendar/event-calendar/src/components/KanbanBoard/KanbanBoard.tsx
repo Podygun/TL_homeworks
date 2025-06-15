@@ -6,7 +6,6 @@ import styles from "./KanbanBoard.module.css";
 import data from "../common/notesData";
 
 const KanbanBoard: React.FC = () => {
-
   const [columns, setColumns] = useState<IColumn[]>(data);
 
   const [dragState, setDragState] = useState<NoteState | null>(null);
@@ -22,10 +21,7 @@ const KanbanBoard: React.FC = () => {
   } | null>(null);
 
   const columnRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  const findColumnById = (id: string) => columns.find(col => col.id === id);
-  const findNoteIndexById = (notes: Note[], id: string) => notes.findIndex(note => note.id === id);
+  const noteRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const handleDragStart = useCallback(
     (
@@ -36,6 +32,10 @@ const KanbanBoard: React.FC = () => {
       offsetX: number,
       offsetY: number
     ) => {
+      const findColumnById = (id: string) =>
+        columns.find((col) => col.id === id);
+      const findNoteIndexById = (notes: Note[], id: string) =>
+        notes.findIndex((note) => note.id === id);
 
       const column = findColumnById(idColumn);
       if (!column) return;
@@ -68,46 +68,53 @@ const KanbanBoard: React.FC = () => {
         y: e.clientY - dragState.offsetY,
       });
 
-      let targetColId: string | null = null;
-      columns.forEach((col) => {
+      const targetCol = columns.find((col) => {
         const ref = columnRefs.current[col.id];
-        if (!ref) return;
+        if (!ref) return false;
         const rect = ref.getBoundingClientRect();
-        if (
+        return (
           e.clientX >= rect.left &&
           e.clientX <= rect.right &&
           e.clientY >= rect.top &&
           e.clientY <= rect.bottom
-        ) {
-          targetColId = col.id;
-        }
+        );
       });
 
-      if (!targetColId) {
+      if (!targetCol) {
         setDropTarget(null);
         return;
       }
 
-      const targetColumn = columns.find((col) => col.id === targetColId)!;
-      const cards = targetColumn.notes;
-      let insertionIndex = cards.length;
-      for (let i = 0; i < cards.length; i++) {
-        const card = cards[i];
+      const targetColId = targetCol.id;
+
+      const targetColumn = columns.find((col) => col.id === targetColId);
+
+      if (!targetColumn) {
+        setDropTarget(null);
+        return;
+      }
+
+      const notes = targetColumn.notes;
+      let insertionIndex = notes.length;
+
+      notes.some((note, i) => {
         if (
           targetColId === dragState.idColumn &&
-          card.id === dragState.idNote
+          note.id === dragState.idNote
         ) {
-          continue;
+          return false;
         }
-        const cardElement = cardRefs.current[card.id];
-        if (!cardElement) continue;
-        const cardRect = cardElement.getBoundingClientRect();
-        const cardCenterY = cardRect.top + cardRect.height / 2;
-        if (e.clientY < cardCenterY) {
+
+        const noteElement = noteRefs.current[note.id];
+        if (!noteElement) return false;
+
+        const noteRect = noteElement.getBoundingClientRect();
+        if (e.clientY < noteRect.top + noteRect.height / 2) {
           insertionIndex = i;
-          break;
+          return true;
         }
-      }
+        return false;
+      });
 
       if (targetColId === dragState.idColumn) {
         if (
@@ -132,27 +139,44 @@ const KanbanBoard: React.FC = () => {
           ...col,
           notes: [...col.notes],
         }));
+
         const originCol = newColumns.find(
           (col) => col.id === dragState.idColumn
-        )!;
-        const cardIndex = originCol.notes.findIndex(
+        );
+        if (!originCol) return prevColumns;
+
+        const noteIndex = originCol.notes.findIndex(
           (c) => c.id === dragState.idNote
         );
-        const [movedCard] = originCol.notes.splice(cardIndex, 1);
-        const targetCol = newColumns.find(
-          (col) => col.id === dropTarget.colId
-        )!;
+        if (noteIndex === -1) return prevColumns;
+
+        const movedNote = originCol.notes[noteIndex];
+
+        originCol.notes = originCol.notes.filter((_, i) => i !== noteIndex);
+
+        const targetCol = newColumns.find((col) => col.id === dropTarget.colId);
+        if (!targetCol) return prevColumns;
+
         let insertIndex = dropTarget.index;
-        if (targetCol.id === originCol.id && cardIndex < insertIndex) {
+        if (targetCol.id === originCol.id && noteIndex < insertIndex) {
           insertIndex--;
         }
-        targetCol.notes.splice(insertIndex, 0, movedCard);
-        newColumns.forEach((col) => {
-          col.notes.forEach((note, idx) => {
-            note.order = idx + 1;
-          });
-        });
-        return newColumns;
+
+        targetCol.notes = [
+          ...targetCol.notes.slice(0, insertIndex),
+          movedNote,
+          ...targetCol.notes.slice(insertIndex),
+        ];
+
+        const updatedColumns = newColumns.map((col) => ({
+          ...col,
+          notes: col.notes.map((note, idx) => ({
+            ...note,
+            order: idx + 1,
+          })),
+        }));
+
+        return updatedColumns;
       });
     }
     setDragState(null);
@@ -187,7 +211,7 @@ const KanbanBoard: React.FC = () => {
             columnRef={(el: HTMLDivElement | null) => {
               columnRefs.current[col.id] = el;
             }}
-            noteRefs={cardRefs}
+            noteRefs={noteRefs}
           />
         ))}
       </div>
