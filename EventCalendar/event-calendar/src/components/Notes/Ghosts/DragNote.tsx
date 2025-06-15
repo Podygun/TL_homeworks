@@ -11,7 +11,7 @@ const DragNote: React.FC<PreviewProps> = ({ x, y, note }) => {
         left: x,
       }}
     >
-      <div className={styles.previewBody}>
+      <div>
         <p className={styles.previewText}>{note.content}</p>
       </div>
     </div>

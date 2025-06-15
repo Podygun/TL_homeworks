@@ -4,7 +4,7 @@
   padding: 0 var(--spacing-xs);
 }
 
-.noteContainer {
+.columnContainer {
   background-color: var(--color-white);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-md);
@@ -12,13 +12,13 @@
   box-shadow: var(--shadow-sm);
 }
 
-.noteBody {
+.columnBody {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
 
-.noteTitle {
+.columnTitle {
   margin: 0 0 var(--spacing-sm) 0;
   font-size: 1.25rem;
   font-weight: 500;

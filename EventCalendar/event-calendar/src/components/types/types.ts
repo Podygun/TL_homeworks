@@ -9,7 +9,7 @@ export interface NoteProps {
   idColumn: string;
   onDragStart: (
     idColumn: string,
-    idCard: string,
+    idNote: string,
     clientX: number,
     clientY: number,
     offsetX: number,

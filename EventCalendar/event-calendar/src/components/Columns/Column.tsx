@@ -15,9 +15,9 @@ const Column: React.FC<ColumnProps> = memo(
   }) => {
     return (
       <div className={styles.column} ref={columnRef}>
-        <div className={styles.noteContainer}>
-          <div className={styles.noteBody}>
-            <h5 className={styles.noteTitle}>{column.title}</h5>
+        <div className={styles.columnContainer}>
+          <div className={styles.columnBody}>
+            <h5 className={styles.columnTitle}>{column.title}</h5>
             {dropIndex === 0 && <NewNotePreview />}
             {column.notes.map((note, index) => (
               <React.Fragment key={note.id}>
