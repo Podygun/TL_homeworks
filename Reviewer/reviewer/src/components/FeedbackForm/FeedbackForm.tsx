@@ -46,8 +46,10 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({ addReview }) => {
         return { success: false };
       }
 
-      formData.set("rating", ratingValue!.toString());
-
+      if (ratingValue !== undefined) {
+        formData.set("rating", ratingValue.toString());
+      }
+      
       const response = await sendFeedback(_prevState, formData);
 
       if (response.success && response.reviews?.length) {
@@ -102,7 +104,9 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({ addReview }) => {
               defaultValue={feedback}
               onChange={(e) => setFeedback(e.target.value)}
             />
-             {errors?.feedback && <div className={styles.error}>{errors.feedback}</div>}
+            {errors?.feedback && (
+              <div className={styles.error}>{errors.feedback}</div>
+            )}
           </div>
           <button
             type="submit"
