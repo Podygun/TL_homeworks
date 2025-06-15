@@ -1,16 +1,4 @@
-export type CurrencyInfo = {
-  code: string;
-  name: string;
-  description: string;
-  symbol: string;
-};
-
-export type PriceEntry = {
-  purchasedCurrencyCode: string;
-  paymentCurrencyCode: string;
-  price: number;
-  dateTime: string;
-};
+import { CurrencyInfo, PriceEntry } from "../components/Types";
 
 const BASE_URL = 'https://localhost:7145';
 
@@ -26,9 +14,6 @@ export async function fetchCurrency(code: string): Promise<CurrencyInfo> {
   return res.json();
 }
 
-/**
- * Получить последний курс из массива
- */
 export async function fetchLatestRate(
   paymentCurrency: string,
   purchasedCurrency: string,
@@ -45,7 +30,6 @@ export async function fetchLatestRate(
   if (data.length === 0) return null;
   return data[data.length - 1];
 }
-
 
 export async function fetchRates(
   paymentCurrency: string,
