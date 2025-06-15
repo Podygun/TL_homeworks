@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { fetchRates } from '../api/currencyApi';
+import { fetchRates } from '../../api/currencyApi';
 import styles from './CurrencyChart.module.css';
 
 interface CurrencyChartProps {
@@ -23,7 +23,8 @@ interface CurrencyPrice {
   price: number;
 }
 
-type TimeInterval = '1 MIN' | '2 MIN' | '3 MIN' | '4 MIN' | '5 MIN';
+const timeIntervals = ['1 MIN', '2 MIN', '3 MIN', '4 MIN', '5 MIN'] as const;
+type TimeInterval = (typeof timeIntervals)[number];
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
 
@@ -31,41 +32,28 @@ const CurrencyChart: React.FC<CurrencyChartProps> = ({ baseCurrency, targetCurre
   const [data, setData] = useState<CurrencyPrice[]>([]);
   const [timeInterval, setTimeInterval] = useState<TimeInterval>('5 MIN');
 
-  const getMilliseconds = (interval: TimeInterval) => {
-    switch (interval) {
-      case '5 MIN':
-        return 5 * 60 * 1000;
-      case '4 MIN':
-        return 4 * 60 * 1000;
-      case '3 MIN':
-        return 3 * 60 * 1000;
-      case '2 MIN':
-        return 2 * 60 * 1000;
-      case '1 MIN':
-        return 1 * 60 * 1000;
-      default:
-        return 5 * 60 * 1000;
-    }
-  };
+  const getMilliseconds = useCallback((interval: TimeInterval) => {
+    const minutes = parseInt(interval.split(' ')[0]);
+    return minutes * 60 * 1000;
+  }, []);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
+    if (!baseCurrency || !targetCurrency) return;
+
     try {
       const fromDateTime = new Date(Date.now() - getMilliseconds(timeInterval)).toISOString();
-      console.log(fromDateTime);
-
       const prices = await fetchRates(baseCurrency, targetCurrency, fromDateTime);
       setData(prices);
     } catch (error) {
-      console.error('Ошибка при загрузке данных:', error);
       setData([]);
     }
-  };
+  }, [baseCurrency, targetCurrency, timeInterval, getMilliseconds]);
 
   useEffect(() => {
     if (baseCurrency && targetCurrency) {
       fetchData();
     }
-  }, [baseCurrency, targetCurrency, timeInterval]);
+  }, [fetchData, baseCurrency, targetCurrency]);
 
   const chartData = {
     labels: data.map((item) => new Date(item.dateTime)),
@@ -103,9 +91,9 @@ const CurrencyChart: React.FC<CurrencyChartProps> = ({ baseCurrency, targetCurre
   return (
     <div>
       <div>
-        {(['5 MIN', '4 MIN', '3 MIN', '2 MIN', '1 MIN'] as TimeInterval[]).map((interval) => (
+        {[...timeIntervals].reverse().map((interval) => (
           <button
-            className={styles.timeButton}
+            className={`${styles.timeButton} ${timeInterval === interval ? styles.active : ''}`}
             key={interval}
             onClick={() => setTimeInterval(interval)}
             disabled={timeInterval === interval}
@@ -114,7 +102,9 @@ const CurrencyChart: React.FC<CurrencyChartProps> = ({ baseCurrency, targetCurre
           </button>
         ))}
       </div>
-      <Line data={chartData} options={options} />
+      <div>
+        <Line data={chartData} options={options} />
+      </div>
     </div>
   );
 };
