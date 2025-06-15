@@ -21,14 +21,16 @@ export default function Exchanger() {
   const [chartKey, setChartKey] = useState(0);
   const [showDescriptions, setShowDescriptions] = useState(false);
 
-  const [savedPairs, setSavedPairs] = useState<string[]>(() => {
-    const saved = localStorage.getItem('currencyPairs');
+  const filtersStorageKey: string = 'currencyFilters';
+
+  const [savedFilters, setSavedFilters] = useState<string[]>(() => {
+    const saved = localStorage.getItem(filtersStorageKey);
     return saved ? JSON.parse(saved) : [];
   });
 
-  const savePairs = (pairs: string[]) => {
-    setSavedPairs(pairs);
-    localStorage.setItem('currencyPairs', JSON.stringify(pairs));
+  const saveFilters = (filters: string[]) => {
+    setSavedFilters(filters);
+    localStorage.setItem(filtersStorageKey, JSON.stringify(filters));
   };
 
   const baseCurrencyInfo = currencies.find((c) => c.code === baseCurrency);
@@ -83,18 +85,18 @@ export default function Exchanger() {
   const handleSaveFilter = () => {
     if (!baseCurrency || !targetCurrency || baseCurrency === targetCurrency) return;
 
-    const pair = `${baseCurrency}/${targetCurrency}`;
-    if (!savedPairs.includes(pair)) {
-      savePairs([...savedPairs, pair]);
+    const filter = `${baseCurrency}/${targetCurrency}`;
+    if (!savedFilters.includes(filter)) {
+      saveFilters([...savedFilters, filter]);
     }
   };
 
   const handleClearFilters = () => {
-    savePairs([]);
+    saveFilters([]);
   };
 
-  const handleFilterClick = (pair: string) => {
-    const [from, to] = pair.split('/');
+  const handleFilterClick = (filter: string) => {
+    const [from, to] = filter.split('/');
     setBaseCurrency(from);
     setTargetCurrency(to);
   };
@@ -120,12 +122,12 @@ export default function Exchanger() {
 
   return (
     <>
-      {savedPairs.length > 0 && (
+      {savedFilters.length > 0 && (
         <div className={styles.filtersContainer}>
           <div className={styles.filtersList}>
-            {savedPairs.map((pair) => (
-              <button key={pair} className={styles.filterBtn} onClick={() => handleFilterClick(pair)} type="button">
-                {pair}
+            {savedFilters.map((filter) => (
+              <button key={filter} className={styles.filterBtn} onClick={() => handleFilterClick(filter)} type="button">
+                {filter}
               </button>
             ))}
           </div>
