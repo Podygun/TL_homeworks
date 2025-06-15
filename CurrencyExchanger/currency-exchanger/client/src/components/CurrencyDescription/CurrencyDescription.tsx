@@ -1,4 +1,4 @@
-import { CurrencyInfo } from '../api/currencyApi';
+import { CurrencyInfo } from '../../api/currencyApi';
 import styles from './CurrencyDescription.module.css'
 
 type CurrencyDescriptionProps = {
