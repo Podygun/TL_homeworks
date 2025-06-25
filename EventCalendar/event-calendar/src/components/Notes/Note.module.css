@@ -1,0 +1,18 @@
+.note {
+  color: var(--color-dark);
+  font-size: 0.8rem;
+  padding-left: var(--spacing-sm);
+  position: relative;
+  background-color: var(--color-light);
+  border: var(--border-default);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-sm);
+  transition: var(--transition-base);
+  cursor: grab;
+}
+
+.noteDragging {
+  opacity: 0.5;
+  border: var(--border-dotted);
+  background-color: var(--color-gray);
+}
