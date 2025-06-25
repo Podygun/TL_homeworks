@@ -16,6 +16,10 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store/useStore";
 import type { WordsPair } from "../../types/Pair";
 
+const shuffleArray = <T,>(array: T[]): T[] => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
 export const TestingPage = () => {
   const navigate = useNavigate();
   const { pairs } = useStore();
@@ -26,8 +30,7 @@ export const TestingPage = () => {
   const [correctCount, setCorrectCount] = useState(0);
 
   useEffect(() => {
-    const shuffled = [...pairs].sort(() => Math.random() - 0.5);
-    setShuffledPairs(shuffled);
+    setShuffledPairs(shuffleArray(pairs));
   }, [pairs]);
 
   const currentPair = shuffledPairs[currentIndex];
@@ -37,33 +40,29 @@ export const TestingPage = () => {
 
     const otherOptions = pairs
       .filter((p) => p.en !== currentPair.en)
-      .sort(() => Math.random() - 0.5)
       .slice(0, 3);
 
-    const allOptions = [...otherOptions, currentPair].sort(
-      () => Math.random() - 0.5
-    );
-    return allOptions;
+    return shuffleArray([...otherOptions, currentPair]);
   }, [currentPair, pairs]);
 
   const handleCheck = () => {
     if (!selectedAnswer || !currentPair) return;
 
-    if (selectedAnswer === currentPair.en) {
-      setCorrectCount((prev) => prev + 1);
-    }
+    const isCorrect = selectedAnswer === currentPair.en;
+    const newCorrectCount = isCorrect ? correctCount + 1 : correctCount;
+    const isLastQuestion = currentIndex + 1 >= shuffledPairs.length;
 
-    if (currentIndex + 1 < shuffledPairs.length) {
-      setCurrentIndex((prev) => prev + 1);
-      setSelectedAnswer(null);
-    } else {
+    if (isLastQuestion) {
       navigate("/results", {
         state: {
           TotalAmount: shuffledPairs.length,
-          CorrectAmount:
-            selectedAnswer === currentPair.en ? correctCount + 1 : correctCount,
+          CorrectAmount: newCorrectCount,
         },
       });
+    } else {
+      setCorrectCount(newCorrectCount);
+      setCurrentIndex((prev) => prev + 1);
+      setSelectedAnswer(null);
     }
   };
 
@@ -122,7 +121,7 @@ export const TestingPage = () => {
           onClick={handleCheck}
           disabled={!selectedAnswer}
         >
-          Проверить
+          {currentIndex + 1 < shuffledPairs.length ? "Далее" : "Завершить"}
         </Button>
       </Paper>
     </Container>
