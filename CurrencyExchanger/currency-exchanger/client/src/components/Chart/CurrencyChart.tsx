@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,56 +10,39 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { fetchRates } from '../../api/currencyApi';
 import styles from './CurrencyChart.module.css';
-
-interface CurrencyChartProps {
-  baseCurrency: string;
-  targetCurrency: string;
-}
-
-interface CurrencyPrice {
-  dateTime: string;
-  price: number;
-}
+import { useCurrencyStore } from '../stores/useCurrencyStore';
 
 const timeIntervals = ['1 MIN', '2 MIN', '3 MIN', '4 MIN', '5 MIN'] as const;
 type TimeInterval = (typeof timeIntervals)[number];
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
 
-const CurrencyChart: React.FC<CurrencyChartProps> = ({ baseCurrency, targetCurrency }) => {
-  const [data, setData] = useState<CurrencyPrice[]>([]);
+const CurrencyChart: React.FC = () => {
+  const { ratesData } = useCurrencyStore();
   const [timeInterval, setTimeInterval] = useState<TimeInterval>('5 MIN');
 
-  const getMilliseconds = useCallback((interval: TimeInterval) => {
+  const getMilliseconds = (interval: TimeInterval) => {
     const minutes = parseInt(interval.split(' ')[0]);
     return minutes * 60 * 1000;
-  }, []);
+  };
 
-  const fetchData = useCallback(async () => {
-    if (!baseCurrency || !targetCurrency) return;
+  const filteredData = useMemo(() => {
+    if (!ratesData || ratesData.length === 0) return [];
+    
+    const ms = getMilliseconds(timeInterval);
+    const cutoff = Date.now() - ms;
+    
+    return ratesData.filter(item => 
+      new Date(item.dateTime).getTime() > cutoff
+    );
+  }, [ratesData, timeInterval]);
 
-    try {
-      const fromDateTime = new Date(Date.now() - getMilliseconds(timeInterval)).toISOString();
-      const prices = await fetchRates(baseCurrency, targetCurrency, fromDateTime);
-      setData(prices);
-    } catch (error) {
-      setData([]);
-    }
-  }, [baseCurrency, targetCurrency, timeInterval, getMilliseconds]);
-
-  useEffect(() => {
-    if (baseCurrency && targetCurrency) {
-      fetchData();
-    }
-  }, [fetchData, baseCurrency, targetCurrency]);
-
-  const chartData = {
-    labels: data.map((item) => new Date(item.dateTime)),
+  const chartData = useMemo(() => ({
+    labels: filteredData.map((item) => new Date(item.dateTime)),
     datasets: [
       {
-        data: data.map((item) => item.price),
+        data: filteredData.map((item) => item.price),
         borderColor: '#3467d5',
         fill: true,
         backgroundColor: 'rgba(52, 103, 213, 0.5)',
@@ -67,7 +50,7 @@ const CurrencyChart: React.FC<CurrencyChartProps> = ({ baseCurrency, targetCurre
         tension: 0.1
       }
     ]
-  };
+  }), [filteredData]);
 
   const options = {
     responsive: true,

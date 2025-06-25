@@ -1,32 +1,37 @@
-import { useEffect, useState, useCallback } from 'react';
-import { fetchCurrencies, fetchLatestRate } from '../../api/currencyApi';
+import { useEffect, useState, useMemo } from 'react';
+import { fetchCurrencies } from '../../api/currencyApi';
 import { formatNumber, formatUpdateTime } from '../utils/formatters';
 import styles from './Exchanger.module.css';
 import CurrencyDescription from '../CurrencyDescription/CurrencyDescription';
 import CurrencyDivider from '../СurrencyDivider/CurrencyDivider';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../Error/ErrorMessage';
-import CurrencyChart from '../Chart/CurrencyChart';
+import CurrencyChart from '../Chart/NewCurrencyChart';
 import { CurrencyInfo } from '../Types';
+import { useCurrencyStore } from '../stores/useCurrencyStore';
 
 export default function Exchanger() {
+  const { 
+    ratesData,
+    loading,
+    error,
+    getLatestRate,
+    fetchExchangeData 
+  } = useCurrencyStore();
+
   const [currencies, setCurrencies] = useState<CurrencyInfo[]>([]);
   const [baseCurrency, setBaseCurrency] = useState('PLN');
   const [targetCurrency, setTargetCurrency] = useState('CAD');
-  const [rate, setRate] = useState<number | null>(null);
-  const [baseAmount, setBaseAmount] = useState<string>('1');
-  const [convertedAmount, setConvertedAmount] = useState<number>(0);
-  const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [chartKey, setChartKey] = useState(0);
+  const [baseAmount, setBaseAmount] = useState('1');
   const [showDescriptions, setShowDescriptions] = useState(false);
 
-  const filtersStorageKey: string = 'currencyFilters';
-
+  const filtersStorageKey = 'currencyFilters';
   const [savedFilters, setSavedFilters] = useState<string[]>(() => {
     const saved = localStorage.getItem(filtersStorageKey);
     return saved ? JSON.parse(saved) : [];
   });
+
+  const latestRate = useMemo(() => getLatestRate(), [ratesData, getLatestRate]);
 
   const saveFilters = (filters: string[]) => {
     setSavedFilters(filters);
@@ -42,38 +47,26 @@ export default function Exchanger() {
         const data = await fetchCurrencies();
         setCurrencies(data);
       } catch (error) {
-        setErrorMessage('Failed to load currencies');
+        console.error('Failed to load currencies', error);
       }
     };
 
     loadCurrencies();
   }, []);
 
-  const loadExchangeRate = useCallback(async () => {
-    if (!baseCurrency || !targetCurrency) return;
-
-    try {
-      const data = await fetchLatestRate(baseCurrency, targetCurrency, '2025-05-01T00:00:00');
-      setRate(data?.price ?? null);
-      setLastUpdateTime(data?.dateTime ? new Date(data.dateTime) : null);
-      setChartKey((prev) => prev + 1);
-    } catch (error) {
-      setErrorMessage('Failed to get exchange rate');
-    }
-  }, [baseCurrency, targetCurrency]);
-
   useEffect(() => {
-    loadExchangeRate();
-    const intervalId = setInterval(loadExchangeRate, 10000);
+    fetchExchangeData(baseCurrency, targetCurrency);
+    const intervalId = setInterval(() => {
+      fetchExchangeData(baseCurrency, targetCurrency);
+    }, 10000);
     return () => clearInterval(intervalId);
-  }, [loadExchangeRate]);
+  }, [baseCurrency, targetCurrency, fetchExchangeData]);
 
-  useEffect(() => {
-    const amountNum = parseFloat(baseAmount);
-    if (isNaN(amountNum)) return;
-
-    setConvertedAmount(targetCurrency === baseCurrency ? amountNum : rate ? amountNum * rate : 0);
-  }, [baseAmount, targetCurrency, baseCurrency, rate]);
+  const convertedAmount = useMemo(() => {
+    const amountNum = parseFloat(baseAmount) || 0;
+    if (targetCurrency === baseCurrency) return amountNum;
+    return latestRate ? amountNum * latestRate.price : 0;
+  }, [baseAmount, targetCurrency, baseCurrency, latestRate]);
 
   const handleBaseAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -103,7 +96,6 @@ export default function Exchanger() {
 
   const renderCurrencyDescriptions = () => {
     if (!baseCurrencyInfo || !targetCurrencyInfo || !showDescriptions) return null;
-
     return (
       <>
         <CurrencyDescription currency={baseCurrencyInfo} />
@@ -112,12 +104,12 @@ export default function Exchanger() {
     );
   };
 
-  if (currencies.length === 0 || rate === null) {
+  if (currencies.length === 0 || loading) {
     return <Loader />;
   }
 
-  if (errorMessage) {
-    return <ErrorMessage message={errorMessage} />;
+  if (error) {
+    return <ErrorMessage message={error} />;
   }
 
   return (
@@ -126,7 +118,12 @@ export default function Exchanger() {
         <div className={styles.filtersContainer}>
           <div className={styles.filtersList}>
             {savedFilters.map((filter) => (
-              <button key={filter} className={styles.filterBtn} onClick={() => handleFilterClick(filter)} type="button">
+              <button 
+                key={filter} 
+                className={styles.filterBtn} 
+                onClick={() => handleFilterClick(filter)} 
+                type="button"
+              >
                 {filter}
               </button>
             ))}
@@ -136,6 +133,7 @@ export default function Exchanger() {
           </button>
         </div>
       )}
+      
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
@@ -143,7 +141,7 @@ export default function Exchanger() {
               {1} {baseCurrencyInfo?.name} is
             </div>
             <div className={styles.toCurrencyTitle}>
-              {1 * (rate ?? 0)} {targetCurrencyInfo?.name}
+              {latestRate ? latestRate.price : 0} {targetCurrencyInfo?.name}
             </div>
           </div>
           <div className={styles.saveBtnContainer}>
@@ -155,7 +153,9 @@ export default function Exchanger() {
 
         <div className={styles.exchangerContainer}>
           <div className={styles.leftHeader}>
-            <div className={styles.time}>{lastUpdateTime ? `${formatUpdateTime(lastUpdateTime)}` : ''}</div>
+            <div className={styles.time}>
+              {latestRate?.dateTime ? formatUpdateTime(new Date(latestRate.dateTime)) : ''}
+            </div>
             <div className={styles.converterRow}>
               <input
                 type="text"
@@ -165,7 +165,11 @@ export default function Exchanger() {
                 className={styles.input}
                 aria-label="Base amount"
               />
-              <select value={baseCurrency} onChange={(e) => setBaseCurrency(e.target.value)} className={styles.select}>
+              <select 
+                value={baseCurrency} 
+                onChange={(e) => setBaseCurrency(e.target.value)} 
+                className={styles.select}
+              >
                 {currencies.map((c) => (
                   <option key={c.code} value={c.code}>
                     {c.code}
@@ -196,7 +200,7 @@ export default function Exchanger() {
           </div>
 
           <div className={styles.rightHeader}>
-            <CurrencyChart key={chartKey} baseCurrency={baseCurrency} targetCurrency={targetCurrency} />
+            <CurrencyChart/>
           </div>
         </div>
 
