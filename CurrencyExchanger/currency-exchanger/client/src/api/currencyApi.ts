@@ -8,12 +8,6 @@ export async function fetchCurrencies(): Promise<CurrencyInfo[]> {
   return res.json();
 }
 
-export async function fetchCurrency(code: string): Promise<CurrencyInfo> {
-  const res = await fetch(`${BASE_URL}/Currency/${encodeURIComponent(code)}`);
-  if (!res.ok) throw new Error(`Failed to fetch currency ${code}`);
-  return res.json();
-}
-
 export function getLatestRate(rates: PriceEntry[]): { price: number; dateTime: string } | null {
   return rates.length > 0 ? rates[rates.length - 1] : null;
 }
