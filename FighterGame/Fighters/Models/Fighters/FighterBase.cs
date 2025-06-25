@@ -28,7 +28,7 @@ public abstract class FighterBase : IFighter
 
     public virtual void TakeDamage( int damage )
     {
-        int totalDamage = Math.Max( damage - CalculateArmor(), 0 );
+        int totalDamage = Math.Max( damage, 0 );
         _currentHealth = Math.Max( _currentHealth - totalDamage, 0 );
     }
 }

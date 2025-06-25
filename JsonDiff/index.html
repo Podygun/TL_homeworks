@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Json diff</title>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+
+   <header class="header">
+
+    <div class="logo" id="logo">PODY JSON-DIFF</div>
+    <div class="loginSection" id="loginSection">
+      <span class="auth-text">Log in</span>
+    </div>
+
+  </header>
+
+  <body>
+    <main class="wrapper">
+      <div id="promo" class="promo">
+        <h1>Compare <span class="red">two JSON objects</span> and see the <span class="orange">difference</span></h1>
+
+        <div id="startBlock" class="start-block hide">
+          <a href="#" id="startLink" class="start-link">Start</a>
+        </div>
+      </div>
+
+      <div id="authBlock" class="paper hide authBlock">
+        <h2 class="text-center">Sign In</h2>
+        <form id="authForm">
+          <div class="form-group">
+            <label for="login">Name</label>
+            <input type="text" id="login" name="login" placeholder="Your name" validation-rules="required">
+            <span class="validation-message hide"></span>
+          </div>
+          <button type="submit" class="signin-btn">SIGN IN</button>
+        </form>
+
+      </div>
+
+      <div id="appContentBlock" class="appContentBlock paper hide">
+        <form id="diffForm">
+          <label for="oldJson">Old json</label>
+          <textarea id="oldJson" rows="10" cols="50" placeholder="Введите начальный JSON" validation-rules="json-format">
+{
+  "timeout": 20,
+  "verbose": true,
+  "host": "google.com"
+}
+          </textarea>
+          <span class="validation-message hide"></span>
+
+          <label for="newJson">New json</label>
+          <textarea id="newJson" rows="10" cols="50" placeholder="Введите новый JSON" validation-rules="json-format">
+{
+  "timeout": 50,
+  "proxy": "888.888.88.88",
+  "host": "google.com"
+}
+          </textarea>
+          <span class="validation-message hide"></span>
+
+          <button>Show difference</button>
+        </form>
+
+        <div class="resultBlock hide" id="resultBlock">
+        <div>
+
+      </div>
+    </main>
+    <footer class="footer">
+      <p>Copyright © 2025</p>
+    </footer>
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>

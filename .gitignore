@@ -15,12 +15,3 @@
 *.dll
 *.exe
 *.lib
-EventCalendar/
-
-Reviewer/reviewer/.vite/deps/
-
-Words/
-
-WebApi/
-
-CurrencyExchanger/
