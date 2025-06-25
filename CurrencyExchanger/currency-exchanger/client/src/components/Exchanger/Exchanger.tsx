@@ -6,13 +6,12 @@ import CurrencyDescription from '../CurrencyDescription/CurrencyDescription';
 import CurrencyDivider from '../СurrencyDivider/CurrencyDivider';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../Error/ErrorMessage';
-import CurrencyChart from '../Chart/NewCurrencyChart';
+import CurrencyChart from '../Chart/CurrencyChart';
 import { CurrencyInfo } from '../Types';
 import { useCurrencyStore } from '../stores/useCurrencyStore';
 
 export default function Exchanger() {
   const { 
-    ratesData,
     loading,
     error,
     getLatestRate,
@@ -31,8 +30,8 @@ export default function Exchanger() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const latestRate = useMemo(() => getLatestRate(), [ratesData, getLatestRate]);
-
+const latestRate = getLatestRate();
+  
   const saveFilters = (filters: string[]) => {
     setSavedFilters(filters);
     localStorage.setItem(filtersStorageKey, JSON.stringify(filters));
