@@ -1,0 +1,49 @@
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewName {
+  align-self: start;
+  color: black;
+  margin-top: 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.reviewText {
+  text-align: left;
+  margin: 0;
+  font-size: 1rem;
+  color: black;
+}
+
+.ratingBadge {
+  font-size: 1.6rem;
+  align-self: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  color: black;
+  font-weight: bold;
+  margin-left: auto;
+  margin-top: 10px;
+}
+
+.reviewCard {
+  display: grid;
+  grid-template-columns: 80px 1fr 50px;
+  gap: 15px;
+  align-items: start;
+  background-color: white;
+  margin-bottom: 30px;
+}
