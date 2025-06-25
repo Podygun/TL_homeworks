@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  color: var(--color-text);
+}
+
+body .hide{
+  display: none;
+}
