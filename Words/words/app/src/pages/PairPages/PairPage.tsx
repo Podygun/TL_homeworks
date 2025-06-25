@@ -1,46 +1,56 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Container,
+  Paper,
+  Box,
+  IconButton,
+  Typography,
   TextField,
   Button,
-  Typography,
-  IconButton,
-  Box,
-  Paper,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useStore } from "../../store/useStore";
 import type { WordsPair } from "../../types/Pair";
 import "./Pairs.scss";
 
-export const EditPairPage = () => {
+interface PairPageProps {
+  mode: "edit" | "new";
+}
+
+export const PairPage: React.FC<PairPageProps> = ({ mode }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { edit } = useStore();
+  const { add, edit } = useStore();
 
-  const pair = (location.state as { pair: WordsPair })?.pair;
+  const pair = (location.state as { pair?: WordsPair })?.pair;
 
-  const [russianWord, setRussianWord] = useState(pair?.ru || "");
-  const [englishWord, setEnglishWord] = useState(pair?.en || "");
+  const [russianWord, setRussianWord] = useState(mode === "edit" && pair ? pair.ru : "");
+  const [englishWord, setEnglishWord] = useState(mode === "edit" && pair ? pair.en : "");
 
   const isSaveButtonDisabled = !russianWord.trim() || !englishWord.trim();
 
   useEffect(() => {
-    if (!pair) {
+    if (mode === "edit" && !pair) {
       navigate("/dictionary");
     }
-  }, [pair, navigate]);
+  }, [mode, pair, navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (russianWord.trim() && englishWord.trim() && pair) {
-      edit(
-        { ru: pair.ru, en: pair.en },
-        { ru: russianWord.trim(), en: englishWord.trim() }
-      );
-      navigate("/dictionary");
+
+    const ruTrimmed = russianWord.trim();
+    const enTrimmed = englishWord.trim();
+
+    if (!ruTrimmed || !enTrimmed) return;
+
+    if (mode === "edit" && pair) {
+      edit({ ru: pair.ru, en: pair.en }, { ru: ruTrimmed, en: enTrimmed });
+    } else if (mode === "new") {
+      add({ ru: ruTrimmed, en: enTrimmed });
     }
+
+    navigate("/dictionary");
   };
 
   const handleCancel = () => {
@@ -55,13 +65,13 @@ export const EditPairPage = () => {
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h5" component="h1" className="title">
-            Редактирование слова
+            {mode === "edit" ? "Редактирование слова" : "Добавление слова"}
           </Typography>
         </Box>
 
         <form onSubmit={handleSubmit} className="word-form">
           <Typography variant="h6" gutterBottom className="form-title">
-            Измените слово
+            {mode === "edit" ? "Измените слово" : "Словарное слово"}
           </Typography>
 
           <TextField
