@@ -9,32 +9,26 @@ import ErrorMessage from '../Error/ErrorMessage';
 import CurrencyChart from '../Chart/CurrencyChart';
 import { CurrencyInfo } from '../Types';
 import { useCurrencyStore } from '../stores/useCurrencyStore';
+import { FilterStorage } from '../../services/filtersStorage';
 
 export default function Exchanger() {
-  const { 
-    loading,
-    error,
-    getLatestRate,
-    fetchExchangeData 
-  } = useCurrencyStore();
+  const { loading, error, getLatestRate, fetchExchangeData } = useCurrencyStore();
 
   const [currencies, setCurrencies] = useState<CurrencyInfo[]>([]);
   const [baseCurrency, setBaseCurrency] = useState('PLN');
   const [targetCurrency, setTargetCurrency] = useState('CAD');
   const [baseAmount, setBaseAmount] = useState('1');
   const [showDescriptions, setShowDescriptions] = useState(false);
-
-  const filtersStorageKey = 'currencyFilters';
+ 
   const [savedFilters, setSavedFilters] = useState<string[]>(() => {
-    const saved = localStorage.getItem(filtersStorageKey);
-    return saved ? JSON.parse(saved) : [];
+    return FilterStorage.getFilters();
   });
 
-const latestRate = getLatestRate();
-  
+  const latestRate = getLatestRate();
+
   const saveFilters = (filters: string[]) => {
     setSavedFilters(filters);
-    localStorage.setItem(filtersStorageKey, JSON.stringify(filters));
+    FilterStorage.saveFilters(filters);
   };
 
   const baseCurrencyInfo = currencies.find((c) => c.code === baseCurrency);
@@ -84,7 +78,8 @@ const latestRate = getLatestRate();
   };
 
   const handleClearFilters = () => {
-    saveFilters([]);
+    FilterStorage.clearFilters();
+    setSavedFilters([]);
   };
 
   const handleFilterClick = (filter: string) => {
@@ -117,12 +112,7 @@ const latestRate = getLatestRate();
         <div className={styles.filtersContainer}>
           <div className={styles.filtersList}>
             {savedFilters.map((filter) => (
-              <button 
-                key={filter} 
-                className={styles.filterBtn} 
-                onClick={() => handleFilterClick(filter)} 
-                type="button"
-              >
+              <button key={filter} className={styles.filterBtn} onClick={() => handleFilterClick(filter)} type="button">
                 {filter}
               </button>
             ))}
@@ -132,7 +122,7 @@ const latestRate = getLatestRate();
           </button>
         </div>
       )}
-      
+
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
@@ -164,11 +154,7 @@ const latestRate = getLatestRate();
                 className={styles.input}
                 aria-label="Base amount"
               />
-              <select 
-                value={baseCurrency} 
-                onChange={(e) => setBaseCurrency(e.target.value)} 
-                className={styles.select}
-              >
+              <select value={baseCurrency} onChange={(e) => setBaseCurrency(e.target.value)} className={styles.select}>
                 {currencies.map((c) => (
                   <option key={c.code} value={c.code}>
                     {c.code}
@@ -199,7 +185,7 @@ const latestRate = getLatestRate();
           </div>
 
           <div className={styles.rightHeader}>
-            <CurrencyChart/>
+            <CurrencyChart />
           </div>
         </div>
 
