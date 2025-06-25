@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { fetchRates, getLatestRate } from '../../api/currencyApi';
+import { fetchRates } from '../../api/currencyApi';
 import { PriceEntry } from '../Types';
 
 interface CurrencyStore {
@@ -23,22 +23,27 @@ export const useCurrencyStore = create<CurrencyStore>((set, get) => ({
     try {
       const fromDate = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
       const rates = await fetchRates(baseCurrency, targetCurrency, fromDate);
-      
-      set({ 
+
+      set({
         ratesData: rates,
-        loading: false 
+        loading: false
       });
-    } catch (err) {
-      set({ 
-        error: 'Failed to fetch exchange data',
-        loading: false,
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : 'Failed to fetch exchange data',
+        loading: false
       });
-      console.error(err);
     }
   },
 
-  getLatestRate: () => {
+  getLatestRate() {
     const { ratesData } = get();
-    return getLatestRate(ratesData);
+    if (ratesData.length === 0) return null;
+    
+    const latest = ratesData.at(-1)!;
+    return { 
+      price: latest.price, 
+      dateTime: latest.dateTime 
+    };
   }
 }));
